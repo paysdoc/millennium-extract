@@ -228,22 +228,41 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
     c.setLineWidth(1)
     c.rect(x, y, CARD_WIDTH, CARD_HEIGHT)
 
-    # Draw portrait image
+    # Draw portrait image - centered and maximized while preserving aspect ratio
     if character.image_link and supabase_client:
         img = download_image_from_supabase(supabase_client, character.image_link)
         if img:
-            # Calculate image dimensions to fit while maintaining aspect ratio
-            img_y = y + BANNER_HEIGHT
-            img_width = CARD_WIDTH - (2 * MARGIN)
-            img_height = IMAGE_HEIGHT
-
             try:
+                # Get original image dimensions
+                img_obj = img._image  # Access the PIL Image object
+                orig_width, orig_height = img_obj.size
+                orig_aspect = orig_width / orig_height
+
+                # Available space on card (above banner, below top)
+                available_width = CARD_WIDTH
+                available_height = CARD_HEIGHT - BANNER_HEIGHT
+                available_aspect = available_width / available_height
+
+                # Calculate dimensions that fit within available space while preserving aspect ratio
+                if orig_aspect > available_aspect:
+                    # Image is wider - constrain by width
+                    final_width = available_width
+                    final_height = available_width / orig_aspect
+                else:
+                    # Image is taller - constrain by height
+                    final_height = available_height
+                    final_width = available_height * orig_aspect
+
+                # Center the image in available space
+                img_x = x + (available_width - final_width) / 2
+                img_y = y + BANNER_HEIGHT + (available_height - final_height) / 2
+
                 c.drawImage(
                     img,
-                    x + MARGIN,
+                    img_x,
                     img_y,
-                    width=img_width,
-                    height=img_height,
+                    width=final_width,
+                    height=final_height,
                     preserveAspectRatio=True,
                     mask='auto'
                 )
@@ -370,13 +389,13 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
             max_lines=3  # Limit to 3 lines to leave space for connections
         )
 
-    # Draw connections table header
+    # Draw connections table header (edge to edge)
     connections_y = y + CARD_HEIGHT - HEADER_HEIGHT - 26 * mm
     c.setFillColor(category_color)
-    c.rect(x + MARGIN, connections_y, CARD_WIDTH - 2 * MARGIN, 5 * mm, fill=1, stroke=0)
+    c.rect(x, connections_y, CARD_WIDTH, 5 * mm, fill=1, stroke=0)
     c.setFillColor(colors.white)
     c.setFont("Helvetica-Bold", 7)
-    c.drawString(x + MARGIN + 2, connections_y + 2, "CONNECTIONS:")
+    c.drawString(x + 2, connections_y + 2, "CONNECTIONS:")
 
     # Draw connections table
     if card_data.connections:
@@ -392,11 +411,10 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
                 why_text
             ])
 
-        # Adjusted column widths for narrower card (total: ~63mm)
-        # Wider last column for why_short with wrapping
-        table = Table(table_data, colWidths=[6 * mm, 6 * mm, 18 * mm, 33 * mm])
+        # Full card width - edge to edge (total: 69mm)
+        table = Table(table_data, colWidths=[6 * mm, 6 * mm, 20 * mm, 37 * mm])
 
-        # Style the table with 6pt font and text wrapping enabled
+        # Style the table - horizontal lines only, no vertical lines, no outer padding
         table_style = TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
             ('FONTSIZE', (0, 0), (-1, -1), 6),  # 6pt font size
@@ -404,7 +422,8 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
             ('ALIGN', (0, 0), (0, -1), 'CENTER'),
             ('ALIGN', (1, 0), (1, -1), 'CENTER'),
             ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Top align for wrapped text
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+            # Horizontal lines only (between rows)
+            ('LINEBELOW', (0, 0), (-1, -1), 0.5, colors.grey),
             ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
             ('LEFTPADDING', (0, 0), (-1, -1), 2),
             ('RIGHTPADDING', (0, 0), (-1, -1), 2),
@@ -421,9 +440,9 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
 
         table.setStyle(table_style)
 
-        # Draw table with wrapping enabled
-        table.wrapOn(c, CARD_WIDTH - 2 * MARGIN, CARD_HEIGHT)
-        table.drawOn(c, x + MARGIN, connections_y - len(table_data) * 5 * mm)
+        # Draw table edge to edge (no margin)
+        table.wrapOn(c, CARD_WIDTH, CARD_HEIGHT)
+        table.drawOn(c, x, connections_y - len(table_data) * 5 * mm)
 
     # Draw colored banner at bottom with name
     c.setFillColor(category_color)
