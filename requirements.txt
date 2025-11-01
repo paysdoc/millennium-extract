@@ -1,0 +1,15 @@
+# Supabase client for database access
+supabase>=2.3.0
+
+# PDF generation
+reportlab>=4.0.0
+Pillow>=10.2.0
+
+# CLI interface
+click>=8.1.0
+
+# Environment variables
+python-dotenv>=1.0.0
+
+# HTTP requests for image downloading
+requests>=2.31.0
