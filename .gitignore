@@ -67,6 +67,9 @@ local/
 coverage/
 .mcp.json
 
+# Image cache
+image_cache/
+
 # Python virtual environments
 pythonenv/
 pyenv/

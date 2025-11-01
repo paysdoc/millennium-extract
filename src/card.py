@@ -10,21 +10,23 @@ from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
 from typing import Optional
 import io
-import requests
+import os
 from PIL import Image
 from src.types.supabase_types import CardData, DenormalizedConnection
 
 
-# Card dimensions (standard poker card size)
-CARD_WIDTH = 63 * mm
-CARD_HEIGHT = 88 * mm
+# Card dimensions (1:√2 aspect ratio, like A4 paper)
+# Width : Height = 1 : √2 ≈ 1 : 1.414
+CARD_WIDTH = 69 * mm
+CARD_HEIGHT = 97.58 * mm  # 69 * √2 ≈ 97.58mm
 
 # Layout spacing
 MARGIN = 3 * mm
-IMAGE_HEIGHT = 65 * mm
+IMAGE_HEIGHT = 71 * mm  # Portrait image height (adjusted for taller card)
 BANNER_HEIGHT = 8 * mm
-HEADER_HEIGHT = 15 * mm
-TABLE_START_Y = 35 * mm
+HEADER_HEIGHT = 14 * mm  # Header section on back
+BIO_HEIGHT = 18 * mm  # Biography section height
+TABLE_START_Y = 40 * mm  # Where connections table starts
 
 # Category color mapping
 CATEGORY_COLORS = {
@@ -69,25 +71,145 @@ def get_category_name(category_code: Optional[str]) -> str:
     return CATEGORY_NAMES.get(category_code, "UNKNOWN")
 
 
-def download_image(url: Optional[str]) -> Optional[ImageReader]:
-    """Download image from URL and return as ImageReader."""
-    if not url:
+def wrap_text(c: canvas.Canvas, text: str, max_width: float, font_name: str, font_size: int) -> list:
+    """
+    Wrap text to fit within a maximum width.
+
+    Args:
+        c: ReportLab canvas
+        text: Text to wrap
+        max_width: Maximum width in points
+        font_name: Font name
+        font_size: Font size
+
+    Returns:
+        List of text lines that fit within max_width
+    """
+    words = text.split()
+    lines = []
+    current_line = []
+
+    for word in words:
+        test_line = ' '.join(current_line + [word])
+        width = c.stringWidth(test_line, font_name, font_size)
+
+        if width <= max_width:
+            current_line.append(word)
+        else:
+            if current_line:
+                lines.append(' '.join(current_line))
+                current_line = [word]
+            else:
+                # Single word is too long, add it anyway
+                lines.append(word)
+
+    if current_line:
+        lines.append(' '.join(current_line))
+
+    return lines
+
+
+def draw_wrapped_text(c: canvas.Canvas, text: str, x: float, y: float, max_width: float,
+                     font_name: str, font_size: int, line_height: float, max_lines: Optional[int] = None):
+    """
+    Draw text with word wrapping.
+
+    Args:
+        c: ReportLab canvas
+        text: Text to draw
+        x: X position
+        y: Y position (top of text block)
+        max_width: Maximum width for text
+        font_name: Font name
+        font_size: Font size
+        line_height: Space between lines
+        max_lines: Maximum number of lines to draw (optional)
+
+    Returns:
+        Final y position after drawing text
+    """
+    c.setFont(font_name, font_size)
+    lines = wrap_text(c, text, max_width, font_name, font_size)
+
+    if max_lines:
+        lines = lines[:max_lines]
+
+    current_y = y
+    for line in lines:
+        c.drawString(x, current_y, line)
+        current_y -= line_height
+
+    return current_y
+
+
+def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> Optional[ImageReader]:
+    """
+    Download image from Supabase storage bucket with local caching.
+
+    Args:
+        supabase_client: Supabase client instance
+        image_path: Path from image_link column (e.g., 'data/images/washington.jpg' or 'Newton.jpg')
+
+    Returns:
+        ImageReader object or None if download fails
+
+    Note:
+        - The function extracts the filename from the path, ignoring any directory structure
+        - Images are cached in 'image_cache/' directory at project root
+        - Cached images are used on subsequent calls to avoid re-downloading
+    """
+    if not image_path:
         return None
 
     try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        img = Image.open(io.BytesIO(response.content))
+        # Extract just the filename, ignoring any directory path
+        # Examples: 'data/images/washington.jpg' -> 'washington.jpg'
+        #           'Newton.jpg' -> 'Newton.jpg'
+        filename = os.path.basename(image_path.strip())
+
+        if not filename:
+            return None
+
+        # Setup cache directory at project root
+        cache_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'image_cache')
+        os.makedirs(cache_dir, exist_ok=True)
+
+        cache_path = os.path.join(cache_dir, filename)
+
+        # Check if image exists in cache
+        if os.path.exists(cache_path):
+            # Load from cache
+            img = Image.open(cache_path)
+
+            # Convert to RGB if needed
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+
+            return ImageReader(img)
+
+        # Image not in cache - download from Supabase
+        bucket = supabase_client.storage.from_('images')
+        image_data = bucket.download(filename)
+
+        # Convert bytes to PIL Image
+        img = Image.open(io.BytesIO(image_data))
+
         # Convert to RGB if needed
         if img.mode != 'RGB':
             img = img.convert('RGB')
+
+        # Save to cache for future use
+        img.save(cache_path)
+        print(f"Cached image: {filename}")
+
         return ImageReader(img)
+
     except Exception as e:
-        print(f"Failed to download image from {url}: {e}")
+        print(f"Failed to download image '{image_path}' (filename: '{filename}'): {e}")
         return None
 
 
-def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float):
+def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, supabase_client=None):
     """
     Draw the front of a character card.
 
@@ -96,6 +218,7 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float):
         card_data: Card data to render
         x: X position of bottom-left corner
         y: Y position of bottom-left corner
+        supabase_client: Supabase client for downloading images (optional)
     """
     character = card_data.character
     category_color = get_category_color(character.type)
@@ -106,8 +229,8 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float):
     c.rect(x, y, CARD_WIDTH, CARD_HEIGHT)
 
     # Draw portrait image
-    if character.image_link:
-        img = download_image(character.image_link)
+    if character.image_link and supabase_client:
+        img = download_image_from_supabase(supabase_client, character.image_link)
         if img:
             # Calculate image dimensions to fit while maintaining aspect ratio
             img_y = y + BANNER_HEIGHT
@@ -131,19 +254,34 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float):
     c.setFillColor(category_color)
     c.rect(x, y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
 
-    # Draw name on banner
+    # Draw name on banner (with wrapping if needed)
     c.setFillColor(colors.white)
-    c.setFont("Helvetica-Bold", 14)
     name = (character.name or "UNKNOWN").upper()
-    text_width = c.stringWidth(name, "Helvetica-Bold", 14)
-    c.drawString(
-        x + (CARD_WIDTH - text_width) / 2,
-        y + BANNER_HEIGHT / 2 - 3,
-        name
-    )
+    max_name_width = CARD_WIDTH - (2 * MARGIN)
+
+    # Try to fit name in one line
+    font_size = 12
+    name_lines = wrap_text(c, name, max_name_width, "Helvetica-Bold", font_size)
+
+    # If name wraps to multiple lines, reduce font size
+    if len(name_lines) > 1:
+        font_size = 10
+        name_lines = wrap_text(c, name, max_name_width, "Helvetica-Bold", font_size)
+
+    # Draw name (centered)
+    c.setFont("Helvetica-Bold", font_size)
+    y_offset = y + BANNER_HEIGHT / 2 - (len(name_lines) * font_size) / 2 + 2
+    for line in name_lines[:2]:  # Max 2 lines
+        text_width = c.stringWidth(line, "Helvetica-Bold", font_size)
+        c.drawString(
+            x + (CARD_WIDTH - text_width) / 2,
+            y_offset,
+            line
+        )
+        y_offset -= font_size + 1
 
 
-def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int):
+def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int, supabase_client=None):
     """
     Draw the back of a character card with details and connections.
 
@@ -153,6 +291,7 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
         x: X position of bottom-left corner
         y: Y position of bottom-left corner
         card_number: Card number to display
+        supabase_client: Supabase client (not used for back, kept for consistency)
     """
     character = card_data.character
     category_color = get_category_color(character.type)
@@ -168,17 +307,29 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     c.setFillColor(header_color)
     c.rect(x, y + CARD_HEIGHT - HEADER_HEIGHT, CARD_WIDTH, HEADER_HEIGHT, fill=1, stroke=0)
 
-    # Draw character name
+    # Draw character name (wrapped if necessary)
     c.setFillColor(colors.black)
-    c.setFont("Helvetica-Bold", 11)
     full_name = f"{character.name or ''} {character.first_names or ''}".strip().upper()
-    c.drawString(x + MARGIN, y + CARD_HEIGHT - MARGIN - 8, full_name)
+    max_header_width = CARD_WIDTH - (2 * MARGIN) - 16 * mm  # Account for card number box
+    draw_wrapped_text(
+        c, full_name,
+        x + MARGIN,
+        y + CARD_HEIGHT - MARGIN - 4,
+        max_header_width,
+        "Helvetica-Bold", 9,
+        line_height=10,
+        max_lines=1
+    )
 
     # Draw dates and category
-    c.setFont("Helvetica", 8)
+    c.setFont("Helvetica", 7)
     dates = f"{character.birth_date or ''}-{character.death_date or ''}"
-    c.drawString(x + MARGIN, y + CARD_HEIGHT - MARGIN - 15, dates)
-    c.drawString(x + MARGIN, y + CARD_HEIGHT - HEADER_HEIGHT + MARGIN, category_name)
+    c.drawString(x + MARGIN, y + CARD_HEIGHT - HEADER_HEIGHT + MARGIN + 2, dates)
+
+    # Category name (smaller font to fit)
+    category_display = category_name[:20]  # Truncate if too long
+    c.setFont("Helvetica", 6)
+    c.drawString(x + MARGIN, y + CARD_HEIGHT - HEADER_HEIGHT + MARGIN - 4, category_display)
 
     # Draw card number in colored box (top right)
     card_num_box_width = 15 * mm
@@ -201,61 +352,76 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
         card_id
     )
 
-    # Draw biography section
+    # Draw biography section with text wrapping
     bio_y = y + CARD_HEIGHT - HEADER_HEIGHT - MARGIN - 5
     c.setFillColor(colors.black)
-    c.setFont("Helvetica", 7)
 
-    # Split biography into bullet points
     if character.biography:
-        bio_lines = character.biography.split('.')
-        for line in bio_lines[:4]:  # Limit to 4 lines
-            if line.strip():
-                c.drawString(x + MARGIN, bio_y, f"-{line.strip()}")
-                bio_y -= 8
+        bio_text = character.biography.replace('\n', ' ').strip()
+        # Wrap biography text to fit within card width
+        max_bio_width = CARD_WIDTH - (2 * MARGIN)
+        draw_wrapped_text(
+            c, bio_text,
+            x + MARGIN,
+            bio_y,
+            max_bio_width,
+            "Helvetica", 6,
+            line_height=7,
+            max_lines=3  # Limit to 3 lines to leave space for connections
+        )
 
     # Draw connections table header
-    connections_y = y + CARD_HEIGHT - HEADER_HEIGHT - 35 * mm
+    connections_y = y + CARD_HEIGHT - HEADER_HEIGHT - 26 * mm
     c.setFillColor(category_color)
     c.rect(x + MARGIN, connections_y, CARD_WIDTH - 2 * MARGIN, 5 * mm, fill=1, stroke=0)
     c.setFillColor(colors.white)
-    c.setFont("Helvetica-Bold", 8)
+    c.setFont("Helvetica-Bold", 7)
     c.drawString(x + MARGIN + 2, connections_y + 2, "CONNECTIONS:")
 
     # Draw connections table
     if card_data.connections:
         table_data = []
-        for conn in card_data.connections[:10]:  # Limit to 10 connections
+        for conn in card_data.connections[:8]:  # Limit to 8 connections to fit smaller card
+            # Use why_short without truncation, allow text wrapping in table
+            why_text = conn.why_short or ""
+
             table_data.append([
                 str(conn.value),
                 conn.category_code,
-                conn.character_name,
-                conn.why
+                conn.character_name or "",
+                why_text
             ])
 
-        table = Table(table_data, colWidths=[8 * mm, 8 * mm, 20 * mm, 21 * mm])
+        # Adjusted column widths for narrower card (total: ~63mm)
+        # Wider last column for why_short with wrapping
+        table = Table(table_data, colWidths=[6 * mm, 6 * mm, 18 * mm, 33 * mm])
 
-        # Style the table
+        # Style the table with 6pt font and text wrapping enabled
         table_style = TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
-            ('FONTSIZE', (0, 0), (-1, -1), 6),
+            ('FONTSIZE', (0, 0), (-1, -1), 6),  # 6pt font size
             ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
             ('ALIGN', (0, 0), (0, -1), 'CENTER'),
             ('ALIGN', (1, 0), (1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+            ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Top align for wrapped text
             ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
             ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
+            ('LEFTPADDING', (0, 0), (-1, -1), 2),
+            ('RIGHTPADDING', (0, 0), (-1, -1), 2),
+            ('TOPPADDING', (0, 0), (-1, -1), 2),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+            ('WORDWRAP', (0, 0), (-1, -1), True),  # Enable word wrapping
         ])
 
         # Add category colors to the category column
-        for i, conn in enumerate(card_data.connections[:10]):
+        for i, conn in enumerate(card_data.connections[:8]):
             cat_color = get_category_color(conn.category_code)
             table_style.add('BACKGROUND', (1, i), (1, i), cat_color)
             table_style.add('TEXTCOLOR', (1, i), (1, i), colors.white)
 
         table.setStyle(table_style)
 
-        # Draw table
+        # Draw table with wrapping enabled
         table.wrapOn(c, CARD_WIDTH - 2 * MARGIN, CARD_HEIGHT)
         table.drawOn(c, x + MARGIN, connections_y - len(table_data) * 5 * mm)
 
@@ -263,13 +429,28 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     c.setFillColor(category_color)
     c.rect(x, y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
 
-    # Draw name on banner
+    # Draw name on banner (with wrapping if needed)
     c.setFillColor(colors.white)
-    c.setFont("Helvetica-Bold", 14)
     name = (character.name or "UNKNOWN").upper()
-    text_width = c.stringWidth(name, "Helvetica-Bold", 14)
-    c.drawString(
-        x + (CARD_WIDTH - text_width) / 2,
-        y + BANNER_HEIGHT / 2 - 3,
-        name
-    )
+    max_name_width = CARD_WIDTH - (2 * MARGIN)
+
+    # Try to fit name in one line
+    font_size = 12
+    name_lines = wrap_text(c, name, max_name_width, "Helvetica-Bold", font_size)
+
+    # If name wraps to multiple lines, reduce font size
+    if len(name_lines) > 1:
+        font_size = 10
+        name_lines = wrap_text(c, name, max_name_width, "Helvetica-Bold", font_size)
+
+    # Draw name (centered)
+    c.setFont("Helvetica-Bold", font_size)
+    y_offset = y + BANNER_HEIGHT / 2 - (len(name_lines) * font_size) / 2 + 2
+    for line in name_lines[:2]:  # Max 2 lines
+        text_width = c.stringWidth(line, "Helvetica-Bold", font_size)
+        c.drawString(
+            x + (CARD_WIDTH - text_width) / 2,
+            y_offset,
+            line
+        )
+        y_offset -= font_size + 1

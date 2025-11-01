@@ -54,7 +54,7 @@ def generate_all(output: str, fronts_only: bool):
         click.echo(f"Found {len(card_data_list)} characters")
 
         click.echo(f"Generating PDF: {output}")
-        generate_cards_pdf(card_data_list, output, fronts_only=fronts_only)
+        generate_cards_pdf(card_data_list, output, fronts_only=fronts_only, supabase_client=client)
 
         click.echo(click.style("✓ Cards generated successfully!", fg='green'))
 
@@ -64,44 +64,62 @@ def generate_all(output: str, fronts_only: bool):
 
 
 @cli.command()
-@click.argument('character_id', type=int)
+@click.argument('character_name', type=str)
 @click.option(
     '--output',
     '-o',
     default='millennium_card_preview.pdf',
     help='Output PDF file path'
 )
-def generate_single(character_id: int, output: str):
+def generate_single(character_name: str, output: str):
     """
     Generate a preview PDF for a single character card.
 
     Shows front and back side by side on one page.
 
     Arguments:
-        character_id: The ID of the character to generate a card for
+        character_name: The name of the character (case-insensitive, e.g., "WASHINGTON" or "washington")
+
+    Examples:
+        python src/main.py generate-single WASHINGTON
+        python src/main.py generate-single "da vinci"
+        python src/main.py generate-single newton -o newton_card.pdf
     """
     try:
         click.echo(f"Connecting to Supabase...")
         client = get_supabase_client()
 
-        click.echo(f"Fetching data for character ID {character_id}...")
+        click.echo(f"Fetching character data...")
         all_card_data = fetch_all_card_data(client)
 
-        # Find the specific character
+        # Find the specific character by name (case-insensitive)
+        search_name = character_name.upper().strip()
         card_data = None
         card_number = 0
+        matches = []
+
         for idx, data in enumerate(all_card_data):
-            if data.character.id == character_id:
+            char_name = (data.character.name or "").upper().strip()
+            if char_name == search_name:
                 card_data = data
                 card_number = idx + 1
                 break
+            elif search_name in char_name:
+                matches.append((idx, data))
 
         if not card_data:
-            click.echo(f"Character with ID {character_id} not found.", err=True)
+            if matches:
+                click.echo(f"No exact match found for '{character_name}'. Did you mean one of these?", err=True)
+                for idx, data in matches[:5]:  # Show up to 5 partial matches
+                    char = data.character
+                    click.echo(f"  - {char.name} ({char.first_names or ''})", err=True)
+            else:
+                click.echo(f"Character '{character_name}' not found.", err=True)
+                click.echo("Use 'list-characters' to see available characters.", err=True)
             return
 
-        click.echo(f"Generating preview PDF: {output}")
-        generate_single_card_pdf(card_data, output, card_number)
+        click.echo(f"Generating preview PDF for {card_data.character.name}: {output}")
+        generate_single_card_pdf(card_data, output, card_number, supabase_client=client)
 
         click.echo(click.style("✓ Card preview generated successfully!", fg='green'))
 
@@ -197,11 +215,13 @@ def list_characters(sort_by: str, sort_by_2: str, reverse: bool):
             char = data.character
             category = char.type or "?"
             name = char.name or "Unknown"
+            first_names = f" ({char.first_names})" if char.first_names else ""
+            full_display = f"{name}{first_names}"
             dates = f"{char.birth_date or '?'}-{char.death_date or '?'}"
             connections = len(data.connections)
 
             click.echo(
-                f"{idx:3d}. [{category}] {name:30s} ({dates}) - {connections} connections"
+                f"{idx:3d}. [{category}] {full_display:40s} ({dates}) - {connections} connections"
             )
 
     except Exception as e:

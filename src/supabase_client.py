@@ -59,7 +59,8 @@ def fetch_connections_for_character(client: Client, character_id: int) -> List[C
             char1_id=row.get('char1_id'),
             char2_id=row.get('char2_id'),
             value=row.get('value'),
-            why=row.get('why')
+            why=row.get('why'),
+            why_short=row.get('why_short')
         ))
 
     return connections
@@ -98,7 +99,8 @@ def denormalize_connections(
             character_name=other_char.name or "Unknown",
             category_code=other_char.type or "Unknown",
             value=conn.value or 0,
-            why=conn.why or ""
+            why=conn.why or "",
+            why_short=conn.why_short
         ))
 
     return denormalized

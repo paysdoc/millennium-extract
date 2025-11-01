@@ -9,6 +9,7 @@ A CLI application to generate printable PDF cards for Millennium game characters
 - **PDF Generation**: Creates printable cards with front and back layouts
 - **Category Color Coding**: Each character category has its own color scheme
 - **Multiple Print Modes**: Generate all cards or preview a single card
+- **Image Caching**: Downloads character portraits once and caches them locally for faster subsequent generations
 
 ## Card Layout
 
@@ -104,12 +105,22 @@ python src/main.py generate-all --fronts-only
 Preview a single character card (front and back side by side):
 
 ```bash
-python src/main.py generate-single <character_id>
+python src/main.py generate-single <character_name>
 ```
 
-Example:
+The command accepts character names (case-insensitive) and provides helpful suggestions for partial matches.
+
+Examples:
 ```bash
-python src/main.py generate-single 42 -o preview.pdf
+# Generate card for Washington
+python src/main.py generate-single WASHINGTON -o washington.pdf
+
+# Case-insensitive search
+python src/main.py generate-single newton -o newton.pdf
+
+# Partial match shows suggestions
+python src/main.py generate-single "da"
+# Output: Did you mean: ADAM, DAGUERRE, DALI, DALTON, DANTE?
 ```
 
 ### List All Characters
@@ -163,8 +174,8 @@ python src/main.py list-characters -s name
 
 ### Character Table
 
-- `id`: integer (primary key)
-- `name`: string
+- `id`: UUID string (primary key)
+- `name`: string (used for CLI identification)
 - `first_names`: string
 - `birth_date`: string
 - `death_date`: string
@@ -175,11 +186,39 @@ python src/main.py list-characters -s name
 
 ### Connection Table
 
-- `id`: integer (primary key)
-- `char1_id`: integer (foreign key to character)
-- `char2_id`: integer (foreign key to character)
+- `id`: UUID string (primary key)
+- `char1_id`: UUID string (foreign key to character)
+- `char2_id`: UUID string (foreign key to character)
 - `value`: integer (connection strength)
 - `why`: string (connection description)
+- `why_short`: string (short connection description)
+
+**Note**: While UUIDs are used internally for data integrity, the CLI interface uses character names for user-friendly interaction.
+
+## Image Cache Management
+
+Character portrait images are automatically cached in the `image_cache/` directory at the project root. This significantly speeds up subsequent card generations.
+
+### View Cache Statistics
+
+```bash
+python manage_cache.py stats
+```
+
+This shows:
+- Number of cached images
+- File sizes
+- Total cache size
+
+### Clear Cache
+
+To remove all cached images (they will be re-downloaded on next use):
+
+```bash
+python manage_cache.py clear
+```
+
+**Note**: The cache directory is automatically created and excluded from git.
 
 ## Development
 
@@ -187,7 +226,7 @@ The project follows a modular architecture:
 
 1. **Data Layer** (`supabase_client.py`): Handles all database interactions
 2. **Model Layer** (`supabase_types.py`): Defines data structures
-3. **View Layer** (`card.py`): Renders card layouts
+3. **View Layer** (`card.py`): Renders card layouts with image caching
 4. **Generation Layer** (`cards.py`): Creates PDF documents
 5. **Interface Layer** (`main.py`): CLI commands
 
