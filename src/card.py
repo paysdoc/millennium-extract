@@ -162,6 +162,21 @@ def draw_wrapped_text(c: canvas.Canvas, text: str, x: float, y: float, max_width
 
     return current_y
 
+def set_fill_color_with_opacity(c: canvas.Canvas, hex_color: HexColor, alpha: float):
+    """
+    Set fill color with specified opacity.
+
+    Args:
+        c: ReportLab canvas
+        hex_color: HexColor object
+        alpha: Opacity value between 0 (transparent) and 1 (opaque)
+    """
+    c.setFillColorRGB(
+        hex_color.red,
+        hex_color.green,
+        hex_color.blue,
+        alpha=alpha
+    )   
 
 def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> Optional[ImageReader]:
     """
@@ -339,13 +354,8 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     category_color = get_category_color(character.type)
     category_name = get_category_name(character.type)
 
-    # Draw header section with category color at 75% opacity
-    c.setFillColorRGB(
-        category_color.red,
-        category_color.green,
-        category_color.blue,
-        alpha=0.5
-    )
+    # Draw header section with category color at 50% opacity
+    set_fill_color_with_opacity(c, category_color, alpha=0.5)
     c.rect(x, y + CARD_HEIGHT - HEADER_HEIGHT, CARD_WIDTH, HEADER_HEIGHT, fill=1, stroke=0)
 
     # Draw card type in colored box (top right) - same height as header
@@ -424,10 +434,21 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     # Draw connections table header (edge to edge) - directly under header
     connections_y = y + CARD_HEIGHT - HEADER_HEIGHT - 2 * mm
 
-    # Draw connections table
+    # Separate category T (Territory/Towns) from other connections
+    regular_connections = []
+    town_connections = []
+
     if card_data.connections:
+        for conn in card_data.connections:
+            if conn.category_code == 'T':
+                town_connections.append(conn)
+            else:
+                regular_connections.append(conn)
+
+    # Draw regular connections table (excluding category T)
+    if regular_connections:
         table_data = []
-        for conn in card_data.connections[:25]:  # Can fit 25 rows with minimal row height (2.5mm)
+        for conn in regular_connections[:25]:  # Can fit 25 rows with minimal row height (2.5mm)
             # Use why_short without truncation, allow text wrapping in table
             why_text = conn.why_short or ""
 
@@ -458,7 +479,7 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
             ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
             ('LEFTPADDING', (0, 0), (-1, -1), 2),
             ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-            ('TOPPADDING', (0, 0), (-1, -1), 6),  # No blank space above text
+            ('TOPPADDING', (0, 0), (-1, -1), 0),  # No blank space above text
             ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # No blank space below text
             # Reduce category column padding to 1pt
             ('LEFTPADDING', (1, 0), (1, -1), 1),
@@ -470,7 +491,7 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
         ])
 
         # Add category colors to the category column
-        for i, conn in enumerate(card_data.connections[:25]):
+        for i, conn in enumerate(regular_connections[:25]):
             cat_color = get_category_color(conn.category_code)
             table_style.add('BACKGROUND', (1, i), (1, i), cat_color)
             table_style.add('TEXTCOLOR', (1, i), (1, i), colors.white)
@@ -485,7 +506,82 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
 
         # Draw table edge to edge (no margin) - 2.5mm row height (no blank space)
         table.wrapOn(c, CARD_WIDTH, CARD_HEIGHT)
-        table.drawOn(c, x, connections_y - len(table_data) * row_height)
+        table_y = connections_y - len(table_data) * row_height
+        table.drawOn(c, x, table_y)
+
+        # Draw town (Territory/T) connections just above banner
+        if town_connections:
+            # Calculate number of rows needed
+            num_town_rows = (len(town_connections) + 2) // 3  # 3 towns per row
+            town_row_height = 6  # 6pt per row
+            town_padding_top = 2  # 2pt padding at top
+            town_padding_bottom = 2  # 2pt padding at bottom
+            town_bg_height = num_town_rows * town_row_height + town_padding_top + town_padding_bottom
+
+            # Position towns just above banner with 2mm margin
+            banner_top = y + 4 + BANNER_HEIGHT  # Top of banner
+            town_margin = 2 * mm  # Margin above banner
+            town_bottom_y = banner_top + town_margin
+            town_grid_y = town_bottom_y + town_bg_height  # Top of town grid
+
+            # Draw background with category T color (includes padding)
+            set_fill_color_with_opacity(c, get_category_color('T'), alpha=0.2)
+            c.rect(x, town_bottom_y, CARD_WIDTH, town_bg_height, fill=1, stroke=0)
+
+            # Format towns: 3 per row, showing "value: name"
+            c.setFillColor(colors.black)  # Black text on colored background
+            c.setFont("Helvetica", 5)
+
+            col_width = CARD_WIDTH / 3
+            # Start text after top padding
+            town_text_start_y = town_grid_y - town_padding_top
+
+            for i, town in enumerate(town_connections):
+                col = i % 3  # 0, 1, or 2
+                row = i // 3
+
+                town_x = x + (col * col_width) + 2
+                town_y = town_text_start_y - (row * town_row_height) - 4  # 4pt from top of row
+
+                town_display = f"{town.value}: {town.character_name}"
+                c.drawString(town_x, town_y, town_display)
+
+    elif town_connections:
+        # Only towns, no regular connections - position just above banner
+        # Calculate number of rows needed
+        num_town_rows = (len(town_connections) + 2) // 3  # 3 towns per row
+        town_row_height = 6  # 6pt per row
+        town_padding_top = 2  # 2pt padding at top
+        town_padding_bottom = 2  # 2pt padding at bottom
+        town_bg_height = num_town_rows * town_row_height + town_padding_top + town_padding_bottom
+
+        # Position towns just above banner with 2mm margin
+        banner_top = y + 4 + BANNER_HEIGHT  # Top of banner
+        town_margin = 2 * mm  # Margin above banner
+        town_bottom_y = banner_top + town_margin
+        town_grid_y = town_bottom_y + town_bg_height  # Top of town grid
+
+        # Draw background with category T color (includes padding)
+        set_fill_color_with_opacity(c, get_category_color('T'), alpha=0.2)
+        c.rect(x, town_bottom_y, CARD_WIDTH, town_bg_height, fill=1, stroke=0)
+
+        # Draw towns with black text on colored background
+        c.setFillColor(colors.black)
+        c.setFont("Helvetica", 5)
+
+        col_width = CARD_WIDTH / 3
+        # Start text after top padding
+        town_text_start_y = town_grid_y - town_padding_top
+
+        for i, town in enumerate(town_connections):
+            col = i % 3
+            row = i // 3
+
+            town_x = x + (col * col_width) + 2
+            town_y = town_text_start_y - (row * town_row_height) - 4
+
+            town_display = f"{town.value}: {town.character_name}"
+            c.drawString(town_x, town_y, town_display)
 
     # Draw colored banner floating over image, 4pt above bottom
     banner_y = y + 4  # 4pt above card bottom
