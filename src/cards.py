@@ -23,7 +23,7 @@ HORIZONTAL_MARGIN = (PAGE_WIDTH - (CARDS_PER_ROW * CARD_WIDTH)) / (CARDS_PER_ROW
 VERTICAL_MARGIN = (PAGE_HEIGHT - (CARDS_PER_COL * CARD_HEIGHT)) / (CARDS_PER_COL + 1)
 
 
-def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_only: bool = False, supabase_client=None):
+def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_only: bool = False, separate_pages: bool = True, supabase_client=None):
     """
     Generate PDF with all character cards.
 
@@ -31,6 +31,7 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
         card_data_list: List of card data to render
         output_path: Path to save the PDF file
         fronts_only: If True, only render card fronts; if False, render fronts and backs
+        separate_pages: If True, render fronts and backs on separate pages (default); if False, render side by side
         supabase_client: Supabase client for downloading images (optional)
     """
     c = canvas.Canvas(output_path, pagesize=A4)
@@ -84,27 +85,40 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
     print(f"PDF saved to {output_path}")
 
 
-def generate_single_card_pdf(card_data: CardData, output_path: str, card_number: int = 1, supabase_client=None):
+def generate_single_card_pdf(card_data: CardData, output_path: str, card_number: int = 1, separate_pages: bool = True, supabase_client=None):
     """
-    Generate PDF with a single card (front and back side by side).
+    Generate PDF with a single card.
 
     Args:
         card_data: Card data to render
         output_path: Path to save the PDF file
         card_number: Card number to display
+        separate_pages: If True, show front and back on separate pages (default); if False, show side by side
         supabase_client: Supabase client for downloading images (optional)
     """
     c = canvas.Canvas(output_path, pagesize=A4)
 
-    # Draw front on left side
-    x_front = (PAGE_WIDTH / 2 - CARD_WIDTH) / 2
-    y_front = (PAGE_HEIGHT - CARD_HEIGHT) / 2
-    draw_card_front(c, card_data, x_front, y_front, supabase_client)
+    if separate_pages:
+        # Draw front on page 1 (centered)
+        x_front = (PAGE_WIDTH - CARD_WIDTH) / 2
+        y_front = (PAGE_HEIGHT - CARD_HEIGHT) / 2
+        draw_card_front(c, card_data, x_front, y_front, supabase_client)
+        c.showPage()
 
-    # Draw back on right side
-    x_back = PAGE_WIDTH / 2 + (PAGE_WIDTH / 2 - CARD_WIDTH) / 2
-    y_back = (PAGE_HEIGHT - CARD_HEIGHT) / 2
-    draw_card_back(c, card_data, x_back, y_back, card_number, supabase_client)
+        # Draw back on page 2 (centered)
+        x_back = (PAGE_WIDTH - CARD_WIDTH) / 2
+        y_back = (PAGE_HEIGHT - CARD_HEIGHT) / 2
+        draw_card_back(c, card_data, x_back, y_back, card_number, supabase_client)
+    else:
+        # Draw front on left side
+        x_front = (PAGE_WIDTH / 2 - CARD_WIDTH) / 2
+        y_front = (PAGE_HEIGHT - CARD_HEIGHT) / 2
+        draw_card_front(c, card_data, x_front, y_front, supabase_client)
+
+        # Draw back on right side
+        x_back = PAGE_WIDTH / 2 + (PAGE_WIDTH / 2 - CARD_WIDTH) / 2
+        y_back = (PAGE_HEIGHT - CARD_HEIGHT) / 2
+        draw_card_back(c, card_data, x_back, y_back, card_number, supabase_client)
 
     c.save()
     print(f"Single card PDF saved to {output_path}")

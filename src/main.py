@@ -32,7 +32,12 @@ def cli():
     is_flag=True,
     help='Generate only card fronts (no backs)'
 )
-def generate_all(output: str, fronts_only: bool):
+@click.option(
+    '--separate-pages/--combined',
+    default=True,
+    help='Show fronts and backs on separate pages (default: separate)'
+)
+def generate_all(output: str, fronts_only: bool, separate_pages: bool):
     """
     Generate PDF with all character cards from Supabase.
 
@@ -54,7 +59,7 @@ def generate_all(output: str, fronts_only: bool):
         click.echo(f"Found {len(card_data_list)} characters")
 
         click.echo(f"Generating PDF: {output}")
-        generate_cards_pdf(card_data_list, output, fronts_only=fronts_only, supabase_client=client)
+        generate_cards_pdf(card_data_list, output, fronts_only=fronts_only, separate_pages=separate_pages, supabase_client=client)
 
         click.echo(click.style("✓ Cards generated successfully!", fg='green'))
 
@@ -71,11 +76,17 @@ def generate_all(output: str, fronts_only: bool):
     default='millennium_card_preview.pdf',
     help='Output PDF file path'
 )
-def generate_single(character_name: str, output: str):
+@click.option(
+    '--separate-pages/--combined',
+    default=True,
+    help='Show front and back on separate pages (default: separate)'
+)
+def generate_single(character_name: str, output: str, separate_pages: bool):
     """
     Generate a preview PDF for a single character card.
 
-    Shows front and back side by side on one page.
+    By default, shows front and back on separate pages.
+    Use --combined to show front and back side by side on one page.
 
     Arguments:
         character_name: The name of the character (case-insensitive, e.g., "WASHINGTON" or "washington")
@@ -103,7 +114,7 @@ def generate_single(character_name: str, output: str):
             return
 
         click.echo(f"Generating preview PDF for {card_data.character.name}: {output}")
-        generate_single_card_pdf(card_data, output, card_number, supabase_client=client)
+        generate_single_card_pdf(card_data, output, card_number, separate_pages=separate_pages, supabase_client=client)
 
         click.echo(click.style("✓ Card preview generated successfully!", fg='green'))
 
