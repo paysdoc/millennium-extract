@@ -59,6 +59,12 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
             if conn.category_code == 'T':
                 town_connections.append(conn)
             else:
+                # Special exception for SYLVESTER II: filter out joker connections
+                if character.name == "SYLVESTER II":
+                    # Skip connections with the joker phrase in 'why' field
+                    # Matches: "Pope Sylvester is a joker..." or "Sylvester II is joker..."
+                    if conn.why and "joker" in conn.why.lower() and ("sylv" in conn.why.lower() or "pope" in conn.why.lower()):
+                        continue
                 regular_connections.append(conn)
 
     # Draw regular connections table (excluding category T)
