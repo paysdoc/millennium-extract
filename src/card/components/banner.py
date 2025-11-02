@@ -3,7 +3,7 @@ Banner component for card front and back.
 """
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
-from src.card.config import CARD_WIDTH, BANNER_HEIGHT, MARGIN
+from src.config import CARD_WIDTH, BANNER_HEIGHT, MARGIN
 from src.card.utils import wrap_text, draw_text_with_outline
 
 

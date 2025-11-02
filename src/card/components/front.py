@@ -4,7 +4,7 @@ Card front rendering component.
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
 from src.types.supabase_types import Character
-from src.card.config import CARD_WIDTH, CARD_HEIGHT, get_category_color
+from src.config import CARD_WIDTH, CARD_HEIGHT, get_category_color
 from src.card.image_handler import download_image_from_supabase
 from src.card.components.banner import draw_banner
 

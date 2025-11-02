@@ -5,7 +5,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib import colors
 from reportlab.lib.colors import HexColor
 from src.types.supabase_types import Character
-from src.card.config import (
+from src.config import (
     CARD_WIDTH, CARD_HEIGHT, HEADER_HEIGHT, MARGIN,
     get_category_name
 )

@@ -38,6 +38,7 @@ CATEGORY_NAMES = {
     'R': 'ROYALTY',
     'S': 'STATESMAN',
     'P': 'PHILOSOPHER',
+    'I': 'INNOVATOR',
     'M': 'MATHEMATICAL SCIENTIST',
     'N': 'NATURAL SCIENTIST',
     'A': 'ARTIST',
@@ -45,6 +46,21 @@ CATEGORY_NAMES = {
     'C': 'COMPOSER',
     'D': 'DRAMATIST',
     'T': 'TOWNS AND CITIES',
+}
+
+# Category sort order (for sorting cards and connections)
+CATEGORY_ORDER = {
+    'R': 0,   # Royalty
+    'S': 1,   # Statesman
+    'P': 2,   # Philosopher
+    'I': 3,   # Innovator
+    'M': 4,   # Mathematical Scientist
+    'N': 5,   # Natural Scientist
+    'A': 6,   # Artist
+    'B': 7,   # Builders and Engineers
+    'C': 8,   # Composer
+    'D': 9,   # Dramatist
+    'T': 10,  # Towns and Cities
 }
 
 

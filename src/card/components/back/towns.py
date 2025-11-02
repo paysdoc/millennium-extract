@@ -6,7 +6,7 @@ from reportlab.lib import colors
 from reportlab.lib.units import mm
 from typing import List
 from src.types.supabase_types import DenormalizedConnection
-from src.card.config import CARD_WIDTH, BANNER_HEIGHT, get_category_color
+from src.config import CARD_WIDTH, BANNER_HEIGHT, get_category_color
 
 
 def draw_towns_grid(c: canvas.Canvas, town_connections: List[DenormalizedConnection],

@@ -6,6 +6,7 @@ from typing import List, Dict
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from src.types.supabase_types import Character, Connection, DenormalizedConnection, CardData
+from src.config import CATEGORY_ORDER
 
 
 # Load environment variables
@@ -135,9 +136,8 @@ def denormalize_connections(
         ))
 
     # Sort by category (in specific order) then by name
-    category_order = {'R': 0, 'S': 1, 'P': 2, 'I': 3, 'M': 4, 'N': 5, 'A': 6, 'B': 7, 'C': 8, 'D': 9, 'T': 10}
     denormalized.sort(key=lambda x: (
-        category_order.get(x.category_code, 99),  # Use 99 for unknown categories
+        CATEGORY_ORDER.get(x.category_code, 99),  # Use 99 for unknown categories
         x.character_name.upper() if x.character_name else ""
     ))
 
@@ -214,14 +214,26 @@ def fetch_single_card_data(client: Client, character_name: str) -> tuple[CardDat
 
 
 def fetch_all_card_data(client: Client) -> List[CardData]:
-    """Fetch data for all character cards."""
+    """
+    Fetch data for all character cards, sorted by category then name.
+
+    Returns:
+        List of CardData objects sorted by category order (R, S, P, I, M, N, A, B, C, D, T)
+        and then alphabetically by name within each category.
+    """
     # Fetch all characters first
     characters = fetch_all_characters(client)
+
+    # Sort characters by category order, then by name
+    characters.sort(key=lambda char: (
+        CATEGORY_ORDER.get(char.type, 99),  # Use 99 for unknown categories
+        (char.name or "").upper()
+    ))
 
     # Create lookup dictionary
     character_lookup = {char.id: char for char in characters}
 
-    # Fetch card data for each character
+    # Fetch card data for each character (already sorted)
     card_data_list = []
     for character in characters:
         card_data = fetch_card_data(client, character, character_lookup)

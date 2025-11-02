@@ -4,7 +4,7 @@ Main card rendering functions - public API for drawing cards.
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 from src.types.supabase_types import CardData
-from src.card.config import (
+from src.config import (
     CARD_WIDTH, CARD_HEIGHT, HEADER_HEIGHT,
     get_category_color
 )

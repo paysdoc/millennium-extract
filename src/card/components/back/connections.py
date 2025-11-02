@@ -8,7 +8,7 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib.units import mm
 from typing import List
 from src.types.supabase_types import DenormalizedConnection
-from src.card.config import CARD_WIDTH, get_category_color
+from src.config import CARD_WIDTH, get_category_color
 
 
 def draw_connections_table(c: canvas.Canvas, connections: List[DenormalizedConnection],
