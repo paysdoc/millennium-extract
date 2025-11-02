@@ -39,12 +39,14 @@ def calculate_layout(card_width: float):
 def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_only: bool = False, separate_pages: bool = True, card_width: Optional[float] = None, supabase_client=None):
     """
     Generate PDF with all character cards.
+    Each card is completed (front and back) before moving to the next card.
+    Each card appears on its own page(s).
 
     Args:
         card_data_list: List of card data to render
         output_path: Path to save the PDF file
         fronts_only: If True, only render card fronts; if False, render fronts and backs
-        separate_pages: If True, render fronts and backs on separate pages (default); if False, render side by side
+        separate_pages: If True, render front and back on separate pages (default); if False, render side by side
         card_width: Desired card width in mm (default: None = use original 69mm)
         supabase_client: Supabase client for downloading images (optional)
     """
@@ -55,50 +57,41 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
     # Calculate scaling based on desired width
     if card_width is None:
         card_width = BASE_CARD_WIDTH
-    scale, scaled_height, horizontal_margin, vertical_margin = calculate_layout(card_width)
+    scale, scaled_height, _, _ = calculate_layout(card_width)
 
     print(f"Generating PDF with {total_cards} cards...")
     print(f"Card size: {card_width / mm:.1f}mm × {scaled_height / mm:.1f}mm (scale: {scale:.2f}x)")
+    print("Rendering cards (one card per page)...")
 
-    # Generate front pages
-    print("Rendering card fronts...")
-    for page_num in range((total_cards + CARDS_PER_PAGE - 1) // CARDS_PER_PAGE):
-        start_idx = page_num * CARDS_PER_PAGE
-        end_idx = min(start_idx + CARDS_PER_PAGE, total_cards)
+    # Generate cards one at a time
+    for i, card_data in enumerate(card_data_list):
+        card_number = i + 1
 
-        for i in range(start_idx, end_idx):
-            card_idx = i - start_idx
-            row = card_idx // CARDS_PER_ROW
-            col = card_idx % CARDS_PER_ROW
+        if separate_pages:
+            # Front on its own page (centered)
+            x_front = (PAGE_WIDTH - card_width) / 2
+            y_front = (PAGE_HEIGHT - scaled_height) / 2
+            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client)
+            c.showPage()
 
-            # Calculate position (bottom-left corner)
-            x = horizontal_margin + col * (card_width + horizontal_margin)
-            y = PAGE_HEIGHT - vertical_margin - (row + 1) * scaled_height - row * vertical_margin
+            # Back on its own page (centered)
+            if not fronts_only:
+                x_back = (PAGE_WIDTH - card_width) / 2
+                y_back = (PAGE_HEIGHT - scaled_height) / 2
+                draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client)
+                c.showPage()
+        else:
+            # Front and back side by side on same page
+            # Front on left side
+            x_front = (PAGE_WIDTH / 2 - card_width) / 2
+            y_front = (PAGE_HEIGHT - scaled_height) / 2
+            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client)
 
-            draw_card_front(c, card_data_list[i], x, y, scale, supabase_client)
-
-        c.showPage()
-
-    if not fronts_only:
-        # Generate back pages
-        print("Rendering card backs...")
-        for page_num in range((total_cards + CARDS_PER_PAGE - 1) // CARDS_PER_PAGE):
-            start_idx = page_num * CARDS_PER_PAGE
-            end_idx = min(start_idx + CARDS_PER_PAGE, total_cards)
-
-            for i in range(start_idx, end_idx):
-                card_idx = i - start_idx
-                row = card_idx // CARDS_PER_ROW
-                # Mirror column position for back-to-back printing
-                col = (CARDS_PER_ROW - 1) - (card_idx % CARDS_PER_ROW)
-
-                # Calculate position (bottom-left corner)
-                x = horizontal_margin + col * (card_width + horizontal_margin)
-                y = PAGE_HEIGHT - vertical_margin - (row + 1) * scaled_height - row * vertical_margin
-
-                # Use the card's position in the deck as the card number
-                card_number = i + 1
-                draw_card_back(c, card_data_list[i], x, y, card_number, scale, supabase_client)
+            # Back on right side
+            if not fronts_only:
+                x_back = PAGE_WIDTH / 2 + (PAGE_WIDTH / 2 - card_width) / 2
+                y_back = (PAGE_HEIGHT - scaled_height) / 2
+                draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client)
 
             c.showPage()
 
