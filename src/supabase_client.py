@@ -44,6 +44,37 @@ def fetch_all_characters(client: Client) -> List[Character]:
     return characters
 
 
+def fetch_character_by_name(client: Client, character_name: str) -> tuple[Character | None, List[Character]]:
+    """
+    Fetch a single character by name (case-insensitive).
+
+    Args:
+        client: Supabase client
+        character_name: Name of the character to find
+
+    Returns:
+        Tuple of (exact_match, partial_matches)
+        - exact_match: Character object if exact match found, None otherwise
+        - partial_matches: List of Character objects that partially match the name
+    """
+    # Fetch all characters (needed for character_lookup in denormalization anyway)
+    all_characters = fetch_all_characters(client)
+
+    search_name = character_name.upper().strip()
+    exact_match = None
+    partial_matches = []
+
+    for character in all_characters:
+        char_name = (character.name or "").upper().strip()
+        if char_name == search_name:
+            exact_match = character
+            break
+        elif search_name in char_name:
+            partial_matches.append(character)
+
+    return exact_match, partial_matches
+
+
 def fetch_connections_for_character(client: Client, character_id: int) -> List[Connection]:
     """Fetch all connections where the character is either char1 or char2."""
     # Fetch connections where character is char1
@@ -132,6 +163,54 @@ def fetch_card_data(client: Client, character: Character, character_lookup: Dict
         character=character,
         connections=denormalized_connections
     )
+
+
+def fetch_single_card_data(client: Client, character_name: str) -> tuple[CardData | None, List[Character], int]:
+    """
+    Fetch card data for a single character by name.
+
+    This is more efficient than fetch_all_card_data when you only need one character,
+    as it still fetches all characters (needed for denormalization) but only processes
+    connections for the requested character.
+
+    Args:
+        client: Supabase client
+        character_name: Name of the character (case-insensitive)
+
+    Returns:
+        Tuple of (card_data, partial_matches, card_number)
+        - card_data: CardData object if exact match found, None otherwise
+        - partial_matches: List of Character objects that partially match the name
+        - card_number: Position of character in alphabetical list (1-indexed), or 0 if not found
+    """
+    # Fetch all characters (needed for character_lookup in denormalization)
+    all_characters = fetch_all_characters(client)
+
+    # Create lookup dictionary
+    character_lookup = {char.id: char for char in all_characters}
+
+    # Find the specific character by name (case-insensitive)
+    search_name = character_name.upper().strip()
+    exact_match = None
+    card_number = 0
+    partial_matches = []
+
+    for idx, character in enumerate(all_characters):
+        char_name = (character.name or "").upper().strip()
+        if char_name == search_name:
+            exact_match = character
+            card_number = idx + 1
+            break
+        elif search_name in char_name:
+            partial_matches.append(character)
+
+    if not exact_match:
+        return None, partial_matches, 0
+
+    # Fetch card data for the matched character
+    card_data = fetch_card_data(client, exact_match, character_lookup)
+
+    return card_data, [], card_number
 
 
 def fetch_all_card_data(client: Client) -> List[CardData]:

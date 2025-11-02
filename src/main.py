@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import click
-from src.supabase_client import get_supabase_client, fetch_all_card_data
+from src.supabase_client import get_supabase_client, fetch_all_card_data, fetch_single_card_data
 from src.cards import generate_cards_pdf, generate_single_card_pdf
 
 
@@ -90,28 +90,12 @@ def generate_single(character_name: str, output: str):
         client = get_supabase_client()
 
         click.echo(f"Fetching character data...")
-        all_card_data = fetch_all_card_data(client)
-
-        # Find the specific character by name (case-insensitive)
-        search_name = character_name.upper().strip()
-        card_data = None
-        card_number = 0
-        matches = []
-
-        for idx, data in enumerate(all_card_data):
-            char_name = (data.character.name or "").upper().strip()
-            if char_name == search_name:
-                card_data = data
-                card_number = idx + 1
-                break
-            elif search_name in char_name:
-                matches.append((idx, data))
+        card_data, partial_matches, card_number = fetch_single_card_data(client, character_name)
 
         if not card_data:
-            if matches:
+            if partial_matches:
                 click.echo(f"No exact match found for '{character_name}'. Did you mean one of these?", err=True)
-                for idx, data in matches[:5]:  # Show up to 5 partial matches
-                    char = data.character
+                for char in partial_matches[:5]:  # Show up to 5 partial matches
                     click.echo(f"  - {char.name} ({char.first_names or ''})", err=True)
             else:
                 click.echo(f"Character '{character_name}' not found.", err=True)
