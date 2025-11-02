@@ -82,7 +82,7 @@ def denormalize_connections(
         character_lookup: Dictionary mapping character IDs to Character objects
 
     Returns:
-        List of denormalized connections with character names
+        List of denormalized connections with character names, sorted by category then name
     """
     denormalized = []
 
@@ -102,6 +102,13 @@ def denormalize_connections(
             why=conn.why or "",
             why_short=conn.why_short
         ))
+
+    # Sort by category (in specific order) then by name
+    category_order = {'R': 0, 'S': 1, 'P': 2, 'I': 3, 'M': 4, 'N': 5, 'A': 6, 'B': 7, 'C': 8, 'D': 9, 'T': 10}
+    denormalized.sort(key=lambda x: (
+        category_order.get(x.category_code, 99),  # Use 99 for unknown categories
+        x.character_name.upper() if x.character_name else ""
+    ))
 
     return denormalized
 

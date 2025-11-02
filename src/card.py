@@ -24,7 +24,7 @@ CARD_HEIGHT = 97.58 * mm  # 69 * √2 ≈ 97.58mm
 MARGIN = 3 * mm
 IMAGE_HEIGHT = 71 * mm  # Portrait image height (adjusted for taller card)
 BANNER_HEIGHT = 8 * mm
-HEADER_HEIGHT = 14 * mm  # Header section on back
+HEADER_HEIGHT = 14 * mm  # Header section on back (includes biography, dates, category)
 BIO_HEIGHT = 18 * mm  # Biography section height
 TABLE_START_Y = 40 * mm  # Where connections table starts
 
@@ -33,8 +33,9 @@ CATEGORY_COLORS = {
     'R': HexColor('#DC143C'),  # Royalty - red
     'S': HexColor('#FF8C00'),  # Statesman - orange
     'P': HexColor('#FFD700'),  # Philosopher - yellow
+    'I': HexColor("#88FF00"),  # Innovator - lime green
     'M': HexColor('#228B22'),  # Mathematical Scientist - green
-    'N': HexColor('#40E0D0'),  # Natural Scientist - turquoise
+    'N': HexColor("#40E0B5"),  # Natural Scientist - turquoise
     'A': HexColor('#4169E1'),  # Artist - blue
     'B': HexColor('#4B0082'),  # Builders and Engineers - indigo
     'C': HexColor('#8B00FF'),  # Composer - violet
@@ -110,7 +111,8 @@ def wrap_text(c: canvas.Canvas, text: str, max_width: float, font_name: str, fon
 
 
 def draw_wrapped_text(c: canvas.Canvas, text: str, x: float, y: float, max_width: float,
-                     font_name: str, font_size: int, line_height: float, max_lines: Optional[int] = None):
+                     font_name: str, font_size: int, line_height: float, max_lines: Optional[int] = None,
+                     truncate_with_ellipsis: bool = False):
     """
     Draw text with word wrapping.
 
@@ -124,6 +126,7 @@ def draw_wrapped_text(c: canvas.Canvas, text: str, x: float, y: float, max_width
         font_size: Font size
         line_height: Space between lines
         max_lines: Maximum number of lines to draw (optional)
+        truncate_with_ellipsis: If True, add '...' to last line if text is truncated
 
     Returns:
         Final y position after drawing text
@@ -131,11 +134,29 @@ def draw_wrapped_text(c: canvas.Canvas, text: str, x: float, y: float, max_width
     c.setFont(font_name, font_size)
     lines = wrap_text(c, text, max_width, font_name, font_size)
 
-    if max_lines:
+    was_truncated = False
+    if max_lines and len(lines) > max_lines:
         lines = lines[:max_lines]
+        was_truncated = True
 
     current_y = y
-    for line in lines:
+    for i, line in enumerate(lines):
+        # Add ellipsis to last line if truncated
+        if truncate_with_ellipsis and was_truncated and i == len(lines) - 1:
+            # Try to fit ellipsis, remove words if needed
+            ellipsis = "..."
+            test_line = line + ellipsis
+            while c.stringWidth(test_line, font_name, font_size) > max_width and line:
+                # Remove last word
+                words = line.split()
+                if len(words) > 1:
+                    words = words[:-1]
+                    line = ' '.join(words)
+                else:
+                    line = line[:-1]  # Remove last character
+                test_line = line + ellipsis
+            line = test_line
+
         c.drawString(x, current_y, line)
         current_y -= line_height
 
@@ -223,12 +244,11 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
     character = card_data.character
     category_color = get_category_color(character.type)
 
-    # Draw card border
-    c.setStrokeColor(colors.black)
-    c.setLineWidth(1)
-    c.rect(x, y, CARD_WIDTH, CARD_HEIGHT)
+    # Draw card background
+    c.setFillColor(HexColor('#cccccc'))
+    c.rect(x, y, CARD_WIDTH, CARD_HEIGHT, fill=1)
 
-    # Draw portrait image - centered and maximized while preserving aspect ratio
+    # Draw portrait image - fits within card boundaries, centered and preserving aspect ratio
     if character.image_link and supabase_client:
         img = download_image_from_supabase(supabase_client, character.image_link)
         if img:
@@ -238,24 +258,22 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
                 orig_width, orig_height = img_obj.size
                 orig_aspect = orig_width / orig_height
 
-                # Available space on card (above banner, below top)
-                available_width = CARD_WIDTH
-                available_height = CARD_HEIGHT - BANNER_HEIGHT
-                available_aspect = available_width / available_height
+                # Fit image within card while preserving aspect ratio
+                card_aspect = CARD_WIDTH / CARD_HEIGHT
 
-                # Calculate dimensions that fit within available space while preserving aspect ratio
-                if orig_aspect > available_aspect:
+                # Calculate dimensions to fit within card (contain, not cover)
+                if orig_aspect > card_aspect:
                     # Image is wider - constrain by width
-                    final_width = available_width
-                    final_height = available_width / orig_aspect
+                    final_width = CARD_WIDTH
+                    final_height = CARD_WIDTH / orig_aspect
                 else:
                     # Image is taller - constrain by height
-                    final_height = available_height
-                    final_width = available_height * orig_aspect
+                    final_height = CARD_HEIGHT
+                    final_width = CARD_HEIGHT * orig_aspect
 
-                # Center the image in available space
-                img_x = x + (available_width - final_width) / 2
-                img_y = y + BANNER_HEIGHT + (available_height - final_height) / 2
+                # Center the image on the card
+                img_x = x + (CARD_WIDTH - final_width) / 2
+                img_y = y + (CARD_HEIGHT - final_height) / 2
 
                 c.drawImage(
                     img,
@@ -269,12 +287,12 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
             except Exception as e:
                 print(f"Failed to draw image for {character.name}: {e}")
 
-    # Draw colored banner at bottom with name
+    # Draw colored banner floating over image, 4pt above bottom
+    banner_y = y + 4  # 4pt above card bottom
     c.setFillColor(category_color)
-    c.rect(x, y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
+    c.rect(x, banner_y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
 
-    # Draw name on banner (with wrapping if needed)
-    c.setFillColor(colors.white)
+    # Draw name on floating banner (with wrapping if needed)
     name = (character.name or "UNKNOWN").upper()
     max_name_width = CARD_WIDTH - (2 * MARGIN)
 
@@ -287,17 +305,22 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
         font_size = 10
         name_lines = wrap_text(c, name, max_name_width, "Helvetica-Bold", font_size)
 
-    # Draw name (centered)
+    # Draw name with black outline for better readability on light backgrounds
     c.setFont("Helvetica-Bold", font_size)
-    y_offset = y + BANNER_HEIGHT / 2 - (len(name_lines) * font_size) / 2 + 2
+    text_y_offset = banner_y + BANNER_HEIGHT / 2 - (len(name_lines) * font_size) / 2 + 2
     for line in name_lines[:2]:  # Max 2 lines
         text_width = c.stringWidth(line, "Helvetica-Bold", font_size)
-        c.drawString(
-            x + (CARD_WIDTH - text_width) / 2,
-            y_offset,
-            line
-        )
-        y_offset -= font_size + 1
+        text_x = x + (CARD_WIDTH - text_width) / 2
+        # Draw black outline first (slightly thicker)
+        c.setStrokeColor(colors.black)
+        c.setLineWidth(1.5)
+        c.setFillColor(colors.black)
+        for dx, dy in [(-0.5, -0.5), (-0.5, 0.5), (0.5, -0.5), (0.5, 0.5)]:
+            c.drawString(text_x + dx, text_y_offset + dy, line)
+        # Draw white text on top
+        c.setFillColor(colors.white)
+        c.drawString(text_x, text_y_offset, line)
+        text_y_offset -= font_size + 1
 
 
 def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int, supabase_client=None):
@@ -316,91 +339,95 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     category_color = get_category_color(character.type)
     category_name = get_category_name(character.type)
 
-    # Draw card border
-    c.setStrokeColor(colors.black)
-    c.setLineWidth(1)
-    c.rect(x, y, CARD_WIDTH, CARD_HEIGHT)
-
-    # Draw header section with beige background
-    header_color = HexColor('#F5DEB3')
-    c.setFillColor(header_color)
+    # Draw header section with category color at 75% opacity
+    c.setFillColorRGB(
+        category_color.red,
+        category_color.green,
+        category_color.blue,
+        alpha=0.5
+    )
     c.rect(x, y + CARD_HEIGHT - HEADER_HEIGHT, CARD_WIDTH, HEADER_HEIGHT, fill=1, stroke=0)
 
-    # Draw character name (wrapped if necessary)
+    # Draw card type in colored box (top right) - same height as header
+    category_box_width = 14 * mm
+    card_num_box_height = HEADER_HEIGHT  # Match header height
+
+    # Calculate max text width excluding category box
+    max_header_text_width = CARD_WIDTH - (2 * MARGIN) - category_box_width
+
+    # Draw character name at top of header
     c.setFillColor(colors.black)
     full_name = f"{character.name or ''} {character.first_names or ''}".strip().upper()
-    max_header_width = CARD_WIDTH - (2 * MARGIN) - 16 * mm  # Account for card number box
+    name_y = y + CARD_HEIGHT - MARGIN - 3
     draw_wrapped_text(
         c, full_name,
         x + MARGIN,
-        y + CARD_HEIGHT - MARGIN - 4,
-        max_header_width,
+        name_y,
+        max_header_text_width,
         "Helvetica-Bold", 9,
         line_height=10,
         max_lines=1
     )
 
-    # Draw dates and category
-    c.setFont("Helvetica", 7)
-    dates = f"{character.birth_date or ''}-{character.death_date or ''}"
-    c.drawString(x + MARGIN, y + CARD_HEIGHT - HEADER_HEIGHT + MARGIN + 2, dates)
-
-    # Category name (smaller font to fit)
-    category_display = category_name[:20]  # Truncate if too long
+    # Draw dates | category directly under name (constrained width)
     c.setFont("Helvetica", 6)
-    c.drawString(x + MARGIN, y + CARD_HEIGHT - HEADER_HEIGHT + MARGIN - 4, category_display)
+    category_display = category_name[:20]  # Truncate if too long
+    dates = f"{character.birth_date or ''}-{character.death_date or ''}"
+    dates_category_text = f"{dates} | {category_display}"
+    dates_category_y = name_y - 10  # Directly under name
 
-    # Draw card number in colored box (top right)
-    card_num_box_width = 15 * mm
-    card_num_box_height = 10 * mm
-    c.setFillColor(category_color)
-    c.rect(
-        x + CARD_WIDTH - card_num_box_width,
-        y + CARD_HEIGHT - card_num_box_height,
-        card_num_box_width,
-        card_num_box_height,
-        fill=1,
-        stroke=0
-    )
-    c.setFillColor(colors.white)
-    c.setFont("Helvetica-Bold", 14)
-    card_id = f"{character.type or 'X'}{card_number}"
-    c.drawString(
-        x + CARD_WIDTH - card_num_box_width + 3,
-        y + CARD_HEIGHT - card_num_box_height + 2,
-        card_id
-    )
+    # Truncate dates/category if too long
+    while c.stringWidth(dates_category_text, "Helvetica", 6) > max_header_text_width and len(category_display) > 5:
+        category_display = category_display[:-1]
+        dates_category_text = f"{dates} | {category_display}"
 
-    # Draw biography section with text wrapping
-    bio_y = y + CARD_HEIGHT - HEADER_HEIGHT - MARGIN - 5
-    c.setFillColor(colors.black)
+    c.drawString(x + MARGIN, dates_category_y, dates_category_text)
 
+    # Draw biography under dates with small margin (constrained width)
     if character.biography:
         bio_text = character.biography.replace('\n', ' ').strip()
-        # Wrap biography text to fit within card width
-        max_bio_width = CARD_WIDTH - (2 * MARGIN)
+        bio_y = dates_category_y - 8  # Small margin below dates
         draw_wrapped_text(
             c, bio_text,
             x + MARGIN,
             bio_y,
-            max_bio_width,
+            max_header_text_width,  # Same width constraint as name
             "Helvetica", 6,
-            line_height=7,
-            max_lines=3  # Limit to 3 lines to leave space for connections
+            line_height=6.5,
+            max_lines=2,
+            truncate_with_ellipsis=True
         )
-
-    # Draw connections table header (edge to edge)
-    connections_y = y + CARD_HEIGHT - HEADER_HEIGHT - 26 * mm
     c.setFillColor(category_color)
-    c.rect(x, connections_y, CARD_WIDTH, 5 * mm, fill=1, stroke=0)
+    c.rect(
+        x + CARD_WIDTH - category_box_width,
+        y + CARD_HEIGHT - card_num_box_height,
+        category_box_width,
+        card_num_box_height,
+        fill=1,
+        stroke=0
+    )
+    # Draw category code centered in box
+    c.setFont("Helvetica-Bold", 14)
+    card_id = f"{character.type or 'X'}"
+    card_id_width = c.stringWidth(card_id, "Helvetica-Bold", 14)
+    # Center horizontally and vertically in box
+    card_id_x = x + CARD_WIDTH - category_box_width + (category_box_width - card_id_width) / 2
+    card_id_y = y + CARD_HEIGHT - card_num_box_height / 2 - 5  # Center vertically
+    # Draw black outline
+    c.setFillColor(colors.black)
+    for dx, dy in [(-0.5, -0.5), (-0.5, 0.5), (0.5, -0.5), (0.5, 0.5)]:
+        c.drawString(card_id_x + dx, card_id_y + dy, card_id)
+    # Draw white text on top
     c.setFillColor(colors.white)
-    c.setFont("Helvetica-Bold", 7)
-    c.drawString(x + 2, connections_y + 2, "CONNECTIONS:")
+    c.drawString(card_id_x, card_id_y, card_id)
+
+    # Draw connections table header (edge to edge) - directly under header
+    connections_y = y + CARD_HEIGHT - HEADER_HEIGHT - 2 * mm
 
     # Draw connections table
     if card_data.connections:
         table_data = []
-        for conn in card_data.connections[:8]:  # Limit to 8 connections to fit smaller card
+        for conn in card_data.connections[:25]:  # Can fit 25 rows with minimal row height (2.5mm)
             # Use why_short without truncation, allow text wrapping in table
             why_text = conn.why_short or ""
 
@@ -412,44 +439,60 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
             ])
 
         # Full card width - edge to edge (total: 69mm)
-        table = Table(table_data, colWidths=[6 * mm, 6 * mm, 20 * mm, 37 * mm])
+        # Optimized: 4mm + 2.7mm + 17.5mm + 44.8mm = 69mm
+        # Fits 'ALBERTUS MAGNUS' at 5pt and 47 chars at 4pt on single line
+        # Set explicit row heights: 5pt font + 2pt padding = 7pt ≈ 3mm per row
+        row_height = 2.5 * mm
+        row_heights = [row_height] * len(table_data)
+        table = Table(table_data, colWidths=[4 * mm, 2.7 * mm, 17.5 * mm, 44.8 * mm], rowHeights=row_heights)
 
         # Style the table - horizontal lines only, no vertical lines, no outer padding
         table_style = TableStyle([
             ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
-            ('FONTSIZE', (0, 0), (-1, -1), 6),  # 6pt font size
+            ('FONTSIZE', (0, 0), (-1, -1), 5),  # Default 6pt font
             ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
             ('ALIGN', (0, 0), (0, -1), 'CENTER'),
             ('ALIGN', (1, 0), (1, -1), 'CENTER'),
-            ('VALIGN', (0, 0), (-1, -1), 'TOP'),  # Top align for wrapped text
-            # Horizontal lines only (between rows)
-            ('LINEBELOW', (0, 0), (-1, -1), 0.5, colors.grey),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Vertically center all text
+
             ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
             ('LEFTPADDING', (0, 0), (-1, -1), 2),
             ('RIGHTPADDING', (0, 0), (-1, -1), 2),
-            ('TOPPADDING', (0, 0), (-1, -1), 2),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+            ('TOPPADDING', (0, 0), (-1, -1), 6),  # No blank space above text
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 0),  # No blank space below text
+            # Reduce category column padding to 1pt
+            ('LEFTPADDING', (1, 0), (1, -1), 1),
+            ('RIGHTPADDING', (1, 0), (1, -1), 1),
+            # Add more padding between name and why_short columns
+            ('RIGHTPADDING', (2, 0), (2, -1), 4),  # Name column right padding
+            ('LEFTPADDING', (3, 0), (3, -1), 4),   # Why_short column left padding
             ('WORDWRAP', (0, 0), (-1, -1), True),  # Enable word wrapping
         ])
 
         # Add category colors to the category column
-        for i, conn in enumerate(card_data.connections[:8]):
+        for i, conn in enumerate(card_data.connections[:25]):
             cat_color = get_category_color(conn.category_code)
             table_style.add('BACKGROUND', (1, i), (1, i), cat_color)
             table_style.add('TEXTCOLOR', (1, i), (1, i), colors.white)
 
+        # Set font size for name column (5pt to fit 'ALBERTUS MAGNUS')
+        table_style.add('FONTSIZE', (2, 0), (2, -1), 5)
+
+        # Set font size for why_short column (4pt to fit 47 characters)
+        table_style.add('FONTSIZE', (3, 0), (3, -1), 4)
+
         table.setStyle(table_style)
 
-        # Draw table edge to edge (no margin)
+        # Draw table edge to edge (no margin) - 2.5mm row height (no blank space)
         table.wrapOn(c, CARD_WIDTH, CARD_HEIGHT)
-        table.drawOn(c, x, connections_y - len(table_data) * 5 * mm)
+        table.drawOn(c, x, connections_y - len(table_data) * row_height)
 
-    # Draw colored banner at bottom with name
+    # Draw colored banner floating over image, 4pt above bottom
+    banner_y = y + 4  # 4pt above card bottom
     c.setFillColor(category_color)
-    c.rect(x, y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
+    c.rect(x, banner_y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
 
     # Draw name on banner (with wrapping if needed)
-    c.setFillColor(colors.white)
     name = (character.name or "UNKNOWN").upper()
     max_name_width = CARD_WIDTH - (2 * MARGIN)
 
@@ -462,14 +505,17 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
         font_size = 10
         name_lines = wrap_text(c, name, max_name_width, "Helvetica-Bold", font_size)
 
-    # Draw name (centered)
+    # Draw name with black outline for better readability on light backgrounds
     c.setFont("Helvetica-Bold", font_size)
-    y_offset = y + BANNER_HEIGHT / 2 - (len(name_lines) * font_size) / 2 + 2
+    y_offset = banner_y + BANNER_HEIGHT / 2 - (len(name_lines) * font_size) / 2 + 2
     for line in name_lines[:2]:  # Max 2 lines
         text_width = c.stringWidth(line, "Helvetica-Bold", font_size)
-        c.drawString(
-            x + (CARD_WIDTH - text_width) / 2,
-            y_offset,
-            line
-        )
+        text_x = x + (CARD_WIDTH - text_width) / 2
+        # Draw black outline first
+        c.setFillColor(colors.black)
+        for dx, dy in [(-0.5, -0.5), (-0.5, 0.5), (0.5, -0.5), (0.5, 0.5)]:
+            c.drawString(text_x + dx, y_offset + dy, line)
+        # Draw white text on top
+        c.setFillColor(colors.white)
+        c.drawString(text_x, y_offset, line)
         y_offset -= font_size + 1
