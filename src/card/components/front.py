@@ -79,9 +79,11 @@ def draw_card_front_content(c: canvas.Canvas, character: Character, x: float, y:
         category_color: Color for the banner
         supabase_client: Supabase client for downloading images (optional)
     """
-    # Draw card background
+    # Draw card background (no border)
     c.setFillColor(HexColor('#cccccc'))
-    c.rect(x, y, CARD_WIDTH, CARD_HEIGHT, fill=1)
+    c.setStrokeColor(HexColor('#cccccc'))  # Match stroke to fill to hide border
+    c.setLineWidth(0)  # Remove border
+    c.rect(x, y, CARD_WIDTH, CARD_HEIGHT, fill=1, stroke=0)
 
     # Draw portrait image
     if supabase_client:

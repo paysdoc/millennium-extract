@@ -5,7 +5,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
 from src.types.supabase_types import CardData
 from src.card.config import (
-    CARD_HEIGHT, HEADER_HEIGHT,
+    CARD_WIDTH, CARD_HEIGHT, HEADER_HEIGHT,
     get_category_color
 )
 from src.card.components.front import draw_card_front_content
@@ -15,7 +15,7 @@ from src.card.components.back.connections import draw_connections_table
 from src.card.components.back.towns import draw_towns_grid
 
 
-def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, supabase_client=None):
+def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, scale: float = 1.0, supabase_client=None):
     """
     Draw the front of a character card.
 
@@ -24,15 +24,25 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
         card_data: Card data to render
         x: X position of bottom-left corner
         y: Y position of bottom-left corner
+        scale: Scale factor for the card (default: 1.0 = original size 69mm)
         supabase_client: Supabase client for downloading images (optional)
     """
     character = card_data.character
     category_color = get_category_color(character.type)
 
-    draw_card_front_content(c, character, x, y, category_color, supabase_client)
+    # Save canvas state and apply scaling transformation
+    c.saveState()
+    c.translate(x, y)  # Move origin to card position
+    c.scale(scale, scale)  # Apply uniform scaling
+
+    # Draw at origin (0, 0) since we've translated
+    draw_card_front_content(c, character, 0, 0, category_color, supabase_client)
+
+    # Restore canvas state
+    c.restoreState()
 
 
-def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int, supabase_client=None):
+def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int, scale: float = 1.0, supabase_client=None):
     """
     Draw the back of a character card with details and connections.
 
@@ -42,13 +52,19 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
         x: X position of bottom-left corner
         y: Y position of bottom-left corner
         card_number: Card number to display
+        scale: Scale factor for the card (default: 1.0 = original size 69mm)
         supabase_client: Supabase client (not used for back, kept for consistency)
     """
     character = card_data.character
     category_color = get_category_color(character.type)
 
-    # Draw header section (name, dates, biography, category box)
-    draw_back_header(c, character, x, y, category_color)
+    # Save canvas state and apply scaling transformation
+    c.saveState()
+    c.translate(x, y)  # Move origin to card position
+    c.scale(scale, scale)  # Apply uniform scaling
+
+    # Draw header section at origin (name, dates, biography, category box)
+    draw_back_header(c, character, 0, 0, category_color)
 
     # Separate category T (Territory/Towns) from other connections
     regular_connections = []
@@ -68,13 +84,16 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
                 regular_connections.append(conn)
 
     # Draw regular connections table (excluding category T)
-    connections_y = y + CARD_HEIGHT - HEADER_HEIGHT - 2 * mm
+    connections_y = CARD_HEIGHT - HEADER_HEIGHT - 2 * mm
     if regular_connections:
-        draw_connections_table(c, regular_connections, x, connections_y)
+        draw_connections_table(c, regular_connections, 0, connections_y)
 
     # Draw town connections grid above banner
     if town_connections:
-        draw_towns_grid(c, town_connections, x, y)
+        draw_towns_grid(c, town_connections, 0, 0)
 
     # Draw banner with name at bottom
-    draw_banner(c, character.name, x, y, category_color)
+    draw_banner(c, character.name, 0, 0, category_color)
+
+    # Restore canvas state
+    c.restoreState()

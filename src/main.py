@@ -10,6 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import click
+from reportlab.lib.units import mm
 from src.supabase_client import get_supabase_client, fetch_all_card_data, fetch_single_card_data
 from src.cards import generate_cards_pdf, generate_single_card_pdf
 
@@ -37,7 +38,14 @@ def cli():
     default=True,
     help='Show fronts and backs on separate pages (default: separate)'
 )
-def generate_all(output: str, fronts_only: bool, separate_pages: bool):
+@click.option(
+    '--width',
+    '-w',
+    type=float,
+    default=None,
+    help='Card width in mm (default: 69mm, maintains aspect ratio)'
+)
+def generate_all(output: str, fronts_only: bool, separate_pages: bool, width: float):
     """
     Generate PDF with all character cards from Supabase.
 
@@ -59,7 +67,8 @@ def generate_all(output: str, fronts_only: bool, separate_pages: bool):
         click.echo(f"Found {len(card_data_list)} characters")
 
         click.echo(f"Generating PDF: {output}")
-        generate_cards_pdf(card_data_list, output, fronts_only=fronts_only, separate_pages=separate_pages, supabase_client=client)
+        card_width_mm = width * mm if width is not None else None
+        generate_cards_pdf(card_data_list, output, fronts_only=fronts_only, separate_pages=separate_pages, card_width=card_width_mm, supabase_client=client)
 
         click.echo(click.style("✓ Cards generated successfully!", fg='green'))
 
@@ -81,7 +90,14 @@ def generate_all(output: str, fronts_only: bool, separate_pages: bool):
     default=True,
     help='Show front and back on separate pages (default: separate)'
 )
-def generate_single(character_name: str, output: str, separate_pages: bool):
+@click.option(
+    '--width',
+    '-w',
+    type=float,
+    default=None,
+    help='Card width in mm (default: 69mm, maintains aspect ratio)'
+)
+def generate_single(character_name: str, output: str, separate_pages: bool, width: float):
     """
     Generate a preview PDF for a single character card.
 
@@ -114,7 +130,8 @@ def generate_single(character_name: str, output: str, separate_pages: bool):
             return
 
         click.echo(f"Generating preview PDF for {card_data.character.name}: {output}")
-        generate_single_card_pdf(card_data, output, card_number, separate_pages=separate_pages, supabase_client=client)
+        card_width_mm = width * mm if width is not None else None
+        generate_single_card_pdf(card_data, output, card_number, separate_pages=separate_pages, card_width=card_width_mm, supabase_client=client)
 
         click.echo(click.style("✓ Card preview generated successfully!", fg='green'))
 
