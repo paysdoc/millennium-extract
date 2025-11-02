@@ -7,7 +7,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from src.supabase_client import get_supabase_client, fetch_all_card_data
-from src.card import download_image_from_supabase, CARD_WIDTH, CARD_HEIGHT, BANNER_HEIGHT
+from src.card import CARD_WIDTH, CARD_HEIGHT
+from src.card.config import BANNER_HEIGHT
+from src.card.image_handler import download_image_from_supabase
 from reportlab.lib.units import mm
 
 
