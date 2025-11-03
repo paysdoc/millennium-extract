@@ -3,6 +3,7 @@ Main card rendering functions - public API for drawing cards.
 """
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import mm
+from reportlab.lib import colors
 from src.types.supabase_types import CardData
 from src.config import (
     CARD_WIDTH, CARD_HEIGHT, HEADER_HEIGHT,
@@ -62,6 +63,11 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     c.saveState()
     c.translate(x, y)  # Move origin to card position
     c.scale(scale, scale)  # Apply uniform scaling
+
+    # Draw white background for card back
+    c.setFillColor(colors.white)
+    c.setStrokeColor(colors.white)
+    c.rect(0, 0, CARD_WIDTH, CARD_HEIGHT, fill=1, stroke=0)
 
     # Draw header section at origin (name, dates, biography, category box)
     draw_back_header(c, character, 0, 0, category_color)

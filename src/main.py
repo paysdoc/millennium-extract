@@ -45,7 +45,13 @@ def cli():
     default=None,
     help='Card width in mm (default: 69mm, maintains aspect ratio)'
 )
-def generate_all(output: str, fronts_only: bool, separate_pages: bool, width: float):
+@click.option(
+    '--crop-marks',
+    is_flag=True,
+    default=False,
+    help='Add crop marks and bleed area for professional printing'
+)
+def generate_all(output: str, fronts_only: bool, separate_pages: bool, width: float, crop_marks: bool):
     """
     Generate PDF with all character cards from Supabase.
 
@@ -68,7 +74,7 @@ def generate_all(output: str, fronts_only: bool, separate_pages: bool, width: fl
 
         click.echo(f"Generating PDF: {output}")
         card_width_mm = width * mm if width is not None else None
-        generate_cards_pdf(card_data_list, output, fronts_only=fronts_only, separate_pages=separate_pages, card_width=card_width_mm, supabase_client=client)
+        generate_cards_pdf(card_data_list, output, fronts_only=fronts_only, separate_pages=separate_pages, card_width=card_width_mm, crop_marks=crop_marks, supabase_client=client)
 
         click.echo(click.style("✓ Cards generated successfully!", fg='green'))
 
@@ -97,7 +103,13 @@ def generate_all(output: str, fronts_only: bool, separate_pages: bool, width: fl
     default=None,
     help='Card width in mm (default: 69mm, maintains aspect ratio)'
 )
-def generate_single(character_name: str, output: str, separate_pages: bool, width: float):
+@click.option(
+    '--crop-marks',
+    is_flag=True,
+    default=False,
+    help='Add crop marks and bleed area for professional printing'
+)
+def generate_single(character_name: str, output: str, separate_pages: bool, width: float, crop_marks: bool):
     """
     Generate a preview PDF for a single character card.
 
@@ -131,7 +143,7 @@ def generate_single(character_name: str, output: str, separate_pages: bool, widt
 
         click.echo(f"Generating preview PDF for {card_data.character.name}: {output}")
         card_width_mm = width * mm if width is not None else None
-        generate_single_card_pdf(card_data, output, card_number, separate_pages=separate_pages, card_width=card_width_mm, supabase_client=client)
+        generate_single_card_pdf(card_data, output, card_number, separate_pages=separate_pages, card_width=card_width_mm, crop_marks=crop_marks, supabase_client=client)
 
         click.echo(click.style("✓ Card preview generated successfully!", fg='green'))
 

@@ -18,6 +18,10 @@ IMAGE_HEIGHT = 71 * mm  # Portrait image height (adjusted for taller card)
 BANNER_HEIGHT = 8 * mm
 HEADER_HEIGHT = 14 * mm  # Header section on back (includes biography, dates, category)
 
+# Print settings (bleed and crop marks)
+BLEED = 3 * mm  # Standard bleed for professional printing
+CROP_MARK_LENGTH = 5 * mm  # Length of crop marks extending into bleed area
+
 # Category color mapping
 CATEGORY_COLORS = {
     'R': HexColor('#DC143C'),  # Royalty - red
