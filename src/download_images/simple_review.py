@@ -283,7 +283,7 @@ class SimpleReviewGenerator:
 
     <div class="nav-buttons">
         <a href="index.html" class="button button-secondary">⬅️ Back to Index</a>
-        <a href="{"submit.html" if char_index >= total_chars else all_characters[char_index].id + "_review.html"}"
+        <a href="{"submit.html" if char_index >= total_chars else str(all_characters[char_index].id) + "_review.html"}"
            class="button button-primary">
             {("✅ Done - Submit Selections" if char_index >= total_chars else f"Next: {all_characters[char_index].name} ➡️")}
         </a>
