@@ -69,6 +69,7 @@ coverage/
 
 # Image cache
 image_cache/
+sourced_images/
 
 # Python virtual environments
 pythonenv/

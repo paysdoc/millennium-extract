@@ -39,6 +39,111 @@ class BuildingQueryStrategy(QueryStrategy):
         ]
 
 
+class ScientistQueryStrategy(QueryStrategy):
+    """Query strategy for scientists/mathematicians (type M) - portraits + achievements."""
+
+    def generate(self, name: str, actual_name: str, context: dict) -> List[str]:
+        """Generate queries for scientists including portraits and scientific works."""
+        queries = []
+        years = context.get('years', [])
+        country = context.get('country')
+
+        # Portrait searches (top priority)
+        if years:
+            queries.append(f"{actual_name} {years[0]} portrait")
+        queries.append(f"{actual_name} portrait")
+        queries.append(f"{actual_name} scientist portrait")
+        if country:
+            queries.append(f"{actual_name} {country} portrait")
+
+        # Achievement/work searches
+        queries.append(f"{actual_name} scientific work")
+        queries.append(f"{actual_name} discovery")
+        queries.append(f"{actual_name} invention")
+        queries.append(f"{actual_name} experiment")
+        queries.append(f"{actual_name} apparatus")
+        queries.append(f"{actual_name} instrument")
+        queries.append(f"{actual_name} diagram")
+        queries.append(f"{actual_name} theory illustration")
+
+        # Fallbacks
+        queries.append(f"{actual_name} painting")
+        if actual_name != name:
+            queries.append(f"{name} portrait")
+
+        return queries
+
+
+class InventorQueryStrategy(QueryStrategy):
+    """Query strategy for inventors (type I) - portraits + inventions."""
+
+    def generate(self, name: str, actual_name: str, context: dict) -> List[str]:
+        """Generate queries for inventors including portraits and inventions."""
+        queries = []
+        years = context.get('years', [])
+        country = context.get('country')
+
+        # Portrait searches
+        if years:
+            queries.append(f"{actual_name} {years[0]} portrait")
+        queries.append(f"{actual_name} portrait")
+        queries.append(f"{actual_name} inventor portrait")
+        if country:
+            queries.append(f"{actual_name} {country} portrait")
+
+        # Invention/work searches
+        queries.append(f"{actual_name} invention")
+        queries.append(f"{actual_name} patent")
+        queries.append(f"{actual_name} machine")
+        queries.append(f"{actual_name} device")
+        queries.append(f"{actual_name} apparatus")
+        queries.append(f"{actual_name} design")
+        queries.append(f"{actual_name} blueprint")
+        queries.append(f"{actual_name} diagram")
+
+        # Fallbacks
+        queries.append(f"{actual_name} painting")
+        if actual_name != name:
+            queries.append(f"{name} portrait")
+
+        return queries
+
+
+class NavigatorQueryStrategy(QueryStrategy):
+    """Query strategy for navigators/explorers (type N) - portraits + maps/voyages."""
+
+    def generate(self, name: str, actual_name: str, context: dict) -> List[str]:
+        """Generate queries for navigators including portraits, maps, and voyages."""
+        queries = []
+        years = context.get('years', [])
+        country = context.get('country')
+
+        # Portrait searches
+        if years:
+            queries.append(f"{actual_name} {years[0]} portrait")
+        queries.append(f"{actual_name} portrait")
+        queries.append(f"{actual_name} explorer portrait")
+        if country:
+            queries.append(f"{actual_name} {country} portrait")
+
+        # Achievement/work searches
+        queries.append(f"{actual_name} voyage")
+        queries.append(f"{actual_name} expedition")
+        queries.append(f"{actual_name} map")
+        queries.append(f"{actual_name} route map")
+        queries.append(f"{actual_name} ship")
+        queries.append(f"{actual_name} navigation")
+        queries.append(f"{actual_name} discovery")
+        queries.append(f"{actual_name} exploration")
+
+        # Fallbacks
+        queries.append(f"{actual_name} painting")
+        if actual_name != name:
+            queries.append(f"{name} portrait")
+
+        return queries
+
+
 class PersonQueryStrategy(QueryStrategy):
     """Query strategy for historical persons."""
 
@@ -98,6 +203,9 @@ class QueryBuilder:
         """Initialize query builder with strategies."""
         self.building_strategy = BuildingQueryStrategy()
         self.person_strategy = PersonQueryStrategy()
+        self.scientist_strategy = ScientistQueryStrategy()
+        self.inventor_strategy = InventorQueryStrategy()
+        self.navigator_strategy = NavigatorQueryStrategy()
 
     def build_queries(self, character) -> List[str]:
         """
@@ -126,9 +234,7 @@ class QueryBuilder:
             actual_name = name
             context = {'char_type': char_type}
         else:
-            strategy = self.person_strategy
-
-            # Parse name
+            # Parse name first (needed for all person types)
             actual_name = name
             if first_names:
                 actual_name = NameParser.extract_actual_name(name, first_names)
@@ -149,6 +255,16 @@ class QueryBuilder:
                 'dynasty': dynasty,
                 'char_type': char_type,
             }
+
+            # Select person-type specific strategy
+            if char_type == 'M':  # Scientists/Mathematicians
+                strategy = self.scientist_strategy
+            elif char_type == 'I':  # Inventors
+                strategy = self.inventor_strategy
+            elif char_type == 'N':  # Navigators/Explorers
+                strategy = self.navigator_strategy
+            else:
+                strategy = self.person_strategy
 
         # Generate queries using strategy
         queries = strategy.generate(name, actual_name, context)

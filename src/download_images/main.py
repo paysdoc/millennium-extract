@@ -18,18 +18,21 @@ class CommandLineInterface:
     """Handle command-line interface for the downloader."""
 
     @staticmethod
-    def parse_arguments() -> tuple[str | None, bool]:
+    def parse_arguments() -> tuple[str | None, bool, bool]:
         """
         Parse command-line arguments.
 
         Returns:
-            Tuple of (category_filter, is_test_mode)
+            Tuple of (category_filter, is_test_mode, auto_yes)
         """
-        if len(sys.argv) > 1:
-            category_filter = sys.argv[1].upper()
-            return category_filter, False
+        auto_yes = '--yes' in sys.argv or '-y' in sys.argv
+        args = [arg for arg in sys.argv[1:] if arg not in ('--yes', '-y')]
+
+        if len(args) > 0:
+            category_filter = args[0].upper()
+            return category_filter, False, auto_yes
         else:
-            return None, True
+            return None, True, auto_yes
 
     @staticmethod
     def print_usage():
@@ -107,13 +110,13 @@ class DownloadOrchestrator:
             client: Supabase client
 
         Returns:
-            List of character objects to process
+            Tuple of (characters list, auto_yes boolean)
         """
         # Fetch all character data
         card_data_list = fetch_all_card_data(client)
 
         # Parse arguments
-        category_filter, is_test_mode = self.cli.parse_arguments()
+        category_filter, is_test_mode, auto_yes = self.cli.parse_arguments()
 
         if category_filter:
             characters = self.filter.filter_by_category(card_data_list, category_filter)
@@ -123,7 +126,7 @@ class DownloadOrchestrator:
         else:
             characters = [cd.character for cd in card_data_list]
 
-        return characters
+        return characters, auto_yes
 
     def run(self):
         """Main execution flow."""
@@ -135,11 +138,11 @@ class DownloadOrchestrator:
         client = get_supabase_client()
 
         # Get characters
-        characters = self.get_characters(client)
+        characters, auto_yes = self.get_characters(client)
         print(f"Characters to process: {len(characters)}\n")
 
-        # Confirm if large batch
-        if not self.cli.confirm_download(len(characters)):
+        # Confirm if large batch (unless auto_yes)
+        if not auto_yes and not self.cli.confirm_download(len(characters)):
             print("Cancelled.")
             return
 

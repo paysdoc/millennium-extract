@@ -3,7 +3,32 @@ Data models for image downloading.
 Single Responsibility: Define data structures only.
 """
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Any
+
+
+@dataclass
+class Character:
+    """Character data from Supabase."""
+    id: int
+    name: str
+    type: str
+    first_names: Optional[str] = None
+    biography: Optional[str] = None
+    birth_date: Optional[str] = None
+    death_date: Optional[str] = None
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> 'Character':
+        """Create Character from Supabase row."""
+        return cls(
+            id=int(data['id']),
+            name=data.get('name', ''),
+            type=data.get('type', ''),
+            first_names=data.get('first_names'),
+            biography=data.get('biography'),
+            birth_date=data.get('birth_date'),
+            death_date=data.get('death_date'),
+        )
 
 
 @dataclass
@@ -33,7 +58,7 @@ class SearchResult:
 class DownloadMetadata:
     """Metadata to save alongside downloaded images."""
     character_name: str
-    character_id: str
+    character_id: int
     category: str
     first_names: Optional[str]
     biography: Optional[str]

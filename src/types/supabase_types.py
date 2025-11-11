@@ -8,7 +8,7 @@ from typing import Optional, List
 @dataclass
 class Character:
     """Character data model matching Supabase character table."""
-    id: str  # UUID string
+    id: int  # Integer ID (primary key)
     name: Optional[str] = None
     first_names: Optional[str] = None
     birth_date: Optional[str] = None
@@ -22,9 +22,9 @@ class Character:
 @dataclass
 class Connection:
     """Connection data model matching Supabase connection table."""
-    id: str  # UUID string
-    char1_id: Optional[str] = None  # UUID string
-    char2_id: Optional[str] = None  # UUID string
+    id: int  # Integer ID (primary key)
+    char1_id: Optional[int] = None  # Character 1 ID (integer)
+    char2_id: Optional[int] = None  # Character 2 ID (integer)
     value: Optional[int] = None
     why: Optional[str] = None
     why_short: Optional[str] = None  # Short version of connection description

@@ -42,7 +42,6 @@ class CharacterImageDownloader:
     def print_character_header(self, character):
         """Print formatted header for character processing."""
         name = (character.name or "").strip()
-        char_id = str(character.id)
         category = character.type or "?"
 
         print(f"\n{'='*80}")

@@ -9,6 +9,7 @@ from datetime import datetime
 from typing import Optional
 from .models import ImageInfo, DownloadMetadata
 from .config import WikimediaConfig, DownloadConfig
+from .image_similarity import ImageValidator
 
 
 class FileManager:
@@ -16,18 +17,20 @@ class FileManager:
     Manages file operations for image downloads and metadata.
     """
 
-    def __init__(self, config: DownloadConfig = None):
+    def __init__(self, config: DownloadConfig = None, similarity_threshold: int = 20):
         """
         Initialize file manager.
 
         Args:
             config: Download configuration (uses default if None)
+            similarity_threshold: Image similarity threshold (0-64, lower = more similar required)
         """
         self.config = config or DownloadConfig()
+        self.validator = ImageValidator(similarity_threshold)
 
     def generate_filename(
         self,
-        character_id: str,
+        character_id: int,
         category: str,
         name: str,
         rank: int,
@@ -37,7 +40,7 @@ class FileManager:
         Generate standardized filename for image.
 
         Args:
-            character_id: Character ID
+            character_id: Character ID (integer)
             category: Character category/type
             name: Character name
             rank: Image rank (1 for primary, 2+ for alternatives)
@@ -130,7 +133,7 @@ class FileManager:
         """
         return DownloadMetadata(
             character_name=character.name or "",
-            character_id=str(character.id),
+            character_id=character.id,
             category=character.type or "?",
             first_names=character.first_names,
             biography=character.biography,
@@ -167,7 +170,7 @@ class FileManager:
         """
         # Generate filenames
         filename = self.generate_filename(
-            str(character.id),
+            character.id,
             character.type or "?",
             character.name or "Unknown",
             rank
@@ -181,6 +184,25 @@ class FileManager:
             return False
 
         print(f"    ✅ Downloaded")
+
+        # Validate image similarity against cache
+        should_keep, reason = self.validator.should_keep_image(
+            image_path,
+            character.name or "Unknown",
+            character.id,
+            character.type or "?"
+        )
+
+        if not should_keep:
+            print(f"    ❌ Rejected: {reason}")
+            # Delete the downloaded image
+            try:
+                image_path.unlink()
+            except Exception as e:
+                print(f"    ⚠️  Could not delete rejected image: {e}")
+            return False
+
+        print(f"    ✅ Validated: {reason}")
 
         # Save metadata
         metadata = self.create_metadata(character, image_info, rank)
