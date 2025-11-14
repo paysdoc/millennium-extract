@@ -9,7 +9,6 @@ from PIL import Image
 
 from .models import Character
 from .downloader import CharacterImageDownloader
-from .image_similarity import ImageSimilarityChecker
 from .file_manager import FileManager
 from .config import DownloadConfig
 
@@ -29,19 +28,16 @@ class InteractiveImageSelector:
     def __init__(
         self,
         downloader: CharacterImageDownloader = None,
-        similarity_checker: ImageSimilarityChecker = None,
-        permissive_threshold: int = 40
+        permissive_threshold: int = 40  # Kept for backwards compatibility but unused
     ):
         """
         Initialize interactive selector.
 
         Args:
             downloader: Image downloader instance
-            similarity_checker: Similarity checker with permissive threshold
-            permissive_threshold: Threshold for filtering (40 = very permissive)
+            permissive_threshold: Deprecated parameter, kept for backwards compatibility
         """
         self.downloader = downloader or CharacterImageDownloader()
-        self.similarity_checker = similarity_checker or ImageSimilarityChecker(permissive_threshold)
         self.temp_dir = Path("sourced_images/temp_candidates")
         self.output_dir = Path("sourced_images/wikimedia/by_character_id")
         self.file_manager = FileManager()
@@ -115,44 +111,17 @@ class InteractiveImageSelector:
         candidates: List[tuple]
     ) -> List[tuple]:
         """
-        Filter candidates using permissive similarity check against cache.
+        Return all candidates (filtering has been removed).
 
         Args:
             character: Character object
             candidates: List of (ImageInfo, filepath) tuples
 
         Returns:
-            Filtered list of candidates
+            All candidates (unfiltered)
         """
-        cache_dir = Path("image_cache")
-
-        # Find reference image
-        reference = self.similarity_checker.find_existing_image(
-            character.name,
-            character.id,
-            character.type,
-            cache_dir
-        )
-
-        if reference is None:
-            print(f"  ℹ️  No reference image found - showing all candidates")
-            return candidates
-
-        print(f"  🔍 Filtering using reference: {reference.name}")
-
-        # Filter candidates
-        filtered = []
-        for image_info, filepath in candidates:
-            is_similar, difference = self.similarity_checker.are_similar(filepath, reference)
-
-            if is_similar:
-                filtered.append((image_info, filepath))
-                print(f"    ✅ Keep (diff: {difference})")
-            else:
-                print(f"    ❌ Reject (diff: {difference})")
-
-        print(f"\n  📊 Filtered to {len(filtered)}/{len(candidates)} candidates")
-        return filtered
+        print(f"  ✅ Using all {len(candidates)} candidates (no filtering)")
+        return candidates
 
     def display_image_terminal(self, filepath: Path, width: int = 80):
         """

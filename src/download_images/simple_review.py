@@ -240,7 +240,7 @@ class SimpleReviewGenerator:
         </div>
         <div>
             <span class="stats">📦 Downloaded: {len(candidates)}</span>
-            <span class="stats">✅ After filtering: {len(filtered)}</span>
+            <span class="stats">✅ Available for review: {len(filtered)}</span>
         </div>
     </div>
 
@@ -629,15 +629,12 @@ class SimpleReviewGenerator:
                 print(f"  ⚠️  No candidates - skipping")
                 continue
 
-            # Filter
-            filtered = self.selector.filter_by_similarity(character, candidates)
-            if not filtered:
-                print(f"  ⚠️  All filtered out - using all candidates")
-                filtered = candidates
+            # Use all candidates (no filtering)
+            print(f"  ✅ Using all {len(candidates)} candidates")
 
             # Generate page
             html_file = self.generate_character_page(
-                character, candidates, filtered, idx + 1, actual_count, batch_characters
+                character, candidates, candidates, idx + 1, actual_count, batch_characters
             )
             print(f"  ✅ Page created: {html_file.name}")
 

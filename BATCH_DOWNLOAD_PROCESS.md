@@ -54,11 +54,10 @@ python3 -m src.download_images.web_main M 5 10
 2. Fetches characters filtered by category
 3. Generates search queries for each character (10 variations)
 4. Downloads 10-15 candidate images per character from Wikimedia Commons
-5. Filters images using similarity checking (threshold: 40)
-6. Copies filtered images to review directory
-7. Generates HTML review pages
-8. Starts HTTP server for browser review
-9. Records port information for cleanup
+5. Copies downloaded images to review directory
+6. Generates HTML review pages
+7. Starts HTTP server for browser review
+8. Records port information for cleanup
 
 **Output**:
 - Review pages in `sourced_images/review/[CATEGORY]_batch[N]/`
@@ -290,13 +289,10 @@ python3 -m src.download_images.web_main I 5 0
 
 2. Searches Wikimedia Commons API
 3. Downloads up to 15 candidate images to `temp_candidates/`
-4. Filters using perceptual hash similarity (threshold: 40)
-   - Compares against reference image
-   - Keeps images that are similar but not identical
-5. Copies filtered candidates to `review/I_batch1/`
+4. Copies all candidates to `review/I_batch1/`
    - Renames: `{char_id}_1.jpg`, `{char_id}_2.jpg`, etc.
-6. Generates `{char_id}_review.html`
-7. Clears `temp_candidates/`
+5. Generates `{char_id}_review.html`
+6. Clears `temp_candidates/`
 
 **After all characters**:
 8. Generates `index.html` with navigation
@@ -530,18 +526,6 @@ Object.keys(localStorage)
 
 ---
 
-### Issue: All images filtered out
-
-**Cause**: Similarity threshold too strict
-
-**Solution**: Lower threshold or use custom search
-
-```python
-# In retry script
-selector = InteractiveImageSelector(permissive_threshold=50)  # Default: 40
-```
-
----
 
 ### Issue: Wrong person downloaded
 
