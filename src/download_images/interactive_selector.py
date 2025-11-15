@@ -96,7 +96,12 @@ class InteractiveImageSelector:
             filepath = self.temp_dir / filename
 
             # Download
-            if self.file_manager.download_image(image_info.url, filepath):
+            success, actual_extension = self.file_manager.download_image(image_info.url, filepath)
+            if success:
+                # Update filepath with actual extension if different
+                if actual_extension and actual_extension != 'jpg':
+                    actual_filename = f"{character.id}_{character.type}_{character.name}_temp{idx}.{actual_extension}"
+                    filepath = self.temp_dir / actual_filename
                 candidates.append((image_info, filepath))
                 print(f"    [{idx}/{max_candidates}] ✅ Downloaded")
             else:

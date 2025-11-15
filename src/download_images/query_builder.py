@@ -6,6 +6,7 @@ Open/Closed Principle: Easy to extend with new query strategies.
 from typing import List
 from .text_parser import YearExtractor, NameParser, BiographyParser
 from .config import DownloadConfig
+from .custom_searches import get_custom_queries
 
 
 class QueryStrategy:
@@ -227,6 +228,11 @@ class QueryBuilder:
 
         if not name:
             return []
+
+        # Check for custom queries first
+        custom_queries = get_custom_queries(name)
+        if custom_queries:
+            return custom_queries[:DownloadConfig.MAX_QUERIES_PER_CHARACTER]
 
         # Select strategy based on character type
         if char_type in ['T', 'B']:

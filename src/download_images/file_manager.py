@@ -6,7 +6,7 @@ import json
 import requests
 from pathlib import Path
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Tuple
 from .models import ImageInfo, DownloadMetadata
 from .config import WikimediaConfig, DownloadConfig
 
@@ -25,6 +25,41 @@ class FileManager:
             similarity_threshold: Deprecated parameter, kept for backwards compatibility
         """
         self.config = config or DownloadConfig()
+
+        # Image format magic bytes
+        self.IMAGE_SIGNATURES = {
+            b'\xFF\xD8\xFF': 'jpg',  # JPEG
+            b'\x89PNG\r\n\x1a\n': 'png',  # PNG
+        }
+
+        # Corrupted file signature to reject
+        self.CORRUPTED_SIGNATURE = b'\x41\x54'  # 0x41 0x54
+
+    def validate_image_data(self, data: bytes) -> Tuple[bool, Optional[str]]:
+        """
+        Validate that downloaded data is a valid image format.
+
+        Args:
+            data: Raw image data bytes
+
+        Returns:
+            Tuple of (is_valid, file_extension)
+            - is_valid: True if data is a valid image, False otherwise
+            - file_extension: 'jpg' or 'png' if valid, None otherwise
+        """
+        if len(data) < 8:
+            return False, None
+
+        # Check for corrupted signature (0x41 0x54)
+        if data[:2] == self.CORRUPTED_SIGNATURE:
+            return False, None
+
+        # Check for valid image signatures
+        for signature, extension in self.IMAGE_SIGNATURES.items():
+            if data[:len(signature)] == signature:
+                return True, extension
+
+        return False, None
 
     def generate_filename(
         self,
@@ -55,16 +90,18 @@ class FileManager:
         else:
             return f"{character_id}_{category}_{normalized_name}_alt{rank-1}.{extension}"
 
-    def download_image(self, url: str, filepath: Path) -> bool:
+    def download_image(self, url: str, filepath: Path) -> Tuple[bool, Optional[str]]:
         """
-        Download image from URL to file.
+        Download image from URL to file with validation.
 
         Args:
             url: Image URL
             filepath: Destination file path
 
         Returns:
-            True if successful, False otherwise
+            Tuple of (success, actual_extension)
+            - success: True if download and validation successful
+            - actual_extension: The actual image format ('jpg' or 'png'), or None if failed
         """
         try:
             response = requests.get(
@@ -75,19 +112,33 @@ class FileManager:
             )
             response.raise_for_status()
 
+            # Download to memory first to validate
+            data = b''
+            for chunk in response.iter_content(chunk_size=self.config.CHUNK_SIZE):
+                data += chunk
+
+            # Validate image format
+            is_valid, actual_extension = self.validate_image_data(data)
+            if not is_valid:
+                print(f"    ❌ Invalid image format (corrupted or unsupported)")
+                return False, None
+
             # Create parent directories if needed
             filepath.parent.mkdir(parents=True, exist_ok=True)
 
-            # Write file in chunks
-            with open(filepath, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=self.config.CHUNK_SIZE):
-                    f.write(chunk)
+            # Adjust filepath extension if needed
+            if actual_extension and filepath.suffix.lower() != f'.{actual_extension}':
+                filepath = filepath.with_suffix(f'.{actual_extension}')
 
-            return True
+            # Write validated data to file
+            with open(filepath, 'wb') as f:
+                f.write(data)
+
+            return True, actual_extension
 
         except Exception as e:
             print(f"    ❌ Download failed: {e}")
-            return False
+            return False, None
 
     def save_metadata(self, metadata: DownloadMetadata, filepath: Path) -> bool:
         """
@@ -166,22 +217,36 @@ class FileManager:
         Returns:
             True if both operations successful
         """
-        # Generate filenames
+        # Generate initial filename with default extension
         filename = self.generate_filename(
             character.id,
             character.type or "?",
             character.name or "Unknown",
-            rank
+            rank,
+            extension="jpg"  # Default, will be updated based on actual format
         )
 
         image_path = output_dir / filename
-        metadata_path = image_path.with_suffix('.json')
 
-        # Download image
-        if not self.download_image(image_info.url, image_path):
+        # Download image with validation
+        success, actual_extension = self.download_image(image_info.url, image_path)
+        if not success:
             return False
 
-        print(f"    ✅ Downloaded")
+        # Update paths with actual extension if different
+        if actual_extension and actual_extension != 'jpg':
+            new_filename = self.generate_filename(
+                character.id,
+                character.type or "?",
+                character.name or "Unknown",
+                rank,
+                extension=actual_extension
+            )
+            image_path = output_dir / new_filename
+
+        metadata_path = image_path.with_suffix('.json')
+
+        print(f"    ✅ Downloaded ({actual_extension.upper()})")
 
         # Save metadata
         metadata = self.create_metadata(character, image_info, rank)

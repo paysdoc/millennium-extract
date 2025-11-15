@@ -496,20 +496,13 @@ CUSTOM_QUERIES: Dict[str, List[str]] = {
     "WATSON": [
         # James Dewey Watson (note: different from James Watson the 19th century character!)
         # This might be the wrong Watson - let me check the dates
-        "James Watson 1872 photograph",
-        "James Watson 19th century portrait",
-        "James Watson scientist 1870s photograph",
-        # General Victorian era searches
-        "James Watson Victorian scientist photograph",
-        "James Watson physicist 1870s portrait",
-        "James Watson formal portrait photograph",
+        "James Dewey Watson photograph",
+        "James D. Watson 20th century portrait",
+        "James D. Watson scientist photograph",
         # Archive photographs
-        "James Watson scientist portrait archive",
-        "James Watson historical photograph",
-        "James Watson 1900 portrait",
-        # British scientist context
-        "James Watson British scientist portrait",
-        "James Watson physicist photograph Victorian",
+        "James D. Watson scientist portrait archive",
+        "James D. Watson historical photograph",
+        "James D. Watson double helix"
     ],
 
     "AGRICOLA": [
@@ -613,6 +606,301 @@ CUSTOM_QUERIES: Dict[str, List[str]] = {
         "Ibn al-Haytham miniature portrait",
         "Alhazen medieval scientist illustration",
         "Ibn Haytham historical portrait painting",
+    ],
+
+    # Object-based representations for inventors
+    "BELL": [
+        # Alexander Graham Bell - represented by original telephone
+        "Bell telephone 1876 original patent",
+        "Alexander Graham Bell telephone prototype 1876",
+        "Bell telephone original invention museum",
+        "first telephone Alexander Graham Bell 1876",
+        "Bell telephone patent model Smithsonian",
+        "Alexander Bell telephone invention 1876",
+        "Bell liquid transmitter telephone 1876",
+        "original Bell telephone receiver transmitter",
+        "Bell telephone Centennial Exhibition 1876",
+        "Alexander Graham Bell telephone replica museum",
+        "Bell telephone historical artifact",
+        "first working telephone Bell 1876",
+        "Bell telephone electromagnet receiver",
+        "Alexander Bell gallows telephone 1876",
+        "Bell telephone patent drawing telephone",
+    ],
+
+    "BRUNEL": [
+        # Isambard Kingdom Brunel - represented by engineering projects
+        "Clifton Suspension Bridge Bristol Brunel",
+        "Great Eastern steamship Brunel",
+        "SS Great Britain ship Brunel",
+        "Royal Albert Bridge Saltash Brunel",
+        "Great Western Railway Brunel",
+        "Thames Tunnel Brunel engineering",
+        "Maidenhead Railway Bridge Brunel",
+        "Box Tunnel Brunel railway",
+        "Brunel railway bridge engineering",
+        "Great Western steamship Brunel",
+        "Brunel suspension bridge chains",
+        "Paddington Station Brunel",
+        "Brunel viaduct railway bridge",
+        "Wharncliffe Viaduct Brunel",
+        "Brunel atmospheric railway",
+    ],
+
+    "EDISON": [
+        # Thomas Edison - represented by original incandescent bulb
+        "Edison light bulb 1879 original",
+        "Thomas Edison incandescent lamp 1879",
+        "Edison carbon filament bulb original",
+        "first Edison light bulb museum",
+        "Edison Menlo Park light bulb 1879",
+        "Edison bamboo filament lamp",
+        "original Edison incandescent bulb patent",
+        "Edison light bulb invention 1879",
+        "Edison lamp carbon filament glass",
+        "Thomas Edison light bulb replica museum",
+        "Edison incandescent lamp Smithsonian",
+        "Edison bulb vacuum glass 1879",
+        "first practical light bulb Edison",
+        "Edison lamp invention demonstration",
+        "Edison electric lamp 1879 patent",
+    ],
+
+    "DAGUERRE": [
+        # Louis Daguerre - represented by daguerreotype/camera
+        "daguerreotype camera original 1839",
+        "Louis Daguerre camera invention",
+        "first daguerreotype camera museum",
+        "Daguerre camera obscura 1839",
+        "daguerreotype process camera equipment",
+        "Giroux daguerreotype camera 1839",
+        "original Daguerre camera apparatus",
+        "Susse Frères daguerreotype camera",
+        "early daguerreotype camera brass",
+        "Daguerre invention camera photography",
+        "daguerreotype plate camera historical",
+        "Daguerre photography equipment 1839",
+        "first commercial camera Daguerre",
+        "daguerreotype camera lens 19th century",
+        "Daguerre Niépce camera invention",
+    ],
+
+    "GUTENBERG": [
+        # Johannes Gutenberg - represented by printing press/Bible
+        "Gutenberg printing press original",
+        "Gutenberg Bible 42-line manuscript",
+        "Johannes Gutenberg press replica museum",
+        "Gutenberg Bible page illuminated",
+        "moveable type Gutenberg invention",
+        "Gutenberg press 15th century",
+        "Gutenberg Bible Mainz original",
+        "printing press Gutenberg museum",
+        "Gutenberg type metal letters",
+        "Gutenberg Bible two column page",
+        "Johannes Gutenberg press woodcut",
+        "Gutenberg printing workshop illustration",
+        "Gutenberg Bible manuscript page",
+        "printing press 1450 Gutenberg",
+        "Gutenberg moveable type invention",
+    ],
+
+    "GROSSETESTE": [
+        # Robert Grosseteste - represented by medieval works/optics
+        "medieval manuscript illumination 13th century Oxford",
+        "medieval optical diagram light refraction",
+        "Robert Grosseteste manuscript medieval",
+        "medieval rainbow optics diagram",
+        "13th century scientific manuscript",
+        "medieval light refraction illustration",
+        "Grosseteste optical works manuscript",
+        "medieval astronomy diagram 13th century",
+        "Oxford medieval manuscript illumination",
+        "medieval scientific treatise illustration",
+        "13th century Bishop manuscript portrait",
+        "medieval optics light rays diagram",
+        "Robert Grosseteste works medieval art",
+        "medieval natural philosophy manuscript",
+        "Lincoln Cathedral medieval bishop",
+    ],
+
+    "STEPHENSON": [
+        # George Stephenson - represented by locomotive/railway
+        "Stephenson Rocket locomotive original",
+        "George Stephenson Rocket steam engine",
+        "Stephenson locomotive 1829 museum",
+        "Rocket locomotive Rainhill trials",
+        "George Stephenson railway engine",
+        "Stephenson steam locomotive replica",
+        "Rocket engine Science Museum London",
+        "Stephenson locomotive Stockton Darlington",
+        "early steam locomotive Stephenson",
+        "George Stephenson Rocket patent",
+        "Stephenson railway engine 1825",
+        "Locomotion No 1 Stephenson",
+        "Stephenson steam engine invention",
+        "railway locomotive George Stephenson",
+        "Stephenson Rocket historical photograph",
+    ],
+
+    "MERCATOR": [
+        # Gerardus Mercator - represented by maps/projection
+        "Mercator projection world map 1569",
+        "Gerardus Mercator world map original",
+        "Mercator atlas historical map",
+        "Mercator projection cartography",
+        "Mercator 1569 world map Nova et Aucta",
+        "Gerardus Mercator globe terrestrial",
+        "Mercator map projection cylindrical",
+        "historical Mercator world map",
+        "Mercator atlas cosmographicae",
+        "Gerardus Mercator cartography 16th century",
+        "Mercator projection navigation map",
+        "Mercator world map double hemisphere",
+        "Gerardus Mercator celestial globe",
+        "Mercator map Duisburg cartographer",
+        "Mercator projection historical chart",
+    ],
+
+    "LEAKEY": [
+        # Louis Leakey - paleoanthropologist, signature works at Olduvai Gorge
+        # Portrait searches
+        "Louis Leakey paleoanthropologist portrait",
+        "Louis Leakey archaeologist photograph",
+        "Louis Leakey Kenya portrait photograph",
+        "Louis Leakey anthropologist portrait",
+        # Olduvai Gorge context
+        "Louis Leakey Olduvai Gorge photograph",
+        "Louis Leakey Tanzania excavation photograph",
+        "Louis Leakey fossil discovery photograph",
+        "Louis Leakey Olduvai site photograph",
+        "Louis Leakey excavation Olduvai portrait",
+        # Fossil discoveries - signature works
+        "Louis Leakey Zinjanthropus discovery photograph",
+        "Louis Leakey Nutcracker Man skull photograph",
+        "Louis Leakey Homo habilis discovery photograph",
+        "Louis Leakey Olduvai Gorge skull photograph",
+        "Louis Leakey fossil hominid discovery",
+        # Field work photographs
+        "Louis Leakey field work Kenya photograph",
+        "Louis Leakey excavation site photograph",
+        "Louis Leakey Mary Leakey Olduvai photograph",
+        "Louis Leakey digging fossil photograph",
+        "Louis Leakey archaeologist field photograph",
+        # National Geographic context
+        "Louis Leakey National Geographic photograph",
+        "Louis Leakey National Geographic portrait",
+        # Academic/professional photos
+        "Louis Leakey professor photograph",
+        "Louis Leakey scientist portrait photograph",
+        "Louis Leakey lecture photograph",
+        # Historical archive photos
+        "Louis Leakey 1960s photograph",
+        "Louis Leakey 1950s photograph",
+        "Louis Leakey archive photograph",
+        "Louis Leakey historical photograph",
+    ],
+
+    "LEEUWENHOEK": [
+        # Antonie van Leeuwenhoek - microscopist, signature work with microscopes
+        # Portrait with microscope
+        "Antonie van Leeuwenhoek microscope portrait",
+        "Leeuwenhoek microscope painting portrait",
+        "Anton van Leeuwenhoek with microscope",
+        "Leeuwenhoek microscope inventor portrait",
+        # Microscope focus - signature work
+        "Leeuwenhoek microscope original",
+        "Antonie van Leeuwenhoek microscope design",
+        "Leeuwenhoek single lens microscope",
+        "van Leeuwenhoek microscope apparatus",
+        "Leeuwenhoek microscope scientific instrument",
+        # Historical portraits
+        "Antonie van Leeuwenhoek portrait painting",
+        "Anton van Leeuwenhoek 17th century portrait",
+        "Leeuwenhoek Dutch scientist portrait",
+        "Antonie Philips van Leeuwenhoek portrait",
+        # Verkolje portrait (famous 1686 painting)
+        "Leeuwenhoek Verkolje portrait 1686",
+        "Jan Verkolje Leeuwenhoek painting",
+        "Antonie van Leeuwenhoek Verkolje painting",
+        # Dutch variations
+        "Antonie van Leeuwenhoek portret",
+        "Leeuwenhoek microscopist portret",
+        # Scientific context
+        "Leeuwenhoek microbiologist portrait",
+        "van Leeuwenhoek scientist Delft portrait",
+        "Leeuwenhoek Royal Society portrait",
+    ],
+
+    "LIVINGSTONE": [
+        # David Livingstone - explorer, signature work Victoria Falls discovery
+        # Portrait searches
+        "David Livingstone explorer portrait",
+        "David Livingstone missionary portrait",
+        "David Livingstone Scotland portrait",
+        "David Livingstone Africa explorer portrait",
+        # Victoria Falls context - signature discovery
+        "David Livingstone Victoria Falls portrait",
+        "Livingstone Victoria Falls discovery",
+        "David Livingstone Mosi-oa-Tunya portrait",
+        "Livingstone Victoria Falls 1855 portrait",
+        "David Livingstone waterfall discovery portrait",
+        # Exploration context
+        "David Livingstone Africa expedition portrait",
+        "Livingstone Zambezi expedition portrait",
+        "David Livingstone explorer Africa photograph",
+        "Livingstone missionary explorer portrait",
+        # Famous Stanley meeting
+        "David Livingstone Stanley meeting portrait",
+        "Livingstone I presume portrait",
+        "David Livingstone Henry Stanley portrait",
+        # Historical portraits and photographs
+        "David Livingstone 19th century portrait",
+        "David Livingstone photograph 1850s",
+        "David Livingstone photograph 1860s",
+        "David Livingstone formal portrait photograph",
+        # London Missionary Society
+        "David Livingstone missionary portrait photograph",
+        "Livingstone LMS portrait",
+        "David Livingstone Royal Geographical Society",
+    ],
+
+    "MARCO POLO": [
+        # Marco Polo - Venetian explorer, traveler on the Silk Road
+        # Medieval portrait searches
+        "Marco Polo medieval portrait painting",
+        "Marco Polo Venetian explorer portrait",
+        "Marco Polo 13th century portrait",
+        "Marco Polo traveler portrait medieval",
+        # Kublai Khan context - his famous patron
+        "Marco Polo Kublai Khan court portrait",
+        "Marco Polo Yuan dynasty portrait",
+        "Marco Polo China Kublai Khan painting",
+        "Marco Polo Mongol court portrait",
+        "Marco Polo Great Khan portrait",
+        # Silk Road and journey context
+        "Marco Polo Silk Road portrait",
+        "Marco Polo journey Asia portrait",
+        "Marco Polo travels China portrait",
+        "Marco Polo Cathay portrait",
+        "Marco Polo caravan portrait",
+        # Book of Travels / Il Milione context
+        "Marco Polo Il Milione portrait",
+        "Marco Polo Travels manuscript portrait",
+        "Marco Polo book portrait medieval",
+        "Marco Polo Devisement du Monde portrait",
+        # Venice context
+        "Marco Polo Venice portrait",
+        "Marco Polo Venetian merchant portrait",
+        "Marco Polo Repubblica Venezia portrait",
+        # Italian variations
+        "Marco Polo ritratto medievale",
+        "Marco Polo veneziano ritratto",
+        "Marco Polo esploratore ritratto",
+        # Historical depictions
+        "Marco Polo medieval manuscript illumination",
+        "Marco Polo medieval painting portrait",
+        "Marco Polo historical portrait 14th century",
+        "Marco Polo Renaissance portrait",
     ],
 }
 

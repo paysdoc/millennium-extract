@@ -64,6 +64,11 @@ class WikimediaAPIClient:
                     width = info.get('width', 0)
                     height = info.get('height', 0)
                     url = info.get('url', '')
+                    mime = info.get('mime', '')
+
+                    # Filter for supported image formats (JPEG and PNG)
+                    if mime not in ['image/jpeg', 'image/png']:
+                        return None
 
                     # Use scorer to validate and create ImageInfo
                     return self.scorer.create_image_info(url, title, width, height)

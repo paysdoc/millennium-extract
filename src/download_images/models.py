@@ -6,6 +6,22 @@ from dataclasses import dataclass
 from typing import Optional, Any
 
 
+# Character categories with their codes and full names
+CATEGORIES = (
+    ('R', 'Royalty'),
+    ('S', 'Statesman'),
+    ('P', 'Philosopher'),
+    ('I', 'Inventor'),
+    ('M', 'Mathematical Scientist'),
+    ('N', 'Natural Scientist'),
+    ('A', 'Artist'),
+    ('B', 'Builders and Engineers'),
+    ('C', 'Composer'),
+    ('D', 'Dramatist'),
+    ('T', 'Towns and cities'),
+)
+
+
 @dataclass
 class Character:
     """Character data from Supabase."""
