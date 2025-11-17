@@ -1138,6 +1138,532 @@ CUSTOM_QUERIES: Dict[str, List[str]] = {
         "Bernart de Ventadorn music manuscript",
         "Bernart chansonier",
     ],
+
+    # Category A - Artists (focus on iconic works, then portraits)
+    "BERNINI": [
+        # Most iconic sculptures
+        "Ecstasy of Saint Teresa Bernini sculpture",
+        "Gian Lorenzo Bernini Ecstasy Saint Teresa",
+        "Bernini Teresa Avila sculpture Santa Maria Victoria",
+        "Bernini Apollo Daphne sculpture Borghese",
+        "Apollo and Daphne Bernini marble",
+        "Gian Lorenzo Bernini Apollo Daphne transformation",
+        "Bernini David sculpture Borghese",
+        "David Bernini marble sculpture",
+        "Bernini Pluto Proserpina sculpture",
+        "Rape of Proserpina Bernini Borghese",
+        # Fountains
+        "Bernini Fountain Four Rivers Rome",
+        "Fontana dei Quattro Fiumi Bernini",
+        "Bernini Triton Fountain Rome",
+        "Fontana del Tritone Bernini",
+        # St Peter's works
+        "Bernini Baldachin St Peter's Basilica",
+        "Baldacchino Bernini Vatican bronze",
+        "Bernini Cathedra Petri St Peter",
+        "Bernini colonnade St Peter's Square",
+        # Portrait busts
+        "Bernini Bust Costanza Bonarelli",
+        "Gian Lorenzo Bernini self portrait",
+        # Portrait searches (fallback)
+        "Gian Lorenzo Bernini portrait painting",
+        "Bernini baroque sculptor portrait",
+    ],
+
+    "CEZANNE": [
+        # Mont Sainte-Victoire series - most iconic
+        "Cézanne Mont Sainte-Victoire painting",
+        "Paul Cézanne Mont Sainte-Victoire",
+        "Cezanne Montagne Sainte-Victoire",
+        "Cézanne Mont Sainte-Victoire series",
+        "Paul Cézanne Montagne Sainte-Victoire oil painting",
+        # Card Players series
+        "Cézanne Card Players painting",
+        "Paul Cézanne Les Joueurs de cartes",
+        "Cezanne Card Players series",
+        "The Card Players Cézanne",
+        # Bathers series
+        "Cézanne Large Bathers painting",
+        "Paul Cézanne Les Grandes Baigneuses",
+        "Cezanne Bathers Philadelphia Museum",
+        "Cézanne Bathers series painting",
+        # Still life
+        "Cézanne Still Life with Apples",
+        "Paul Cézanne nature morte pommes",
+        "Cezanne Basket of Apples painting",
+        # Portrait (fallback)
+        "Paul Cézanne self portrait painting",
+        "Cezanne portrait photograph",
+        "Paul Cézanne French painter portrait",
+    ],
+
+    "CHARTRES": [
+        # Chartres Cathedral - the work itself
+        "Chartres Cathedral stained glass windows",
+        "Cathédrale Notre-Dame de Chartres vitraux",
+        "Chartres Cathedral blue stained glass",
+        "Chartres Cathedral rose window",
+        "Chartres Cathedral west facade sculptures",
+        "Royal Portal Chartres Cathedral",
+        "Portail Royal Chartres sculpture",
+        "Chartres Cathedral Gothic architecture",
+        "Chartres Cathedral flying buttresses",
+        "Notre-Dame de Chartres interior",
+        "Chartres Cathedral nave Gothic",
+        "Chartres Cathedral labyrinth floor",
+        "Chartres blue stained glass medieval",
+        "Chartres Cathedral Virgin Mary window",
+        # External views
+        "Chartres Cathedral towers facade",
+        "Cathédrale de Chartres exterior",
+        "Chartres Cathedral Gothic France",
+    ],
+
+    "CIMABUE": [
+        # Santa Trinita Madonna - most famous work
+        "Cimabue Santa Trinita Madonna",
+        "Maestà Santa Trinita Cimabue Uffizi",
+        "Cimabue Madonna Enthroned Santa Trinita",
+        "Cimabue Virgin and Child Enthroned",
+        # Crucifix works
+        "Cimabue Crucifix Santa Croce Florence",
+        "Crocifisso Cimabue Santa Croce",
+        "Cimabue Crucifix Arezzo",
+        # Assisi frescoes
+        "Cimabue frescoes Assisi Basilica",
+        "Cimabue Upper Basilica Assisi",
+        "Cimabue St Francis frescoes",
+        # Rucellai Madonna (disputed)
+        "Cimabue Rucellai Madonna",
+        "Madonna Rucellai Cimabue Uffizi",
+        # Portrait (fallback)
+        "Cimabue medieval painter portrait",
+        "Cimabue Italian painter portrait",
+        "Cenni di Pepo Cimabue portrait",
+    ],
+
+    "DELACROIX": [
+        # Liberty Leading the People - most iconic
+        "Delacroix Liberty Leading the People",
+        "Eugène Delacroix La Liberté guidant le peuple",
+        "Delacroix Liberty Leading People Louvre",
+        "Delacroix Marianne flag barricade painting",
+        "Liberty Guiding People Delacroix 1830",
+        # Death of Sardanapalus
+        "Delacroix Death of Sardanapalus",
+        "Eugène Delacroix La Mort de Sardanapale",
+        "Delacroix Sardanapalus painting Louvre",
+        # Massacre at Chios
+        "Delacroix Massacre at Chios",
+        "Eugène Delacroix Scènes des massacres de Scio",
+        # Women of Algiers
+        "Delacroix Women of Algiers",
+        "Eugène Delacroix Femmes d'Alger",
+        # Portrait (fallback)
+        "Eugène Delacroix self portrait",
+        "Delacroix French painter portrait",
+        "Eugène Delacroix romantic painter portrait",
+    ],
+
+    "EL GRECO": [
+        # Most iconic works
+        "El Greco Burial of Count Orgaz",
+        "El Greco Entierro del Conde de Orgaz Toledo",
+        "El Greco Burial Count Orgaz Santo Tomé",
+        "El Greco View of Toledo painting",
+        "El Greco Vista de Toledo storm",
+        "El Greco Opening of Fifth Seal",
+        "El Greco Apocalyptic Vision painting",
+        "El Greco Assumption of Virgin",
+        "El Greco Asunción de la Virgen",
+        # Christ imagery
+        "El Greco Christ Carrying Cross",
+        "El Greco Disrobing of Christ",
+        "El Greco Expolio",
+        # Portraits
+        "El Greco Cardinal Fernando Niño de Guevara",
+        "El Greco portrait nobleman",
+        # Self portrait (fallback)
+        "El Greco self portrait",
+        "Doménikos Theotokópoulos portrait",
+        "El Greco Spanish painter portrait",
+    ],
+
+    "GIOTTO": [
+        # Scrovegni Chapel frescoes - most famous
+        "Giotto Scrovegni Chapel frescoes Padua",
+        "Giotto Arena Chapel frescoes",
+        "Giotto Lamentation Christ Scrovegni",
+        "Giotto Kiss of Judas fresco Padua",
+        "Giotto Last Judgment Scrovegni Chapel",
+        "Giotto Meeting at Golden Gate fresco",
+        "Giotto blue chapel Padua frescoes",
+        # Assisi frescoes
+        "Giotto St Francis Assisi frescoes",
+        "Giotto Life of St Francis cycle",
+        "Giotto Francis preaching birds fresco",
+        # Ognissanti Madonna
+        "Giotto Ognissanti Madonna Uffizi",
+        "Giotto Madonna Enthroned Uffizi",
+        # Campanile
+        "Giotto Campanile Florence bell tower",
+        # Portrait (fallback)
+        "Giotto di Bondone portrait",
+        "Giotto medieval painter portrait",
+    ],
+
+    "GOYA": [
+        # Most iconic works
+        "Goya Third of May 1808 painting",
+        "Francisco Goya El tres de mayo de 1808",
+        "Goya Third May execution painting Prado",
+        "Goya Second of May 1808 uprising",
+        "Goya Saturn Devouring His Son",
+        "Goya Saturno devorando a su hijo",
+        "Goya Black Paintings Saturn",
+        # Maja paintings
+        "Goya Naked Maja painting",
+        "Goya La maja desnuda",
+        "Goya Clothed Maja painting",
+        "Goya La maja vestida",
+        # Other famous works
+        "Goya Family of Charles IV",
+        "Goya La familia de Carlos IV",
+        "Goya Disasters of War prints",
+        "Goya Los desastres de la guerra",
+        # Portrait (fallback)
+        "Francisco Goya self portrait",
+        "Goya Spanish painter portrait",
+    ],
+
+    "LEONARDO": [
+        # Mona Lisa - most iconic
+        "Leonardo da Vinci Mona Lisa painting",
+        "Leonardo Mona Lisa Louvre",
+        "La Gioconda Leonardo da Vinci",
+        "Mona Lisa Leonardo portrait",
+        # Last Supper
+        "Leonardo da Vinci Last Supper",
+        "Leonardo Last Supper Santa Maria Grazie Milan",
+        "Il Cenacolo Leonardo da Vinci",
+        "Leonardo Last Supper fresco",
+        # Vitruvian Man
+        "Leonardo da Vinci Vitruvian Man",
+        "Leonardo Vitruvian Man drawing",
+        "Uomo Vitruviano Leonardo",
+        # Other paintings
+        "Leonardo da Vinci Lady with Ermine",
+        "Leonardo Lady Ermine painting",
+        "Leonardo da Vinci Virgin of the Rocks",
+        "Leonardo Vergine delle Rocce",
+        "Leonardo da Vinci Annunciation painting",
+        # Portrait (fallback)
+        "Leonardo da Vinci self portrait",
+        "Leonardo Renaissance portrait",
+    ],
+
+    "MASACCIO": [
+        # Brancacci Chapel frescoes - most famous
+        "Masaccio Brancacci Chapel frescoes Florence",
+        "Masaccio Expulsion from Garden Eden",
+        "Masaccio Cacciata Adam Eve",
+        "Masaccio Tribute Money fresco",
+        "Masaccio Tributo Brancacci Chapel",
+        "Masaccio St Peter Healing Sick Shadow",
+        # Holy Trinity
+        "Masaccio Holy Trinity Santa Maria Novella",
+        "Masaccio Trinità Santa Maria Novella",
+        "Masaccio Holy Trinity perspective fresco",
+        # Pisa Altarpiece
+        "Masaccio Pisa Altarpiece",
+        "Masaccio Madonna and Child Pisa",
+        # Portrait (fallback)
+        "Masaccio Renaissance painter portrait",
+        "Tommaso Masaccio portrait",
+    ],
+
+    "MICHELANGELO": [
+        # Sistine Chapel ceiling - most iconic
+        "Michelangelo Sistine Chapel ceiling",
+        "Michelangelo Creation of Adam",
+        "Michelangelo Creazione di Adamo Sistine",
+        "Michelangelo Sistine Chapel Last Judgment",
+        "Michelangelo Giudizio Universale",
+        # David sculpture
+        "Michelangelo David sculpture Florence",
+        "Michelangelo David marble Accademia",
+        "David Michelangelo statue",
+        # Pietà
+        "Michelangelo Pietà St Peter's",
+        "Michelangelo Pietà Vatican marble",
+        "Pietà Michelangelo sculpture",
+        # Other sculptures
+        "Michelangelo Moses sculpture",
+        "Michelangelo Mosè San Pietro Vincoli",
+        "Michelangelo Dying Slave sculpture",
+        # Portrait (fallback)
+        "Michelangelo Buonarroti portrait",
+        "Michelangelo self portrait",
+    ],
+
+    "MONET": [
+        # Water Lilies - most iconic
+        "Claude Monet Water Lilies painting",
+        "Monet Nymphéas painting",
+        "Monet Water Lilies Orangerie",
+        "Claude Monet water lily pond painting",
+        # Impression Sunrise
+        "Monet Impression Sunrise painting",
+        "Claude Monet Impression soleil levant",
+        "Monet Impression Sunrise Le Havre",
+        # Haystacks series
+        "Monet Haystacks series painting",
+        "Claude Monet Meules painting",
+        "Monet Grainstacks painting",
+        # Rouen Cathedral series
+        "Monet Rouen Cathedral series",
+        "Claude Monet Cathédrale de Rouen",
+        # Japanese Bridge
+        "Monet Japanese Bridge Giverny",
+        "Claude Monet pont japonais",
+        # Portrait (fallback)
+        "Claude Monet portrait photograph",
+        "Monet Impressionist painter portrait",
+    ],
+
+    "PISANO": [
+        # Giovanni Pisano - pulpits are his masterwork
+        "Giovanni Pisano pulpit Pisa Cathedral",
+        "Pisano pulpit Sant'Andrea Pistoia",
+        "Giovanni Pisano pergamo Duomo Pisa",
+        "Pisano pulpit sculptures marble",
+        "Giovanni Pisano Nativity pulpit relief",
+        # Siena Cathedral facade
+        "Giovanni Pisano Siena Cathedral facade sculptures",
+        "Pisano Duomo Siena facade",
+        "Giovanni Pisano prophets Siena Cathedral",
+        # Madonna sculptures
+        "Giovanni Pisano Madonna and Child sculpture",
+        "Pisano Madonna Col Bambino",
+        # Pisa Baptistery (Nicola Pisano, father)
+        "Nicola Pisano Baptistery pulpit Pisa",
+        "Pisano pulpit Battistero Pisa",
+        # Portrait (fallback)
+        "Giovanni Pisano sculptor portrait",
+        "Pisano medieval sculptor portrait",
+    ],
+
+    "POLLOCK": [
+        # Drip paintings - signature technique
+        "Jackson Pollock drip painting",
+        "Jackson Pollock No 5 1948",
+        "Jackson Pollock One Number 31",
+        "Jackson Pollock Number 1A",
+        "Jackson Pollock Lavender Mist",
+        "Jackson Pollock splatter painting canvas floor",
+        # Action painting process
+        "Jackson Pollock painting floor photograph",
+        "Pollock action painting studio",
+        "Jackson Pollock dripping paint photograph",
+        # Portrait (fallback)
+        "Jackson Pollock portrait photograph",
+    ],
+
+    "RAPHAEL": [
+        # School of Athens - most iconic
+        "Raphael School of Athens fresco",
+        "Raphael Scuola di Atene Vatican",
+        "Raphael School Athens Plato Aristotle",
+        "Raphael Stanza della Segnatura",
+        # Sistine Madonna
+        "Raphael Sistine Madonna painting",
+        "Raphael Madonna di San Sisto",
+        "Raphael Sistine Madonna cherubs",
+        # Transfiguration
+        "Raphael Transfiguration painting",
+        "Raphael Trasfigurazione Vatican",
+        # Madonnas
+        "Raphael Madonna of the Goldfinch",
+        "Raphael Madonna del Cardellino",
+        "Raphael Alba Madonna",
+        # Self portrait (fallback)
+        "Raphael self portrait Uffizi",
+        "Raffaello Sanzio portrait",
+        "Raphael Renaissance painter portrait",
+    ],
+
+    "REMBRANDT": [
+        # Night Watch - most iconic
+        "Rembrandt Night Watch painting",
+        "Rembrandt De Nachtwacht Rijksmuseum",
+        "Rembrandt Night Watch militia painting",
+        "Night Watch Rembrandt Amsterdam",
+        # Self portraits
+        "Rembrandt self portrait",
+        "Rembrandt self portrait 1669",
+        "Rembrandt zelfportret",
+        # Other famous works
+        "Rembrandt Anatomy Lesson Dr Tulp",
+        "Rembrandt anatomische les Dr Tulp",
+        "Rembrandt Return of Prodigal Son",
+        "Rembrandt Terugkeer verloren zoon",
+        "Rembrandt Jewish Bride painting",
+        "Rembrandt Het Joodse bruidje",
+        # Portrait
+        "Rembrandt van Rijn portrait",
+        "Rembrandt Dutch Golden Age painter",
+    ],
+
+    "REYNOLDS": [
+        # Famous portraits
+        "Joshua Reynolds portrait painting",
+        "Reynolds Mrs Siddons as Tragic Muse",
+        "Reynolds Sarah Siddons portrait",
+        "Joshua Reynolds Lady Caroline Howard",
+        "Reynolds portrait Royal Academy",
+        "Joshua Reynolds Lord Heathfield Gibraltar",
+        "Reynolds Three Ladies Adorning Term Hymen",
+        "Reynolds Age of Innocence painting",
+        "Joshua Reynolds Colonel Tarleton painting",
+        # Self portrait
+        "Joshua Reynolds self portrait",
+        "Reynolds self portrait Royal Academy",
+        # General searches
+        "Joshua Reynolds portrait painter",
+        "Reynolds Georgian portrait painting",
+        "Sir Joshua Reynolds portrait",
+    ],
+
+    "RODIN": [
+        # The Thinker - most iconic
+        "Rodin The Thinker sculpture",
+        "Auguste Rodin Le Penseur",
+        "Rodin Thinker bronze sculpture",
+        "The Thinker Rodin Musée",
+        # The Kiss
+        "Rodin The Kiss sculpture",
+        "Auguste Rodin Le Baiser",
+        "Rodin Kiss marble sculpture",
+        # Gates of Hell
+        "Rodin Gates of Hell sculpture",
+        "Auguste Rodin Porte de l'Enfer",
+        "Rodin Gates Hell bronze portal",
+        # Burghers of Calais
+        "Rodin Burghers of Calais sculpture",
+        "Auguste Rodin Bourgeois de Calais",
+        # Other works
+        "Rodin Monument to Balzac",
+        "Auguste Rodin Balzac sculpture",
+        # Portrait (fallback)
+        "Auguste Rodin portrait photograph",
+        "Rodin sculptor portrait",
+    ],
+
+    "RUBENS": [
+        # Most famous works
+        "Peter Paul Rubens Descent from Cross",
+        "Rubens Descent Cross Antwerp Cathedral",
+        "Rubens Kruisafneming painting",
+        "Rubens Raising of the Cross",
+        "Rubens Elevation Cross Antwerp",
+        "Rubens Garden of Love painting",
+        "Peter Paul Rubens Judgement of Paris",
+        "Rubens Three Graces painting",
+        "Rubens Massacre of Innocents",
+        # Marie de' Medici cycle
+        "Rubens Marie de Medici cycle Louvre",
+        "Peter Paul Rubens Medici cycle",
+        # Portrait
+        "Peter Paul Rubens self portrait",
+        "Rubens Flemish Baroque painter portrait",
+        "Rubens portrait Isabella Brant",
+    ],
+
+    "TURNER": [
+        # Most iconic works
+        "JMW Turner Fighting Temeraire painting",
+        "Turner Fighting Temeraire National Gallery",
+        "Turner Temeraire sunset painting",
+        "JMW Turner Rain Steam Speed",
+        "Turner Rain Steam and Speed painting",
+        "Turner railway painting",
+        "JMW Turner Slave Ship painting",
+        "Turner Slave Ship Slavers throwing overboard",
+        # Venetian scenes
+        "JMW Turner Venice Grand Canal",
+        "Turner Venetian scene painting",
+        # Seascapes
+        "JMW Turner seascape painting",
+        "Turner shipwreck painting",
+        "Turner storm at sea painting",
+        # Portrait (fallback)
+        "JMW Turner portrait",
+        "Joseph Mallord William Turner portrait",
+        "Turner British painter portrait",
+    ],
+
+    "VAN EYCK": [
+        # Ghent Altarpiece - most iconic
+        "Jan van Eyck Ghent Altarpiece",
+        "van Eyck Adoration Mystic Lamb",
+        "Jan van Eyck Lam Gods altaarstuk",
+        "Ghent Altarpiece van Eyck St Bavo",
+        # Arnolfini Portrait
+        "Jan van Eyck Arnolfini Portrait",
+        "van Eyck Arnolfini Wedding National Gallery",
+        "Jan van Eyck Giovanni Arnolfini portrait",
+        # Other works
+        "Jan van Eyck Man in Turban",
+        "van Eyck self portrait turban",
+        "Jan van Eyck Madonna Chancellor Rolin",
+        "van Eyck Virgin Chancellor Rolin",
+        # Portrait (fallback)
+        "Jan van Eyck portrait painting",
+        "van Eyck Flemish painter portrait",
+    ],
+
+    "VELASQUEZ": [
+        # Las Meninas - most iconic
+        "Velázquez Las Meninas painting",
+        "Diego Velázquez Las Meninas Prado",
+        "Velázquez Meninas Infanta Margarita",
+        "Las Meninas Velázquez royal portrait",
+        # Portrait of Pope Innocent X
+        "Velázquez Portrait Pope Innocent X",
+        "Velázquez Innocent X Doria Pamphilj",
+        "Diego Velázquez Papa Inocencio X",
+        # Surrender of Breda
+        "Velázquez Surrender of Breda",
+        "Diego Velázquez Las Lanzas",
+        "Velázquez Breda lances painting",
+        # Rokeby Venus
+        "Velázquez Rokeby Venus",
+        "Diego Velázquez Venus del espejo",
+        "Velázquez Venus mirror National Gallery",
+        # Portrait (fallback)
+        "Diego Velázquez self portrait",
+        "Velázquez Spanish painter portrait",
+    ],
+
+    "VEZELAY": [
+        # Vézelay Basilica - the work itself
+        "Vézelay Basilica tympanum sculpture",
+        "Basilique Sainte-Marie-Madeleine Vézelay",
+        "Vézelay Pentecost tympanum",
+        "Vézelay narthex tympanum Pentecost",
+        "Vézelay Mission Apostles tympanum",
+        "Vézelay Romanesque tympanum",
+        "Basilica Vézelay central portal sculpture",
+        "Vézelay Christ Pantocrator tympanum",
+        "Vézelay capitals Romanesque sculpture",
+        "Basilique Vézelay nave architecture",
+        "Vézelay church Romanesque Burgundy",
+        "Vézelay abbey church facade",
+        "Vézelay Sainte-Madeleine portal",
+        # Architectural views
+        "Vézelay Basilica interior Romanesque",
+        "Vézelay church exterior Burgundy",
+    ],
 }
 
 
