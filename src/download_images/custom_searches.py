@@ -723,6 +723,16 @@ CUSTOM_QUERIES: Dict[str, List[str]] = {
         "Lincoln Cathedral medieval bishop",
     ],
 
+    "PEREGRINUS": [
+        # Petrus Peregrinus (Pierre de Maricourt) - 13th century scholar, magnetism pioneer
+        # Portrait and manuscript searches
+        "Petri Peregrini Maricurtensis",
+        "Pierre Pelerin de Maricourt",
+        "Petrus Peregrinus magents",
+        "Epistola Petri Peregrini de Maricourt ad Sygerum de Foucaucourt",
+        "Peregrinus de Maricourt manuscript",
+    ],
+
     "STEPHENSON": [
         # George Stephenson - represented by locomotive/railway
         "Stephenson Rocket locomotive original",
@@ -743,22 +753,177 @@ CUSTOM_QUERIES: Dict[str, List[str]] = {
     ],
 
     "MERCATOR": [
-        # Gerardus Mercator - represented by maps/projection
+        # Gerardus Mercator - cartographer, famous for Mercator projection (1512-1594)
+        # Portrait searches
+        "Gerardus Mercator portrait",
+        "Gerard Mercator cartographer portrait",
+        "Mercator 16th century portrait",
+        "Gerardus Mercator engraving portrait",
+        # Famous world maps - signature works
         "Mercator projection world map 1569",
-        "Gerardus Mercator world map original",
-        "Mercator atlas historical map",
-        "Mercator projection cartography",
-        "Mercator 1569 world map Nova et Aucta",
-        "Gerardus Mercator globe terrestrial",
-        "Mercator map projection cylindrical",
-        "historical Mercator world map",
-        "Mercator atlas cosmographicae",
+        "Gerardus Mercator Nova et Aucta Orbis Terrae",
+        "Mercator world map 1569 original",
+        "Mercator Ad Usum Navigantium map 1569",
+        "Gerardus Mercator world map double hemisphere",
+        # Atlas and cartographic works
+        "Mercator atlas cosmographicae meditations",
+        "Gerardus Mercator atlas 1595",
+        "Mercator historical atlas pages",
+        "Mercator Duisburg atlas map",
+        # Map projection - signature achievement
+        "Mercator projection cylindrical map",
+        "Mercator projection navigation chart",
+        "Mercator conformal projection map",
+        "Gerardus Mercator nautical chart",
+        # Globe works
+        "Gerardus Mercator terrestrial globe 1541",
+        "Mercator celestial globe 1551",
+        "Mercator globe pair terrestrial celestial",
+        # General cartographic context
         "Gerardus Mercator cartography 16th century",
-        "Mercator projection navigation map",
-        "Mercator world map double hemisphere",
-        "Gerardus Mercator celestial globe",
-        "Mercator map Duisburg cartographer",
-        "Mercator projection historical chart",
+        "Mercator map maker portrait",
+        "Gerard Mercator mathematician portrait",
+        "Mercator Flemish cartographer portrait",
+        # Portrait with maps/instruments
+        "Gerardus Mercator portrait globe",
+        "Mercator portrait compass cartography",
+    ],
+
+    "TOWNES": [
+        # Charles Hard Townes - physicist, inventor of maser/laser (1915-2015)
+        # Portrait searches
+        "Charles Townes physicist portrait",
+        "Charles Hard Townes portrait",
+        "Charles H Townes physicist ",
+        "Charles Townes scientist portrait",
+        # Maser device - signature invention (1954)
+        "maser device original 1954",
+        "first maser apparatus ",
+        "Townes maser device Columbia",
+        "ammonia maser Townes 1954",
+        "maser microwave amplification device",
+        "Charles Townes first maser ",
+        "maser apparatus original design",
+        # Maser/laser achievements with portrait
+        "Charles Townes maser inventor portrait",
+        "Charles Townes laser inventor portrait",
+        "Townes maser invention ",
+        "Charles Townes laser physics portrait",
+        "Townes maser Nobel Prize portrait",
+        # Nobel Prize context (1964)
+        "Charles Townes Nobel Prize 1964 portrait",
+        "Charles Townes Nobel laureate",
+        "Townes Nobel Prize physics portrait",
+        "Charles Townes Nobel Prize ceremony ",
+        # Columbia University context
+        "Charles Townes Columbia University portrait",
+        "Townes Columbia physicist ",
+        "Charles Townes professor physics portrait",
+        # Berkeley period
+        "Charles Townes UC Berkeley portrait",
+        "Townes Berkeley professor ",
+        "Charles Townes University California portrait",
+        # Laser/maser with apparatus
+        "Charles Townes laboratory ",
+        "Townes maser apparatus ",
+        "Charles Townes laser laboratory portrait",
+        "Townes physics experiment ",
+        # Historical archive photos
+        "Charles Townes 1950s ",
+        "Charles Townes 1960s portrait",
+        "Townes physicist archive ",
+        "Charles Townes official portrait ",
+    ],
+
+    "VOLTA": [
+        # Alessandro Volta - physicist, inventor of electric battery (1745-1827)
+        # Portrait searches
+        "Alessandro Volta portrait",
+        "Alessandro Giuseppe Antonio Anastasio Volta portrait",
+        "Volta physicist portrait",
+        "Alessandro Volta 18th century portrait",
+        # Voltaic pile - signature invention
+        "Alessandro Volta voltaic pile portrait",
+        "Volta electric battery invention portrait",
+        "Alessandro Volta battery inventor portrait",
+        "Volta voltaic pile demonstration portrait",
+        "Alessandro Volta electricity portrait",
+        # Famous demonstrations
+        "Alessandro Volta Napoleon demonstration portrait",
+        "Volta Institut de France portrait",
+        "Alessandro Volta Paris demonstration portrait",
+        "Volta electric battery Napoleon portrait",
+        # Paintings and engravings
+        "Alessandro Volta portrait painting",
+        "Volta engraving portrait",
+        "Alessandro Volta oil painting portrait",
+        "Volta Italian physicist portrait",
+        # University of Pavia context
+        "Alessandro Volta University Pavia portrait",
+        "Volta Pavia professor portrait",
+        "Alessandro Volta Como portrait",
+        # Italian variations
+        "Alessandro Volta ritratto",
+        "Volta fisico italiano ritratto",
+        "Alessandro Volta ritratto storico",
+        # Medals and honors
+        "Alessandro Volta medal portrait",
+        "Volta Copley Medal portrait",
+        # With voltaic pile/apparatus
+        "Alessandro Volta portrait voltaic pile",
+        "Volta portrait electrical apparatus",
+        "Alessandro Volta laboratory portrait",
+    ],
+
+    "WRIGHT W&O": [
+        # Wilbur and Orville Wright - aviation pioneers, first powered flight (1903)
+        # Portrait searches - both brothers
+        "Wright Brothers portrait",
+        "Wilbur Orville Wright portrait",
+        "Wright Brothers aviation pioneers portrait",
+        "Wilbur and Orville Wright photograph",
+        # Kitty Hawk imagery - signature achievement location
+        "Kitty Hawk North Carolina 1903",
+        "Kitty Hawk first flight photograph",
+        "Kill Devil Hills Wright Brothers",
+        "Kitty Hawk sand dunes 1903",
+        "Wright Brothers camp Kitty Hawk",
+        "Kitty Hawk Wright Flyer takeoff",
+        "historic Kitty Hawk flight photograph",
+        # First flight - signature achievement
+        "Wright Brothers first flight 1903 photograph",
+        "Wright Brothers Kitty Hawk 1903 photograph",
+        "Wilbur Wright first flight portrait",
+        "Orville Wright first flight photograph",
+        "Wright Brothers December 17 1903 photograph",
+        # Wright Flyer aircraft
+        "Wright Brothers Wright Flyer photograph",
+        "Wright Brothers airplane 1903 photograph",
+        "Wright Flyer Kitty Hawk photograph",
+        "Wright Brothers aircraft photograph",
+        # Kitty Hawk context with people
+        "Wright Brothers Kitty Hawk portrait",
+        "Wilbur Wright North Carolina photograph",
+        "Orville Wright Kill Devil Hills photograph",
+        "Wright Brothers Outer Banks photograph",
+        # Together portrait
+        "Wilbur and Orville Wright together portrait",
+        "Wright Brothers bicycle shop portrait",
+        "Wright Brothers Dayton Ohio portrait",
+        "Wright Brothers workshop photograph",
+        # Flight demonstrations
+        "Wright Brothers flight demonstration photograph",
+        "Wilbur Wright flying photograph",
+        "Orville Wright pilot photograph",
+        "Wright Brothers aviation photograph",
+        # Archive photographs
+        "Wright Brothers Library Congress photograph",
+        "Wright Brothers historical photograph",
+        "Wright Brothers official portrait",
+        "Wright Brothers archive photograph",
+        # Individual portraits
+        "Wilbur Wright portrait photograph",
+        "Orville Wright portrait photograph",
     ],
 
     "LEAKEY": [
@@ -901,6 +1066,77 @@ CUSTOM_QUERIES: Dict[str, List[str]] = {
         "Marco Polo medieval painting portrait",
         "Marco Polo historical portrait 14th century",
         "Marco Polo Renaissance portrait",
+    ],
+    
+    "DUFAY": [
+        "Du Fay (left) beside a portative organ, with Gilles Binchois (right) holding a small harp",
+        "Du Fay portrait",
+        "Du Fay composer portrait",
+        "Guillaume Du Fay portrait",
+    ],
+
+    "JOSQUIN": [
+        "Josquin des Prez portrait",
+        "Josquin composer portrait",
+        "Josquin des Prez music manuscript portrait",
+    ],
+    
+    "GUIDO OF AREZZO": [
+        "Guido of Arezzo medieval portrait",
+        "Guido Aretinus portrait",
+        "Guido of Arezzo music notation",
+    ],
+    
+    "LEONIN": [
+        "Leonin medieval portrait",
+        "Perotin",
+        "Perotin manuscript",
+        "Leonin and Perotin",
+        "Medieval polyphonism",
+    ],
+
+    "MACHAUT": [
+        "Guillaume de Machaut portrait",
+        "Machaut composer portrait",
+        "Machaut medieval music manuscript",
+        "Motets of Machaut",
+    ],
+    
+    "MORLEY": [
+        "Thomas Morley portrait",
+        "Morley composer portrait",
+        "Thomas Morley music manuscript",
+    ],
+    
+    "PALESTRINA": [
+        "Giovanni Pierluigi da Palestrina portrait",
+        "Palestrina composer portrait",
+        "Palestrina choral music manuscript",
+    ],
+    
+    "PURCELL": [
+        "Henry Purcell portrait",
+        "Purcell composer portrait",
+        "Henry Purcell music manuscript",
+    ],
+    
+    "STOCKHAUSEN": [
+        "Karlheinz Stockhausen portrait",
+        "Stockhausen composer portrait",
+        "Stockhausen music manuscript",
+    ], 
+    
+    "SHUETZ": [
+        "Heinrich Schütz portrait",
+        "Schütz composer portrait",
+        "Heinrich Schütz music manuscript", 
+    ],
+    
+    "VENTADORN": [
+        "Bernart de Ventadorn portrait",
+        "Ventadorn troubadour portrait",
+        "Bernart de Ventadorn music manuscript",
+        "Bernart chansonier",
     ],
 }
 
