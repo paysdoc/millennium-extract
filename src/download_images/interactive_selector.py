@@ -95,8 +95,31 @@ class InteractiveImageSelector:
             filename = f"{character.id}_{character.type}_{character.name}_temp{idx}.jpg"
             filepath = self.temp_dir / filename
 
-            # Download
-            success, actual_extension = self.file_manager.download_image(image_info.url, filepath)
+            # Prepare metadata
+            metadata = {
+                'character_id': character.id,
+                'character_name': character.name,
+                'category': character.type,
+                'first_names': character.first_names,
+                'birth_date': character.birth_date,
+                'death_date': character.death_date,
+                'wikimedia_title': image_info.title,
+                'wikimedia_url': image_info.url,
+                'page_url': f"https://commons.wikimedia.org/wiki/{image_info.title.replace(' ', '_')}",
+                'width': image_info.width,
+                'height': image_info.height,
+                'aspect_ratio': image_info.aspect_ratio,
+                'score': image_info.score,
+                'candidate_rank': idx
+            }
+
+            # Download with metadata
+            success, actual_extension = self.file_manager.download_image(
+                image_info.url,
+                filepath,
+                save_metadata=True,
+                metadata=metadata
+            )
             if success:
                 # Update filepath with actual extension if different
                 if actual_extension and actual_extension != 'jpg':

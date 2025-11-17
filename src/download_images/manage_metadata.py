@@ -1,18 +1,20 @@
 """
-Generate missing JSON metadata files and clean up orphaned JSON files.
+Manage JSON metadata files: generate missing, update existing, and clean up orphaned files.
 
 This script:
 1. Scans for image files (.jpg) without corresponding .json files
-2. Extracts character information from filename and Supabase
-3. Analyzes image dimensions using PIL/Pillow
-4. Calculates quality scores using ImageScorer
-5. Creates comprehensive metadata JSON files
-6. Removes orphaned JSON files (JSON files without corresponding images)
+2. Recalculates scores on existing metadata files (with --update flag)
+3. Extracts character information from filename and Supabase
+4. Analyzes image dimensions using PIL/Pillow
+5. Calculates quality scores using ImageScorer
+6. Creates/updates comprehensive metadata JSON files
+7. Removes orphaned JSON files (JSON files without corresponding images)
 
 Usage:
-    python -m src.download_images.generate_missing_metadata [--dry-run]
+    python -m src.download_images.manage_metadata [--dry-run] [--update]
 
     --dry-run: Preview actions without making changes
+    --update: Recalculate scores on existing metadata files
 """
 import sys
 import json
@@ -226,17 +228,103 @@ def find_orphaned_json_files(directory: Path) -> list[Path]:
     return orphaned
 
 
+def find_images_with_metadata(directory: Path) -> list[Path]:
+    """
+    Find all image files that already have corresponding JSON files.
+
+    Args:
+        directory: Directory to scan
+
+    Returns:
+        List of image file paths with existing metadata
+    """
+    with_metadata = []
+
+    # Find all image files
+    for ext in ['*.jpg', '*.jpeg', '*.png']:
+        for image_path in directory.glob(ext):
+            # Check if corresponding JSON exists
+            json_path = image_path.with_suffix('.json')
+
+            if json_path.exists():
+                with_metadata.append(image_path)
+
+    return with_metadata
+
+
+def update_metadata_scores(
+    json_path: Path,
+    image_path: Path,
+    scorer: ImageScorer,
+    dry_run: bool = False
+) -> bool:
+    """
+    Update scores in existing metadata file.
+
+    Args:
+        json_path: Path to JSON metadata file
+        image_path: Path to corresponding image file
+        scorer: ImageScorer instance
+        dry_run: If True, don't actually update the file
+
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        # Read existing metadata
+        with open(json_path, 'r') as f:
+            metadata = json.load(f)
+
+        # Get current dimensions
+        dimensions = get_image_dimensions(image_path)
+        if not dimensions:
+            return False
+
+        width, height = dimensions
+
+        # Recalculate scores
+        aspect_ratio = height / width if width > 0 else 0.0
+        ratio_score = scorer.calculate_ratio_score(aspect_ratio) if aspect_ratio > 0 else 0.0
+        resolution_score = scorer.calculate_resolution_score(height)
+        quality_score = scorer.calculate_total_score(aspect_ratio, height) if aspect_ratio > 0 else 0.0
+        is_valid = scorer.is_valid_image(width, height)
+
+        # Update metadata with new scores
+        metadata['width'] = width
+        metadata['height'] = height
+        metadata['aspect_ratio'] = round(aspect_ratio, 3)
+        metadata['quality_score'] = round(quality_score, 3)
+        metadata['ratio_score'] = round(ratio_score, 3)
+        metadata['resolution_score'] = round(resolution_score, 3)
+        metadata['meets_strict_requirements'] = is_valid
+        metadata['score_updated'] = datetime.now().isoformat()
+
+        if not dry_run:
+            # Write updated metadata
+            with open(json_path, 'w') as f:
+                json.dump(metadata, f, indent=2)
+
+        return True
+
+    except Exception as e:
+        print(f"  ❌ Error updating metadata: {e}")
+        return False
+
+
 def main():
     """Main entry point."""
     # Parse arguments
     dry_run = '--dry-run' in sys.argv
+    update_existing = '--update' in sys.argv
 
     print("=" * 80)
-    print("Generate Missing Metadata for Images")
+    print("Manage Metadata for Images")
     print("=" * 80)
 
     if dry_run:
-        print("🔍 DRY RUN MODE - No files will be created")
+        print("🔍 DRY RUN MODE - No files will be modified")
+    if update_existing:
+        print("🔄 UPDATE MODE - Will recalculate scores on existing metadata")
 
     print()
 
@@ -252,17 +340,68 @@ def main():
     missing = find_images_without_metadata(directory)
     print(f"Found {len(missing)} image(s) without JSON metadata")
 
+    # Find images with existing metadata (if updating)
+    existing = []
+    if update_existing:
+        print("Scanning for images with existing metadata...")
+        existing = find_images_with_metadata(directory)
+        print(f"Found {len(existing)} image(s) with existing metadata")
+
     # Find orphaned JSON files
     print("Scanning for orphaned JSON files...")
     orphaned = find_orphaned_json_files(directory)
     print(f"Found {len(orphaned)} orphaned JSON file(s)\n")
 
-    if len(missing) == 0 and len(orphaned) == 0:
+    if len(missing) == 0 and len(orphaned) == 0 and len(existing) == 0:
         print("✅ All images have metadata and no orphaned JSON files!")
         return
 
     success_count = 0
     error_count = 0
+    update_count = 0
+
+    # Update existing metadata (if requested)
+    if update_existing and len(existing) > 0:
+        # Initialize scorer
+        scorer = ImageScorer()
+
+        print("=" * 80)
+        print(f"Updating scores for {len(existing)} existing metadata file(s)...")
+        print("=" * 80)
+        print()
+
+        for idx, image_path in enumerate(existing, 1):
+            print(f"[{idx}/{len(existing)}] {image_path.name}")
+
+            json_path = image_path.with_suffix('.json')
+
+            if dry_run:
+                # Read existing to show what would change
+                try:
+                    with open(json_path, 'r') as f:
+                        old_metadata = json.load(f)
+
+                    dimensions = get_image_dimensions(image_path)
+                    if dimensions:
+                        width, height = dimensions
+                        aspect_ratio = height / width if width > 0 else 0.0
+                        new_score = scorer.calculate_total_score(aspect_ratio, height)
+                        old_score = old_metadata.get('quality_score', 0)
+
+                        print(f"  🔍 Would update scores:")
+                        print(f"     Old score: {old_score}")
+                        print(f"     New score: {round(new_score, 3)}")
+                except Exception as e:
+                    print(f"  ⚠️  Could not preview: {e}")
+            else:
+                if update_metadata_scores(json_path, image_path, scorer, dry_run):
+                    print(f"  ✅ Updated metadata")
+                    update_count += 1
+                else:
+                    print(f"  ❌ Failed to update")
+                    error_count += 1
+
+            print()
 
     # Process missing metadata
     if len(missing) > 0:
@@ -369,11 +508,19 @@ def main():
 
     if dry_run:
         print(f"\n🔍 DRY RUN MODE:")
+        if update_existing and len(existing) > 0:
+            print(f"   Would update {len(existing)} existing metadata file(s)")
         if len(missing) > 0:
             print(f"   Would create {len(missing)} metadata file(s)")
         if len(orphaned) > 0:
             print(f"   Would remove {len(orphaned)} orphaned JSON file(s)")
     else:
+        if update_existing and len(existing) > 0:
+            print(f"\n🔄 Metadata Updates:")
+            print(f"   ✅ Updated: {update_count}")
+            print(f"   ❌ Errors: {error_count if update_count > 0 else 0}")
+            print(f"   📊 Total: {len(existing)}")
+
         if len(missing) > 0:
             print(f"\n📝 Metadata Generation:")
             print(f"   ✅ Success: {success_count}")

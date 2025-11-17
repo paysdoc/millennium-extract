@@ -34,7 +34,12 @@ The system uses a multi-stage pipeline:
 
 **Usage**:
 ```bash
+# By category and batch
 python3 -m src.download_images.web_main [CATEGORY] [BATCH_SIZE] [START_IDX]
+
+# By character IDs
+python3 -m src.download_images.web_main --ids ID1,ID2,ID3,...
+python3 -m src.download_images.web_main --ids ID1 ID2 ID3 ...
 ```
 
 **Examples**:
@@ -47,6 +52,12 @@ python3 -m src.download_images.web_main I 5 5
 
 # Download batch 3 of Mathematicians (characters 11-15)
 python3 -m src.download_images.web_main M 5 10
+
+# Download specific characters by ID (comma-separated)
+python3 -m src.download_images.web_main --ids 172,250,266,269,272,276
+
+# Download specific characters by ID (space-separated)
+python3 -m src.download_images.web_main --ids 172 250 266
 ```
 
 **What it does**:
@@ -136,26 +147,33 @@ python3 -m src.download_images.cleanup_servers
 
 ---
 
-#### 6. `src/download_images/generate_missing_metadata.py`
-**Purpose**: Create JSON metadata files for images and clean up orphaned JSON files
+#### 6. `src/download_images/manage_metadata.py`
+**Purpose**: Create JSON metadata files for images, update existing metadata, and clean up orphaned JSON files
 
 **Usage**:
 ```bash
-# Dry run (preview what would be created/removed)
-python3 -m src.download_images.generate_missing_metadata --dry-run
+# Dry run (preview what would be created/removed/updated)
+python3 -m src.download_images.manage_metadata --dry-run
 
 # Generate metadata and cleanup
-python3 -m src.download_images.generate_missing_metadata
+python3 -m src.download_images.manage_metadata
+
+# Recalculate scores on existing metadata files
+python3 -m src.download_images.manage_metadata --update
+
+# Dry run update mode
+python3 -m src.download_images.manage_metadata --dry-run --update
 ```
 
 **What it does**:
 1. Scans `by_character_id/` for images without corresponding `.json` files
-2. Parses character info from filename (ID, category, name)
-3. Fetches character details from Supabase
-4. Reads image dimensions using PIL/Pillow
-5. Calculates quality scores using `ImageScorer`
-6. Creates comprehensive metadata JSON files
-7. **Removes orphaned JSON files** (JSON files without corresponding images)
+2. **Recalculates scores on existing metadata files** (with `--update` flag)
+3. Parses character info from filename (ID, category, name)
+4. Fetches character details from Supabase
+5. Reads image dimensions using PIL/Pillow
+6. Calculates quality scores using `ImageScorer`
+7. Creates/updates comprehensive metadata JSON files
+8. **Removes orphaned JSON files** (JSON files without corresponding images)
 
 **Generated Metadata**:
 ```json
@@ -181,8 +199,9 @@ python3 -m src.download_images.generate_missing_metadata
 ```
 
 **When to use**:
-- After manually copying images
+- After manually copying images (without `--update`)
 - After batch imports from external sources
+- **To recalculate scores after updating scoring algorithm** (with `--update`)
 - To regenerate metadata with updated scoring logic
 - To ensure all images have complete metadata
 - To clean up orphaned JSON files after deleting images
@@ -198,8 +217,10 @@ sourced_images/
 │   └── AGRICOLA.jpg
 │
 ├── temp_candidates/           # TEMPORARY download staging area
-│   ├── 11_I_AGRICOLA_temp1.jpg      # Gets cleared after each character
-│   ├── 11_I_AGRICOLA_temp2.jpg      # NOT persistent
+│   ├── 11_I_AGRICOLA_temp1.jpg      # Downloaded candidate image
+│   ├── 11_I_AGRICOLA_temp1.json     # Metadata (source URL, dimensions, etc.)
+│   ├── 11_I_AGRICOLA_temp2.jpg      # Gets cleared after each character
+│   ├── 11_I_AGRICOLA_temp2.json     # NOT persistent
 │   └── ...
 │
 ├── review/                    # TEMPORARY review interface files
@@ -289,6 +310,8 @@ python3 -m src.download_images.web_main I 5 0
 
 2. Searches Wikimedia Commons API
 3. Downloads up to 15 candidate images to `temp_candidates/`
+   - Each image is saved with a corresponding `.json` metadata file
+   - Metadata includes: source URL, dimensions, Wikimedia page link, scores
 4. Copies all candidates to `review/I_batch1/`
    - Renames: `{char_id}_1.jpg`, `{char_id}_2.jpg`, etc.
 5. Generates `{char_id}_review.html`
@@ -436,7 +459,23 @@ python3 retry_i_batch1.py
 
 ---
 
-### Phase 6: Next Batch
+### Phase 6: Download Missing Characters
+
+After checking status with `check_category_status.py`, you can download only the missing characters:
+
+```bash
+# Check what's missing
+python3 -m src.download_images.check_category_status
+
+# Download only missing characters by ID
+python3 -m src.download_images.web_main --ids 172,250,266,269,272,276
+```
+
+This is more efficient than re-downloading entire batches when you only need a few characters.
+
+---
+
+### Phase 7: Next Batch
 
 ```bash
 # Continue with next 5 characters

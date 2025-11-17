@@ -5,12 +5,14 @@ This script checks which categories have incomplete image downloads by:
 1. Fetching all characters from Supabase grouped by category
 2. Checking which characters have images in by_character_id/
 3. Reporting completion statistics per category
+4. Displaying image dimensions and aspect ratios for existing images
 
 Usage: python -m src.download_images.check_category_status
 """
 import sys
 from pathlib import Path
 from collections import defaultdict
+from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
@@ -27,26 +29,130 @@ def get_all_characters():
     return characters
 
 
-def get_downloaded_character_ids():
-    """Get set of character IDs that have downloaded images."""
+def get_downloaded_character_images():
+    """Get dictionary mapping character IDs to their image files with metadata."""
     by_character_dir = Path('sourced_images/wikimedia/by_character_id')
 
     if not by_character_dir.exists():
-        return set()
+        return {}
 
-    downloaded_ids = set()
+    downloaded_images = defaultdict(list)
 
-    # Look for image files in format: {id}_{category}_{name}_1.jpg
+    # Look for image files in format: {id}_{category}_{name}.jpg
     for image_file in by_character_dir.glob('*.jpg'):
         try:
             # Extract character ID from filename (first part before underscore)
-            char_id = int(image_file.stem.split('_')[0])
-            downloaded_ids.add(char_id)
+            filename_stem = image_file.stem
+            parts = filename_stem.split('_')
+            if parts and parts[0].isdigit():
+                char_id = int(parts[0])
+
+                # Get image dimensions
+                try:
+                    with Image.open(image_file) as img:
+                        width, height = img.size
+                        aspect_ratio = width / height if height > 0 else 0
+
+                        downloaded_images[char_id].append({
+                            'file': image_file,
+                            'width': width,
+                            'height': height,
+                            'aspect_ratio': aspect_ratio,
+                            'filename': image_file.name
+                        })
+                except Exception as e:
+                    print(f"Warning: Could not read image {image_file}: {e}", file=sys.stderr)
+
         except (ValueError, IndexError):
             # Skip files that don't match expected format
             continue
 
-    return downloaded_ids
+    return downloaded_images
+
+
+def get_downloaded_character_ids(downloaded_images):
+    """Get set of character IDs from downloaded images dict."""
+    return set(downloaded_images.keys())
+
+
+def print_category_image_report(category_code, category_name, characters, downloaded_images):
+    """Print detailed image report for a category."""
+    import math
+
+    print("="*80)
+    print(f"IMAGE REPORT: {category_code} - {category_name}")
+    print("="*80)
+    print()
+
+    # Get characters with images in this category
+    chars_with_images = [c for c in characters if c.id in downloaded_images]
+
+    if not chars_with_images:
+        print("No images found for this category.")
+        print()
+        return
+
+    # Sort by character ID
+    chars_with_images.sort(key=lambda c: c.id)
+
+    # Target ratio: 1/√2 ≈ 0.7071 (A-series paper format)
+    sqrt2_ratio = 1.0 / math.sqrt(2)
+
+    for char in chars_with_images:
+        images = downloaded_images[char.id]
+
+        for idx, img_info in enumerate(images, 1):
+            width = img_info['width']
+            height = img_info['height']
+            raw_aspect = img_info['aspect_ratio']
+
+            # Normalize so smaller side is 1
+            if width < height:
+                normalized_ratio = f"1:{height/width:.3f}"
+                orientation = "portrait"
+            elif width > height:
+                normalized_ratio = f"{width/height:.3f}:1"
+                orientation = "landscape"
+            else:
+                normalized_ratio = "1:1"
+                orientation = "square"
+
+            # Calculate deviation from 1/√2 ratio
+            # For portrait: ratio should be close to sqrt2_ratio (0.7071)
+            # For landscape: ratio should be close to 1/sqrt2_ratio (1.4142)
+            if raw_aspect < 1:
+                # Portrait: compare to 1/√2
+                deviation_pct = abs((raw_aspect - sqrt2_ratio) / sqrt2_ratio) * 100
+            else:
+                # Landscape: compare to √2
+                deviation_pct = abs((raw_aspect - (1/sqrt2_ratio)) / (1/sqrt2_ratio)) * 100
+
+            # Print everything on one line
+            img_suffix = f" #{idx}" if len(images) > 1 else ""
+            print(f"  ID {char.id}: {char.name}{img_suffix} | {width}x{height}px | {normalized_ratio} ({orientation}) | A-series dev: {deviation_pct:.1f}%")
+
+    # Summary statistics
+    total_images = sum(len(downloaded_images[c.id]) for c in chars_with_images)
+    all_deviations = []
+
+    for c in chars_with_images:
+        for img in downloaded_images[c.id]:
+            raw_aspect = img['aspect_ratio']
+            if raw_aspect < 1:
+                dev = abs((raw_aspect - sqrt2_ratio) / sqrt2_ratio) * 100
+            else:
+                dev = abs((raw_aspect - (1/sqrt2_ratio)) / (1/sqrt2_ratio)) * 100
+            all_deviations.append(dev)
+
+    if all_deviations:
+        avg_deviation = sum(all_deviations) / len(all_deviations)
+        min_deviation = min(all_deviations)
+        max_deviation = max(all_deviations)
+
+        print(f"Summary: {len(chars_with_images)} characters, {total_images} total images")
+        print(f"A-series deviation: {min_deviation:.1f}% to {max_deviation:.1f}% (avg: {avg_deviation:.1f}%)")
+        print()
+    print()
 
 
 def analyze_category_status():
@@ -59,7 +165,8 @@ def analyze_category_status():
     # Fetch data
     print("Fetching characters from Supabase...")
     characters = get_all_characters()
-    downloaded_ids = get_downloaded_character_ids()
+    downloaded_images = get_downloaded_character_images()
+    downloaded_ids = get_downloaded_character_ids(downloaded_images)
 
     # Group characters by category
     by_category = defaultdict(list)
@@ -128,6 +235,8 @@ def analyze_category_status():
             print(f"  Progress: {cat_info['complete']}/{cat_info['total']} ({cat_info['missing']} missing)")
             print(f"  Missing characters (first 10):")
 
+            cat_ids = [char.id for char in cat_info['missing_chars']]
+            print(f"    IDs: {','.join(map(str, cat_ids[:10]))}")
             for idx, char in enumerate(cat_info['missing_chars'][:10], 1):
                 print(f"    {idx}. ID {char.id}: {char.name} ({char.first_names or 'N/A'})")
 
@@ -137,6 +246,14 @@ def analyze_category_status():
             print()
     else:
         print("🎉 All categories complete!")
+
+    # Print detailed image reports per category
+    print()
+    print()
+    for cat_code in sorted_categories:
+        cat_chars = by_category[cat_code]
+        cat_name = category_names.get(cat_code, 'Unknown')
+        print_category_image_report(cat_code, cat_name, cat_chars, downloaded_images)
 
     return incomplete_categories
 

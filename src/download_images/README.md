@@ -10,18 +10,19 @@ This module follows SOLID principles for maintainable, testable, and extensible 
 
 ```
 src/download_images/
-├── __init__.py          # Module exports
-├── config.py            # Configuration constants (SRP)
-├── models.py            # Data structures (SRP)
-├── text_parser.py       # Text extraction utilities (SRP)
-├── query_builder.py     # Search query generation (SRP, OCP)
-├── image_scorer.py      # Image quality evaluation (SRP)
-├── wikimedia_api.py     # API client (SRP, ISP)
-├── file_manager.py      # File operations (SRP)
-├── downloader.py        # Main orchestration (DIP)
-├── preview.py           # Image preview utility (SRP)
-├── main.py              # CLI entry point (SRP)
-└── README.md            # This file
+├── __init__.py                # Module exports
+├── config.py                  # Configuration constants (SRP)
+├── models.py                  # Data structures (SRP)
+├── text_parser.py             # Text extraction utilities (SRP)
+├── query_builder.py           # Search query generation (SRP, OCP)
+├── image_scorer.py            # Image quality evaluation (SRP)
+├── wikimedia_api.py           # API client (SRP, ISP)
+├── file_manager.py            # File operations (SRP)
+├── downloader.py              # Main orchestration (DIP)
+├── preview.py                 # Image preview utility (SRP)
+├── main.py                    # CLI entry point (SRP)
+├── check_category_status.py   # Progress monitoring utility (SRP)
+└── README.md                  # This file
 ```
 
 ## SOLID Principles Applied
@@ -59,15 +60,44 @@ Each module has one clear responsibility:
 ### Download Images
 
 ```bash
-# Test mode (first 5 characters)
-python3 -m src.download_images.main
+# Download by category and batch (first 5 characters)
+python3 -m src.download_images.web_main I 5 0
 
-# Download specific category (e.g., Royalty)
-python3 -m src.download_images.main R
+# Download specific category (next 5 characters)
+python3 -m src.download_images.web_main R 5 5
 
 # Download all characters in a category
-python3 -m src.download_images.main S  # Scientists
-python3 -m src.download_images.main A  # Artists
+python3 -m src.download_images.web_main S 10 0  # Scientists
+python3 -m src.download_images.web_main A 5 0   # Artists
+
+# Download specific characters by ID (comma-separated)
+python3 -m src.download_images.web_main --ids 172,250,266,269,272,276
+
+# Download specific characters by ID (space-separated)
+python3 -m src.download_images.web_main --ids 172 250 266 269 272 276
+```
+
+### Check Download Progress
+
+Check which categories have complete/incomplete image downloads:
+
+```bash
+python3 -m src.download_images.check_category_status
+```
+
+This script:
+- Fetches all characters from the database grouped by category
+- Checks which characters have images in `sourced_images/wikimedia/by_character_id/`
+- Reports completion statistics per category
+- Lists missing characters for incomplete categories
+- Suggests next download commands
+
+Example output:
+```
+Category                      Total    Complete   Missing    Progress
+--------------------------------------------------------------------------------
+✓ R - Royalty                 26       26         0          ██████████ 100.0%
+○ I - Inventor                25       19         6          ███████░░░  76.0%
 ```
 
 ### Preview Downloaded Images

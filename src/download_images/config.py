@@ -21,9 +21,9 @@ class WikimediaConfig:
 class ImageRequirements:
     """Requirements for image quality and dimensions."""
     TARGET_ASPECT_RATIO = math.sqrt(2)  # 1.414 for A4 portrait
-    MIN_HEIGHT = 2480
-    ACCEPTABLE_RATIO_MIN = 1.2
-    ACCEPTABLE_RATIO_MAX = 1.6
+    MIN_HEIGHT = 1000
+    ACCEPTABLE_RATIO_MIN = 1
+    ACCEPTABLE_RATIO_MAX = 2
     OPTIMAL_HEIGHT = 3508  # For resolution scoring
 
     # Scoring weights

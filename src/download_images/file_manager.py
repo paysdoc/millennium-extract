@@ -90,13 +90,21 @@ class FileManager:
         else:
             return f"{character_id}_{category}_{normalized_name}_alt{rank-1}.{extension}"
 
-    def download_image(self, url: str, filepath: Path) -> Tuple[bool, Optional[str]]:
+    def download_image(
+        self,
+        url: str,
+        filepath: Path,
+        save_metadata: bool = False,
+        metadata: Optional[dict] = None
+    ) -> Tuple[bool, Optional[str]]:
         """
         Download image from URL to file with validation.
 
         Args:
             url: Image URL
             filepath: Destination file path
+            save_metadata: If True, save metadata to JSON file alongside image
+            metadata: Optional metadata dict to save (if save_metadata is True)
 
         Returns:
             Tuple of (success, actual_extension)
@@ -133,6 +141,12 @@ class FileManager:
             # Write validated data to file
             with open(filepath, 'wb') as f:
                 f.write(data)
+
+            # Save metadata if requested
+            if save_metadata and metadata:
+                metadata_path = filepath.with_suffix('.json')
+                with open(metadata_path, 'w') as f:
+                    json.dump(metadata, f, indent=2)
 
             return True, actual_extension
 
