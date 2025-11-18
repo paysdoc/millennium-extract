@@ -55,38 +55,33 @@ def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> 
             print(f"Could not download metadata for {filename}: {e}")
 
         # Check if image exists in cache
-        if os.path.exists(cache_path):
-            # Load from cache
-            img = Image.open(cache_path)
+        if not os.path.exists(cache_path):
+            # Image not in cache - download from Supabase
+            bucket = supabase_client.storage.from_('character_images')
+            image_data = bucket.download(filename)
+
+            # Convert bytes to PIL Image
+            img = Image.open(io.BytesIO(image_data))
 
             # Convert to RGB if needed
             if img.mode != 'RGB':
                 img = img.convert('RGB')
 
-            # Apply rotation if metadata indicates landscape orientation
-            if metadata and metadata.get('orientation') == 'landscape':
-                img = img.rotate(-90, expand=True)
+            # Save the ORIGINAL image to cache (before any mutations)
+            img.save(cache_path)
+            print(f"Cached original image: {filename}")
 
-            return ImageReader(img)
+        # Load the original image from cache
+        img = Image.open(cache_path)
 
-        # Image not in cache - download from Supabase
-        bucket = supabase_client.storage.from_('character_images')
-        image_data = bucket.download(filename)
-
-        # Convert bytes to PIL Image
-        img = Image.open(io.BytesIO(image_data))
-
-        # Convert to RGB if needed
+        # Ensure it's in RGB mode
         if img.mode != 'RGB':
             img = img.convert('RGB')
 
         # Apply rotation if metadata indicates landscape orientation
+        # This mutation is applied AFTER caching, so the original is preserved
         if metadata and metadata.get('orientation') == 'landscape':
             img = img.rotate(-90, expand=True)
-
-        # Save to cache for future use
-        img.save(cache_path)
-        print(f"Cached image: {filename}")
 
         return ImageReader(img)
 

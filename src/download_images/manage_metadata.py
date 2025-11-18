@@ -290,6 +290,9 @@ def update_metadata_scores(
         with open(json_path, 'r') as f:
             metadata = json.load(f)
 
+        # Store original metadata for comparison
+        original_metadata = metadata.copy()
+
         # Get current dimensions
         dimensions = get_image_dimensions(image_path)
         if not dimensions:
@@ -322,6 +325,16 @@ def update_metadata_scores(
         metadata['resolution_score'] = round(resolution_score, 3)
         metadata['meets_strict_requirements'] = is_valid
         metadata['score_updated'] = datetime.now().isoformat()
+
+        # Check if only score_updated changed
+        # Compare all fields except score_updated
+        original_without_timestamp = {k: v for k, v in original_metadata.items() if k != 'score_updated'}
+        new_without_timestamp = {k: v for k, v in metadata.items() if k != 'score_updated'}
+
+        if original_without_timestamp == new_without_timestamp:
+            # Only score_updated would change, so skip the update
+            print(f"  ⏭️  Skipped (no actual changes)")
+            return True
 
         if not dry_run:
             # Write updated metadata
