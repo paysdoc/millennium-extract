@@ -4,7 +4,7 @@ Card front rendering component.
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
 from src.types.supabase_types import Character
-from src.config import CARD_WIDTH, CARD_HEIGHT, get_category_color
+from src.config import CARD_WIDTH, CARD_HEIGHT, BANNER_HEIGHT, get_category_color
 from src.card.image_handler import download_image_from_supabase
 from src.card.components.banner import draw_banner
 
@@ -13,8 +13,11 @@ def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: f
     """
     Draw the portrait image on the card front.
 
-    The image is centered on the card and scaled to fit while preserving
-    its aspect ratio. The image fits within the card boundaries.
+    The image is scaled to fit while preserving its aspect ratio. Vertical alignment
+    depends on the image's aspect ratio:
+    - Images wider than 1×√2 (≈0.707): aligned to top of card
+    - Square images (±10% of 1:1): centered between card top and banner top
+    - Other images: centered on the card
 
     Args:
         c: ReportLab canvas
@@ -49,9 +52,31 @@ def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: f
             final_height = CARD_HEIGHT
             final_width = CARD_HEIGHT * orig_aspect
 
-        # Center the image on the card
+        # Horizontal centering (always centered horizontally)
         img_x = x + (CARD_WIDTH - final_width) / 2
-        img_y = y + (CARD_HEIGHT - final_height) / 2
+
+        # Vertical positioning based on aspect ratio
+        # 1×√2 aspect ratio ≈ 0.707
+        sqrt2_aspect = 1 / 1.414  # Approximately 0.707
+
+        # Calculate the available space above the banner
+        banner_top_y = y + 4 + BANNER_HEIGHT  # Banner is at y+4, with BANNER_HEIGHT
+        available_height = CARD_HEIGHT - (4 + BANNER_HEIGHT)  # Space from banner top to card top
+
+        if orig_aspect > sqrt2_aspect:
+            # Image is wider than 1×√2 - align to top of card
+            img_y = y + CARD_HEIGHT - final_height
+
+            # But if the image height is less than the available space above the banner,
+            # center it between the top of the card and the top of the banner
+            if final_height < available_height:
+                img_y = banner_top_y + (available_height - final_height) / 2
+        elif abs(orig_aspect - 1.0) < 0.1:  # Square (within 10% of 1:1)
+            # Square orientation - center between top of card and top of banner
+            img_y = banner_top_y + (available_height - final_height) / 2
+        else:
+            # Default: center on the card
+            img_y = y + (CARD_HEIGHT - final_height) / 2
 
         c.drawImage(
             img,

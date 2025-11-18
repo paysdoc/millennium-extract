@@ -8,20 +8,20 @@
   "wikimedia_title": "File:CH.VS.Zermatt 2022-07-16 Air-Zermatt 5908 16x9-R 10K.jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/CH.VS.Zermatt_2022-07-16_Air-Zermatt_5908_16x9-R_10K.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:CH.VS.Zermatt_2022-07-16_Air-Zermatt_5908_16x9-R_10K.jpg",
-  "width": 10594,
-  "height": 5959,
-  "aspect_ratio": 0.562,
+  "width": 4298,
+  "height": 3039,
+  "aspect_ratio": 0.707,
   "score": 0.9115574323504729,
   "candidate_rank": 1,
   "rank": 1,
   "selected_option": 1,
   "selection_timestamp": "2025-11-18T17:19:40.883415",
-  "quality_score": 0.678,
-  "ratio_score": 0.54,
-  "resolution_score": 1.0,
+  "quality_score": 0.67,
+  "ratio_score": 0.586,
+  "resolution_score": 0.866,
   "meets_strict_requirements": [
-    "landscape orientation (ratio=0.562)"
+    "landscape orientation (ratio=0.707)"
   ],
-  "score_updated": "2025-11-18T20:08:42.980149",
+  "score_updated": "2025-11-18T20:50:24.290960",
   "orientation": "landscape"
 }

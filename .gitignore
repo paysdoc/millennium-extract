@@ -70,6 +70,7 @@ coverage/
 # Image cache
 image_cache/
 sourced_images/review/
+sourced_images/temp/
 sourced_images/temp_candidates/
 sourced_images/wikimedia/**/*.jpg
 

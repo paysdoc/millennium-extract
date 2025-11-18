@@ -3,6 +3,7 @@ Image downloading and caching for card generation.
 """
 import os
 import io
+import json
 from PIL import Image
 from reportlab.lib.utils import ImageReader
 from typing import Optional
@@ -42,6 +43,17 @@ def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> 
 
         cache_path = os.path.join(cache_dir, filename)
 
+        # Download and check metadata for orientation
+        metadata = None
+        metadata_filename = os.path.splitext(filename)[0] + '.json'
+
+        try:
+            bucket = supabase_client.storage.from_('character_images')
+            metadata_data = bucket.download(metadata_filename)
+            metadata = json.loads(metadata_data.decode('utf-8'))
+        except Exception as e:
+            print(f"Could not download metadata for {filename}: {e}")
+
         # Check if image exists in cache
         if os.path.exists(cache_path):
             # Load from cache
@@ -50,6 +62,10 @@ def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> 
             # Convert to RGB if needed
             if img.mode != 'RGB':
                 img = img.convert('RGB')
+
+            # Apply rotation if metadata indicates landscape orientation
+            if metadata and metadata.get('orientation') == 'landscape':
+                img = img.rotate(-90, expand=True)
 
             return ImageReader(img)
 
@@ -63,6 +79,10 @@ def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> 
         # Convert to RGB if needed
         if img.mode != 'RGB':
             img = img.convert('RGB')
+
+        # Apply rotation if metadata indicates landscape orientation
+        if metadata and metadata.get('orientation') == 'landscape':
+            img = img.rotate(-90, expand=True)
 
         # Save to cache for future use
         img.save(cache_path)

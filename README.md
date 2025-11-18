@@ -195,11 +195,13 @@ python src/main.py list-characters -s name
 
 **Note**: While UUIDs are used internally for data integrity, the CLI interface uses character names for user-friendly interaction.
 
-## Image Cache Management
+## Image Management
+
+### Image Cache
 
 Character portrait images are automatically cached in the `image_cache/` directory at the project root. This significantly speeds up subsequent card generations.
 
-### View Cache Statistics
+#### View Cache Statistics
 
 ```bash
 python manage_cache.py stats
@@ -210,7 +212,7 @@ This shows:
 - File sizes
 - Total cache size
 
-### Clear Cache
+#### Clear Cache
 
 To remove all cached images (they will be re-downloaded on next use):
 
@@ -219,6 +221,71 @@ python manage_cache.py clear
 ```
 
 **Note**: The cache directory is automatically created and excluded from git.
+
+### Uploading Images to Supabase Storage
+
+The project includes a script to upload changed images and metadata from `sourced_images/wikimedia/by_character_id/` to the Supabase `character_images` storage bucket. Files are only uploaded if they are newer than the version already in storage or don't exist yet.
+
+#### Basic Usage
+
+```bash
+# Activate virtual environment first
+source millennium_virtual_environment/bin/activate
+
+# Check what needs updating (dry run - no upload)
+python3 upload_changed_wikimedia_images.py --dry-run
+
+# Upload all changed files (interactive - asks for confirmation)
+python3 upload_changed_wikimedia_images.py
+
+# Upload all changed files (auto-confirm - no prompt)
+python3 upload_changed_wikimedia_images.py --yes
+```
+
+#### Upload Specific File Types
+
+```bash
+# Upload only JSON metadata files
+python3 upload_changed_wikimedia_images.py --json-only --yes
+
+# Upload only JPG image files
+python3 upload_changed_wikimedia_images.py --jpg-only --yes
+```
+
+#### Upload Specific Files by Pattern
+
+Use glob patterns to upload specific files:
+
+```bash
+# Upload all files for a specific character (by ID)
+python3 upload_changed_wikimedia_images.py --files "76_M_EINSTEIN*" --yes
+
+# Upload all files starting with "1_"
+python3 upload_changed_wikimedia_images.py --files "1_*" --yes
+
+# Upload all files containing "EINSTEIN"
+python3 upload_changed_wikimedia_images.py --files "*EINSTEIN*" --yes
+
+# Upload specific metadata file
+python3 upload_changed_wikimedia_images.py --files "203_R_PHILIP_AUGUST.json" --yes
+```
+
+#### Command Options
+
+- `--yes`, `-y`: Auto-confirm upload without prompting
+- `--dry-run`: Check which files need updating without uploading
+- `--json-only`: Only upload JSON metadata files
+- `--jpg-only`: Only upload JPG image files
+- `--files PATTERN`, `-f PATTERN`: Upload only files matching glob pattern
+
+#### How It Works
+
+The script compares local file modification timestamps with remote storage timestamps:
+- Files newer than the remote version → uploaded
+- Files that don't exist remotely → uploaded
+- Files older than or same age as remote → skipped
+
+**Note**: Requires `SUPABASE_SERVICE_KEY` in your `.env` file for admin access to storage.
 
 ## Development
 
