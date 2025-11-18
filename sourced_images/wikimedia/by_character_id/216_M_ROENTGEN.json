@@ -1,0 +1,20 @@
+{
+  "character_name": "ROENTGEN",
+  "character_id": 216,
+  "category": "M",
+  "first_names": "Wilhelm Conrad",
+  "biography": ", German physicist",
+  "birth_date": "1845",
+  "death_date": "1923 (78yrs)",
+  "width": 2732,
+  "height": 3863,
+  "aspect_ratio": 1.414,
+  "quality_score": 1.0,
+  "ratio_score": 1.0,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-14T17:16:00.762568",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.764382"
+}

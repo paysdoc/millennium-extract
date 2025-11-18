@@ -1,0 +1,20 @@
+{
+  "character_name": "CATHERINE II",
+  "character_id": 45,
+  "category": "R",
+  "first_names": "(the Great)",
+  "biography": "R20, Russian Empress (Romanov),  r. 1762-96 (34yrs)",
+  "birth_date": "1729",
+  "death_date": "1796 (67yrs)",
+  "width": 2615,
+  "height": 3261,
+  "aspect_ratio": 1.247,
+  "quality_score": 0.879,
+  "ratio_score": 0.857,
+  "resolution_score": 0.93,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.380866",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.681204"
+}

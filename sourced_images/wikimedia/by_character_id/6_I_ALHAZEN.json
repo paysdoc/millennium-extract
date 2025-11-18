@@ -1,0 +1,22 @@
+{
+  "character_name": "ALHAZEN",
+  "character_id": 6,
+  "category": "I",
+  "first_names": "(Ibn Al-Haytam)",
+  "biography": "Arabian (Iraq, Egypt) physicist",
+  "birth_date": "965",
+  "death_date": "1038 (73yrs)",
+  "width": 664,
+  "height": 939,
+  "aspect_ratio": 1.414,
+  "quality_score": 0.78,
+  "ratio_score": 1.0,
+  "resolution_score": 0.268,
+  "meets_strict_requirements": [
+    "height 939px < minimum 1000px"
+  ],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:37:13.600163",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.721130"
+}

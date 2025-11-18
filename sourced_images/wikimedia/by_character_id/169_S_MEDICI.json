@@ -1,0 +1,20 @@
+{
+  "character_name": "MEDICI",
+  "character_id": 169,
+  "category": "S",
+  "first_names": "Lorenzo de (the Magnifice",
+  "biography": "Florentine ruler (Italian),  1469-1492 (23yrs)",
+  "birth_date": "1449",
+  "death_date": "92 (43yrs)",
+  "width": 3358,
+  "height": 3983,
+  "aspect_ratio": 1.186,
+  "quality_score": 0.87,
+  "ratio_score": 0.814,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:26.188016",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.670353"
+}

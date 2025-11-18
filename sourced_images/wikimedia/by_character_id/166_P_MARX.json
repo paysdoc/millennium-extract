@@ -1,0 +1,20 @@
+{
+  "character_name": "MARX",
+  "character_id": 166,
+  "category": "P",
+  "first_names": "Karl",
+  "biography": "German political philosopher",
+  "birth_date": "1818",
+  "death_date": "1883 (65yrs)",
+  "width": 2364,
+  "height": 3498,
+  "aspect_ratio": 1.48,
+  "quality_score": 0.956,
+  "ratio_score": 0.939,
+  "resolution_score": 0.997,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.561767",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.729627"
+}

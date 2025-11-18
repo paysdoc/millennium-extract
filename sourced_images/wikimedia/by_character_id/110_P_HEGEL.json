@@ -1,0 +1,22 @@
+{
+  "character_name": "HEGEL",
+  "character_id": 110,
+  "category": "P",
+  "first_names": "Georg Wilhelm Friedrich",
+  "biography": "German Idealist philosopher",
+  "birth_date": "1770",
+  "death_date": "1831 (61yrs)",
+  "wikimedia_title": "110_P_HEGEL_temp8",
+  "wikimedia_url": "file://sourced_images/temp_candidates/110_P_HEGEL_temp8.jpg",
+  "width": 3674,
+  "height": 4783,
+  "aspect_ratio": 1.302,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T18:23:58.464715",
+  "rank": 1,
+  "quality_score": 0.929,
+  "ratio_score": 0.899,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.671580"
+}

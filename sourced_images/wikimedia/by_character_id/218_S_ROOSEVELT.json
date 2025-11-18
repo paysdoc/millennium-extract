@@ -1,0 +1,20 @@
+{
+  "character_name": "ROOSEVELT",
+  "character_id": 218,
+  "category": "S",
+  "first_names": "Franklin Delano",
+  "biography": "President of USA, 1932-45 (12yrs) (4 terms)",
+  "birth_date": "1882",
+  "death_date": "1945 (63yrs)",
+  "width": 2754,
+  "height": 3969,
+  "aspect_ratio": 1.441,
+  "quality_score": 0.982,
+  "ratio_score": 0.974,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.149394",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.718650"
+}

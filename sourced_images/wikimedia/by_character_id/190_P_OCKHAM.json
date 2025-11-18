@@ -1,0 +1,20 @@
+{
+  "character_name": "OCKHAM",
+  "character_id": 190,
+  "category": "P",
+  "first_names": "(William of)",
+  "biography": "English Nominalist philosopher",
+  "birth_date": "1300",
+  "death_date": "1349 (49yrs)",
+  "width": 2304,
+  "height": 3456,
+  "aspect_ratio": 1.5,
+  "quality_score": 0.94,
+  "ratio_score": 0.921,
+  "resolution_score": 0.985,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.824625",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.750965"
+}

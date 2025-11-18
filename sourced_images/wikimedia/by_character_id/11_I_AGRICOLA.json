@@ -1,0 +1,21 @@
+{
+  "character_name": "AGRICOLA",
+  "character_id": 11,
+  "category": "I",
+  "first_names": "Georgius",
+  "biography": "German physician & mineralogist",
+  "birth_date": "1494",
+  "death_date": "1555 (61yrs)",
+  "width": 729,
+  "height": 1221,
+  "aspect_ratio": 1.675,
+  "quality_score": 0.66,
+  "ratio_score": 0.793,
+  "resolution_score": 0.348,
+  "meets_strict_requirements": [],
+  "page_url": "https://commons.wikimedia.org/wiki/File:Agricola1.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.547022",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.684070"
+}

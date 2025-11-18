@@ -1,0 +1,26 @@
+{
+  "character_id": 244,
+  "character_name": "SWITZERLAND",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:CH.VS.Zermatt 2022-07-16 Air-Zermatt 5908 16x9-R 10K.jpg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/CH.VS.Zermatt_2022-07-16_Air-Zermatt_5908_16x9-R_10K.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:CH.VS.Zermatt_2022-07-16_Air-Zermatt_5908_16x9-R_10K.jpg",
+  "width": 10594,
+  "height": 5959,
+  "aspect_ratio": 0.562,
+  "score": 0.9115574323504729,
+  "candidate_rank": 1,
+  "rank": 1,
+  "selected_option": 1,
+  "selection_timestamp": "2025-11-18T17:19:40.883415",
+  "quality_score": 0.678,
+  "ratio_score": 0.54,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.562)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.693335"
+}

@@ -1,0 +1,21 @@
+{
+  "character_id": 205,
+  "character_name": "PICASSO",
+  "category": "A",
+  "first_names": "Pablo",
+  "birth_date": "1881",
+  "death_date": "1973 (92yrs)",
+  "wikimedia_title": "File:Pablo picasso 1.jpg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/9/98/Pablo_picasso_1.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Pablo_picasso_1.jpg",
+  "width": 1079,
+  "height": 1261,
+  "aspect_ratio": 1.169,
+  "score": 0.669844972076906,
+  "candidate_rank": 15,
+  "quality_score": 0.67,
+  "ratio_score": 0.803,
+  "resolution_score": 0.359,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.768417"
+}

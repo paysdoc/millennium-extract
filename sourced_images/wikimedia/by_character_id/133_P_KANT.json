@@ -1,0 +1,22 @@
+{
+  "character_name": "KANT",
+  "character_id": 133,
+  "category": "P",
+  "first_names": "Immanuel",
+  "biography": "P19, German Idealist philosopher",
+  "birth_date": "1724",
+  "death_date": "1804 (80yrs)",
+  "wikimedia_title": "133_P_KANT_temp7",
+  "wikimedia_url": "file://sourced_images/temp_candidates/133_P_KANT_temp7.jpg",
+  "width": 2520,
+  "height": 3085,
+  "aspect_ratio": 1.224,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T18:28:31.148736",
+  "rank": 1,
+  "quality_score": 0.852,
+  "ratio_score": 0.84,
+  "resolution_score": 0.879,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.724620"
+}

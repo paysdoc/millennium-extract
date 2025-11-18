@@ -1,0 +1,20 @@
+{
+  "character_name": "BARBAROSSA",
+  "character_id": 60,
+  "category": "R",
+  "first_names": "Frederick I (Hohenstaufen)",
+  "biography": "1122, 1190 (68yrs), Holy Roman Emperor,  r. 1152-90 (38yrs), (also king of Italy & Germ.)",
+  "birth_date": "1122",
+  "death_date": "1190-04-10",
+  "width": 3349,
+  "height": 5023,
+  "aspect_ratio": 1.5,
+  "quality_score": 0.945,
+  "ratio_score": 0.921,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:26.678079",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.674623"
+}

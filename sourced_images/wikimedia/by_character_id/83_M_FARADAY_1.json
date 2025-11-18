@@ -1,0 +1,20 @@
+{
+  "character_name": "FARADAY",
+  "character_id": 83,
+  "category": "M",
+  "first_names": "Michael",
+  "biography": "English physicist",
+  "birth_date": "1791",
+  "death_date": "1867 (76yrs)",
+  "width": 2734,
+  "height": 3968,
+  "aspect_ratio": 1.451,
+  "quality_score": 0.975,
+  "ratio_score": 0.964,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.897441",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.737015"
+}

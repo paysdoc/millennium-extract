@@ -1,0 +1,22 @@
+{
+  "character_name": "FREUD",
+  "character_id": 93,
+  "category": "P",
+  "first_names": "Sigmund",
+  "biography": "Austrian psychiatrist",
+  "birth_date": "1856",
+  "death_date": "1939 (83yrs)",
+  "wikimedia_title": "93_P_FREUD_temp4",
+  "wikimedia_url": "file://sourced_images/temp_candidates/93_P_FREUD_temp4.jpg",
+  "width": 1576,
+  "height": 2229,
+  "aspect_ratio": 1.414,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T18:23:58.375629",
+  "rank": 1,
+  "quality_score": 0.891,
+  "ratio_score": 1.0,
+  "resolution_score": 0.635,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.717306"
+}

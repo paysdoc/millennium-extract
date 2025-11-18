@@ -1,0 +1,26 @@
+{
+  "character_id": 258,
+  "character_name": "VENICE",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:The Molo from the Basin of San Marco, Venice by Canaletto, San Diego Museum of Art.JPG",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/The_Molo_from_the_Basin_of_San_Marco%2C_Venice_by_Canaletto%2C_San_Diego_Museum_of_Art.JPG",
+  "page_url": "https://commons.wikimedia.org/wiki/File:The_Molo_from_the_Basin_of_San_Marco,_Venice_by_Canaletto,_San_Diego_Museum_of_Art.JPG",
+  "width": 2440,
+  "height": 1536,
+  "aspect_ratio": 0.63,
+  "score": 0.7809494370485024,
+  "candidate_rank": 9,
+  "rank": 1,
+  "selected_option": 9,
+  "selection_timestamp": "2025-11-18T17:19:41.001105",
+  "quality_score": 0.524,
+  "ratio_score": 0.56,
+  "resolution_score": 0.438,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.630)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.716876"
+}

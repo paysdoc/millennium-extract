@@ -1,0 +1,17 @@
+{
+  "character_name": "LINNAEUS",
+  "character_id": 144,
+  "category": "N",
+  "source": "manual_selection",
+  "selected_option": 1,
+  "download_timestamp": "2025-11-14T18:55:05.926124",
+  "rank": 1,
+  "width": 3392,
+  "height": 4763,
+  "aspect_ratio": 1.404,
+  "quality_score": 0.993,
+  "ratio_score": 0.99,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.745930"
+}

@@ -1,0 +1,20 @@
+{
+  "character_name": "MACHIAVELLI",
+  "character_id": 159,
+  "category": "P",
+  "first_names": "Niccolo",
+  "biography": "Florentine statesman & political philosopher",
+  "birth_date": "1469",
+  "death_date": "1527 (58yrs)",
+  "width": 1517,
+  "height": 2146,
+  "aspect_ratio": 1.415,
+  "quality_score": 0.883,
+  "ratio_score": 1.0,
+  "resolution_score": 0.612,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.172960",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.741524"
+}

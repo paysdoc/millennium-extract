@@ -1,0 +1,26 @@
+{
+  "character_id": 149,
+  "character_name": "LONDON (PRE 1666)",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:London before the Great Fire MET DP823346.jpg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/London_before_the_Great_Fire_MET_DP823346.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:London_before_the_Great_Fire_MET_DP823346.jpg",
+  "width": 3575,
+  "height": 2370,
+  "aspect_ratio": 0.663,
+  "score": 0.873068691746373,
+  "candidate_rank": 3,
+  "rank": 1,
+  "selected_option": 3,
+  "selection_timestamp": "2025-11-18T17:11:55.034901",
+  "quality_score": 0.602,
+  "ratio_score": 0.571,
+  "resolution_score": 0.676,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.663)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.765046"
+}

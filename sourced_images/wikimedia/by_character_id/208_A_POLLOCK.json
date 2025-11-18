@@ -1,0 +1,23 @@
+{
+  "character_name": "POLLOCK",
+  "character_id": 208,
+  "category": "A",
+  "first_names": "Jackson",
+  "biography": "American Abstract Expressionist painter",
+  "birth_date": "1912",
+  "death_date": "1956 (44yrs)",
+  "width": 702,
+  "height": 993,
+  "aspect_ratio": 1.415,
+  "quality_score": 0.785,
+  "ratio_score": 1.0,
+  "resolution_score": 0.283,
+  "meets_strict_requirements": [
+    "height 993px < minimum 1000px"
+  ],
+  "page_url": "https://commons.wikimedia.org/wiki/File:A_Look_Into_Jackson_Pollock%E2%80%99s_Auction_History.png",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-17T13:42:53.977656",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.666154"
+}

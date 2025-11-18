@@ -1,0 +1,23 @@
+{
+  "character_name": "SCHUETZ",
+  "character_id": 227,
+  "category": "C",
+  "first_names": "Heinrich",
+  "biography": "German composer, Early Baroque",
+  "birth_date": "1585",
+  "death_date": "1672 (87yrs)",
+  "width": 670,
+  "height": 998,
+  "aspect_ratio": 1.49,
+  "quality_score": 0.736,
+  "ratio_score": 0.93,
+  "resolution_score": 0.284,
+  "meets_strict_requirements": [
+    "height 998px < minimum 1000px"
+  ],
+  "page_url": "https://commons.wikimedia.org/wiki/File:Schutz.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-16T22:41:23.466680",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.776520"
+}

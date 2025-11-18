@@ -1,0 +1,21 @@
+{
+  "character_name": "HOLLAND",
+  "character_id": 118,
+  "category": "T",
+  "first_names": "",
+  "biography": "",
+  "birth_date": "",
+  "death_date": "",
+  "width": 944,
+  "height": 1336,
+  "aspect_ratio": 1.415,
+  "quality_score": 0.814,
+  "ratio_score": 0.999,
+  "resolution_score": 0.381,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Leo_Hollandicus_-_Visscher.jpg",
+  "download_timestamp": "2025-11-18T14:14:07.470046",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.754023"
+}

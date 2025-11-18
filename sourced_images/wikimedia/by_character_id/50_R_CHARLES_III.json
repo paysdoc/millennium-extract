@@ -1,0 +1,20 @@
+{
+  "character_name": "CHARLES III",
+  "character_id": 50,
+  "category": "R",
+  "first_names": "King of the United Kingdom (2022 - )",
+  "biography": "b. 1948, Heir to British throne",
+  "birth_date": "1948-11-14",
+  "death_date": "",
+  "width": 2934,
+  "height": 4007,
+  "aspect_ratio": 1.366,
+  "quality_score": 0.968,
+  "ratio_score": 0.954,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.511328",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.710685"
+}

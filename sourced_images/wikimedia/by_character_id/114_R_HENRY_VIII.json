@@ -1,0 +1,20 @@
+{
+  "character_name": "HENRY VIII",
+  "character_id": 114,
+  "category": "R",
+  "first_names": "(Tudor",
+  "biography": "King of England),  r. 1509-1547 (38yrs)",
+  "birth_date": "1491",
+  "death_date": "1547 (56yrs)",
+  "width": 1959,
+  "height": 2750,
+  "aspect_ratio": 1.404,
+  "quality_score": 0.928,
+  "ratio_score": 0.99,
+  "resolution_score": 0.784,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.903079",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.696418"
+}

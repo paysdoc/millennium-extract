@@ -1,0 +1,20 @@
+{
+  "character_name": "HOBBES",
+  "character_id": 117,
+  "category": "P",
+  "first_names": "Thomas",
+  "biography": "English political philosopher",
+  "birth_date": "1588",
+  "death_date": "1679 (91yrs)",
+  "width": 2400,
+  "height": 2928,
+  "aspect_ratio": 1.22,
+  "quality_score": 0.837,
+  "ratio_score": 0.837,
+  "resolution_score": 0.835,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.471717",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.728131"
+}

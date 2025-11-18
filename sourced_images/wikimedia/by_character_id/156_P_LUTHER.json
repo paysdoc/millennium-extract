@@ -1,0 +1,22 @@
+{
+  "character_name": "LUTHER",
+  "character_id": 156,
+  "category": "P",
+  "first_names": "Martin",
+  "biography": "German theologian & writer",
+  "birth_date": "1483",
+  "death_date": "1546 (63yrs)",
+  "wikimedia_title": "156_P_LUTHER_temp6",
+  "wikimedia_url": "file://sourced_images/temp_candidates/156_P_LUTHER_temp6.jpg",
+  "width": 3289,
+  "height": 4208,
+  "aspect_ratio": 1.279,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T18:28:31.294994",
+  "rank": 1,
+  "quality_score": 0.917,
+  "ratio_score": 0.881,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.690979"
+}

@@ -1,0 +1,26 @@
+{
+  "character_id": 55,
+  "character_name": "CLUNY",
+  "category": "B",
+  "first_names": "ABBEY",
+  "birth_date": "1088",
+  "death_date": "1121",
+  "wikimedia_title": "File:Cluny opactwo 32.jpg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Cluny_opactwo_32.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Cluny_opactwo_32.jpg",
+  "width": 5184,
+  "height": 3456,
+  "aspect_ratio": 0.667,
+  "score": 0.9446939985085097,
+  "candidate_rank": 8,
+  "rank": 1,
+  "selected_option": 8,
+  "selection_timestamp": "2025-11-18T10:06:19.226526",
+  "quality_score": 0.696,
+  "ratio_score": 0.572,
+  "resolution_score": 0.985,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.667)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.676756"
+}

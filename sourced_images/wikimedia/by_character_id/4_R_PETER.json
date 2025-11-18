@@ -1,0 +1,20 @@
+{
+  "character_name": "PETER",
+  "character_id": 4,
+  "category": "R",
+  "first_names": "(the Great)",
+  "biography": "Czar of Russia (Romanov),  r. 1696-1725 (31yrs)",
+  "birth_date": "1672",
+  "death_date": "1725 (53yrs)",
+  "width": 2831,
+  "height": 3738,
+  "aspect_ratio": 1.32,
+  "quality_score": 0.94,
+  "ratio_score": 0.914,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.424627",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.726106"
+}

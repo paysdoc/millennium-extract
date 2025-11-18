@@ -1,0 +1,22 @@
+{
+  "character_name": "MAXWELL",
+  "character_id": 168,
+  "category": "M",
+  "first_names": "James Clark",
+  "biography": "Scottish scientist",
+  "birth_date": "1831",
+  "death_date": "1879 (48yrs)",
+  "wikimedia_title": "MAXWELL selection 3",
+  "wikimedia_url": "file://sourced_images/temp_candidates/168_M_MAXWELL_temp3.jpg",
+  "width": 1920,
+  "height": 2560,
+  "aspect_ratio": 1.333,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T17:37:02.089398",
+  "rank": 1,
+  "quality_score": 0.867,
+  "ratio_score": 0.925,
+  "resolution_score": 0.73,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.671974"
+}

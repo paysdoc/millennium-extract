@@ -1,0 +1,23 @@
+{
+  "character_name": "TROYES",
+  "character_id": 251,
+  "category": "D",
+  "first_names": "Chretien de",
+  "biography": "French medieval writer",
+  "birth_date": "1150",
+  "death_date": "1190 (40yrs)",
+  "width": 527,
+  "height": 681,
+  "aspect_ratio": 1.292,
+  "quality_score": 0.682,
+  "ratio_score": 0.891,
+  "resolution_score": 0.194,
+  "meets_strict_requirements": [
+    "height 681px < minimum 1000px"
+  ],
+  "page_url": "https://commons.wikimedia.org/wiki/File:Chr%C3%A9tien_de_Troyes.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-16T23:51:15.825267",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.736377"
+}

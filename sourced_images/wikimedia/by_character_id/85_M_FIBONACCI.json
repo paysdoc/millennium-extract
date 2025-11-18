@@ -1,0 +1,20 @@
+{
+  "character_name": "FIBONACCI",
+  "character_id": 85,
+  "category": "M",
+  "first_names": "Leonardo",
+  "biography": "Italian mathematician",
+  "birth_date": "1170",
+  "death_date": "1230 (60yrs)",
+  "width": 1680,
+  "height": 2376,
+  "aspect_ratio": 1.414,
+  "quality_score": 0.903,
+  "ratio_score": 1.0,
+  "resolution_score": 0.677,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.002233",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.698756"
+}

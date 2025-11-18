@@ -1,0 +1,20 @@
+{
+  "character_name": "GILBERT",
+  "character_id": 97,
+  "category": "M",
+  "first_names": "William",
+  "biography": "English physician",
+  "birth_date": "1544",
+  "death_date": "1603 (59yrs)",
+  "width": 4193,
+  "height": 5440,
+  "aspect_ratio": 1.297,
+  "quality_score": 0.927,
+  "ratio_score": 0.895,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.223310",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.741755"
+}

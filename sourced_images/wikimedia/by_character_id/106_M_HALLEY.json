@@ -1,0 +1,20 @@
+{
+  "character_name": "HALLEY",
+  "character_id": 106,
+  "category": "M",
+  "first_names": "Edmond",
+  "biography": "English astronomer",
+  "birth_date": "1656",
+  "death_date": "1742 (86yrs)",
+  "width": 1036,
+  "height": 1492,
+  "aspect_ratio": 1.44,
+  "quality_score": 0.81,
+  "ratio_score": 0.975,
+  "resolution_score": 0.425,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.702203",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.686761"
+}

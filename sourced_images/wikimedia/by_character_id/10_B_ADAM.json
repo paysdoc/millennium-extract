@@ -1,0 +1,21 @@
+{
+  "character_name": "ADAM",
+  "character_id": 10,
+  "category": "B",
+  "first_names": "Robert",
+  "biography": "Scottish architect & interior designer",
+  "birth_date": "1728",
+  "death_date": "1792 (64yrs)",
+  "width": 1216,
+  "height": 1536,
+  "aspect_ratio": 1.263,
+  "quality_score": 0.739,
+  "ratio_score": 0.869,
+  "resolution_score": 0.438,
+  "meets_strict_requirements": [],
+  "page_url": "https://commons.wikimedia.org/wiki/File:Robert-adam.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-18T10:13:45.959783",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.699283"
+}

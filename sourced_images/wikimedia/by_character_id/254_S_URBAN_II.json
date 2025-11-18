@@ -1,0 +1,20 @@
+{
+  "character_name": "URBAN II",
+  "character_id": 254,
+  "category": "S",
+  "first_names": "(Odo of Chantillon?sur?Ma",
+  "biography": "Pope (French), 1088-1099 (11yrs)",
+  "birth_date": "1042",
+  "death_date": "1099 S4",
+  "width": 4478,
+  "height": 7357,
+  "aspect_ratio": 1.643,
+  "quality_score": 0.87,
+  "ratio_score": 0.814,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.626023",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.685586"
+}

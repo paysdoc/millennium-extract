@@ -1,0 +1,20 @@
+{
+  "character_name": "BABBAGE",
+  "character_id": 20,
+  "category": "I",
+  "first_names": "Charles",
+  "biography": "English mathematician",
+  "birth_date": "1792",
+  "death_date": "1871 (79yrs)",
+  "width": 2568,
+  "height": 4127,
+  "aspect_ratio": 1.607,
+  "quality_score": 0.887,
+  "ratio_score": 0.838,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.516634",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.728942"
+}

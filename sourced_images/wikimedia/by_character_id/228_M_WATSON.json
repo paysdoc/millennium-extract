@@ -1,0 +1,22 @@
+{
+  "character_name": "WATSON",
+  "character_id": 228,
+  "category": "M",
+  "first_names": "James",
+  "biography": "b. 1928, American geneticist",
+  "birth_date": "1872-10-04",
+  "death_date": "1958-11-25",
+  "wikimedia_title": "228_M_WATSON_temp4",
+  "wikimedia_url": "file://sourced_images/temp_candidates/228_M_WATSON_temp4.jpg",
+  "width": 2839,
+  "height": 4016,
+  "aspect_ratio": 1.415,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T17:49:44.204575",
+  "rank": 1,
+  "quality_score": 1.0,
+  "ratio_score": 1.0,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.702103"
+}

@@ -1,0 +1,20 @@
+{
+  "character_name": "ISABELLA",
+  "character_id": 124,
+  "category": "R",
+  "first_names": "(Of Castille)",
+  "biography": "Queen of Spain,  r. 1474-1504 (30yrs)",
+  "birth_date": "1451",
+  "death_date": "1504 (53yrs)",
+  "width": 2087,
+  "height": 2582,
+  "aspect_ratio": 1.237,
+  "quality_score": 0.816,
+  "ratio_score": 0.85,
+  "resolution_score": 0.736,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.259045",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.702744"
+}

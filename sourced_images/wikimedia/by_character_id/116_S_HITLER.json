@@ -1,0 +1,20 @@
+{
+  "character_name": "HITLER",
+  "character_id": 116,
+  "category": "S",
+  "first_names": "Adolf",
+  "biography": "German Chancellor & F hrer, 1933-45 (12yrs)",
+  "birth_date": "1889",
+  "death_date": "1945 (56yrs)",
+  "width": 2079,
+  "height": 2739,
+  "aspect_ratio": 1.317,
+  "quality_score": 0.872,
+  "ratio_score": 0.912,
+  "resolution_score": 0.781,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:26.768841",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.676227"
+}

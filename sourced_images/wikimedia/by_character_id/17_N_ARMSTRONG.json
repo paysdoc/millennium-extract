@@ -1,0 +1,20 @@
+{
+  "character_name": "ARMSTRONG",
+  "character_id": 17,
+  "category": "N",
+  "first_names": "Neil",
+  "biography": "b. 1930, American astronaut",
+  "birth_date": "1930-08-05",
+  "death_date": "",
+  "width": 2917,
+  "height": 4125,
+  "aspect_ratio": 1.414,
+  "quality_score": 1.0,
+  "ratio_score": 1.0,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.501227",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.744452"
+}

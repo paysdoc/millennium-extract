@@ -1,0 +1,20 @@
+{
+  "character_name": "GEORGE III",
+  "character_id": 96,
+  "category": "R",
+  "first_names": "(Farmer George)",
+  "biography": "R21, King of England (Hanover),  r. 1760-1820 (60yrs)",
+  "birth_date": "1738",
+  "death_date": "1820 (82 yrs)",
+  "width": 2326,
+  "height": 3532,
+  "aspect_ratio": 1.518,
+  "quality_score": 0.934,
+  "ratio_score": 0.906,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.778644",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.689133"
+}

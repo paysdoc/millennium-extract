@@ -1,0 +1,20 @@
+{
+  "character_name": "ST. DOMINIC",
+  "character_id": 234,
+  "category": "P",
+  "first_names": "(Domingo de Guzman)",
+  "biography": "Spanish friar & saint",
+  "birth_date": "1170",
+  "death_date": "1221 (51yrs)",
+  "width": 4069,
+  "height": 5121,
+  "aspect_ratio": 1.259,
+  "quality_score": 0.906,
+  "ratio_score": 0.865,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.802669",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.712933"
+}

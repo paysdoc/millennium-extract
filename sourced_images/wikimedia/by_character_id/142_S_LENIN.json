@@ -1,0 +1,20 @@
+{
+  "character_name": "LENIN",
+  "character_id": 142,
+  "category": "S",
+  "first_names": "Vladimir Ilyich",
+  "biography": "Russian revolutionary leader, 1903-17; Head of State, 1917-24",
+  "birth_date": "1870",
+  "death_date": "1924 (54yrs)",
+  "width": 2112,
+  "height": 3200,
+  "aspect_ratio": 1.515,
+  "quality_score": 0.909,
+  "ratio_score": 0.908,
+  "resolution_score": 0.912,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.069938",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.738817"
+}

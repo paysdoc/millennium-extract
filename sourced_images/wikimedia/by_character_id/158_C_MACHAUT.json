@@ -1,0 +1,23 @@
+{
+  "character_name": "MACHAUT",
+  "character_id": 158,
+  "category": "C",
+  "first_names": "Guillaume de",
+  "biography": "French composer, poet, priest & courtier, Gothic",
+  "birth_date": "1300",
+  "death_date": "1377 (77yrs)",
+  "width": 809,
+  "height": 869,
+  "aspect_ratio": 1.074,
+  "quality_score": 0.597,
+  "ratio_score": 0.746,
+  "resolution_score": 0.248,
+  "meets_strict_requirements": [
+    "height 869px < minimum 1000px"
+  ],
+  "page_url": "https://commons.wikimedia.org/wiki/File:Le_Dit_de_la_Fonteinne_amoureuse_-_Guillaume_de_Machaut_%C3%A9crivant.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-16T21:59:17.837724",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.690680"
+}

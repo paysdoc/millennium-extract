@@ -1,0 +1,20 @@
+{
+  "character_name": "PHILIP II",
+  "character_id": 204,
+  "category": "R",
+  "first_names": "King of Spain",
+  "biography": ",  r. 1552-1598 (46 yrs)",
+  "birth_date": "1527",
+  "death_date": "1598 (71yrs)",
+  "width": 2213,
+  "height": 2952,
+  "aspect_ratio": 1.334,
+  "quality_score": 0.9,
+  "ratio_score": 0.926,
+  "resolution_score": 0.842,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.317996",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.742387"
+}

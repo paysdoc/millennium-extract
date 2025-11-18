@@ -1,0 +1,20 @@
+{
+  "character_name": "INNOCENT III",
+  "character_id": 123,
+  "category": "S",
+  "first_names": "(Lothario)",
+  "biography": "Pope (Italian),  1198-1216 (18yrs)",
+  "birth_date": "1160",
+  "death_date": "1216 (56yrs)",
+  "width": 2293,
+  "height": 2833,
+  "aspect_ratio": 1.235,
+  "quality_score": 0.836,
+  "ratio_score": 0.848,
+  "resolution_score": 0.808,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.191576",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.718965"
+}

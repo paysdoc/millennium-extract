@@ -1,0 +1,26 @@
+{
+  "character_id": 224,
+  "character_name": "SAXONY",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:Dresden (196426309).jpeg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/1/17/Dresden_%28196426309%29.jpeg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Dresden_(196426309).jpeg",
+  "width": 2000,
+  "height": 1325,
+  "aspect_ratio": 0.662,
+  "score": 0.7834210405172973,
+  "candidate_rank": 13,
+  "rank": 1,
+  "selected_option": 13,
+  "selection_timestamp": "2025-11-18T17:19:40.573239",
+  "quality_score": 0.513,
+  "ratio_score": 0.571,
+  "resolution_score": 0.378,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.662)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.766507"
+}

@@ -1,0 +1,20 @@
+{
+  "character_name": "LOCKE",
+  "character_id": 146,
+  "category": "P",
+  "first_names": "John",
+  "biography": "English Empiricist philosopher",
+  "birth_date": "1632",
+  "death_date": "1704 (72yrs)",
+  "width": 2056,
+  "height": 3088,
+  "aspect_ratio": 1.502,
+  "quality_score": 0.908,
+  "ratio_score": 0.919,
+  "resolution_score": 0.88,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:25.882666",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.665238"
+}

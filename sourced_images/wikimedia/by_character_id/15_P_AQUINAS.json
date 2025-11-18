@@ -1,0 +1,22 @@
+{
+  "character_name": "AQUINAS",
+  "character_id": 15,
+  "category": "P",
+  "first_names": "(St. Thomas)",
+  "biography": "Italian Scholastic theologian & monk",
+  "birth_date": "1225",
+  "death_date": "1274 (49yrs)",
+  "wikimedia_title": "15_P_AQUINAS_temp9",
+  "wikimedia_url": "file://sourced_images/temp_candidates/15_P_AQUINAS_temp9.jpg",
+  "width": 3208,
+  "height": 5961,
+  "aspect_ratio": 1.858,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T18:23:58.167566",
+  "rank": 1,
+  "quality_score": 0.785,
+  "ratio_score": 0.693,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.668524"
+}

@@ -1,0 +1,20 @@
+{
+  "character_name": "ELIZABETH I",
+  "character_id": 80,
+  "category": "R",
+  "first_names": "(Queen Bess)",
+  "biography": "Queen of England (last of the Tudors),  r. 1558-1603 (45yrs)",
+  "birth_date": "1533",
+  "death_date": "1603 (70yrs)",
+  "width": 2863,
+  "height": 3845,
+  "aspect_ratio": 1.343,
+  "quality_score": 0.953,
+  "ratio_score": 0.934,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.115646",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.679370"
+}

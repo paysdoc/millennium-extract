@@ -1,0 +1,20 @@
+{
+  "character_name": "HENRY VI",
+  "character_id": 113,
+  "category": "R",
+  "first_names": "(of Windsor).",
+  "biography": "R9, King of England (Lancaster),  r. 1422-1476 (49yrs)",
+  "birth_date": "1421",
+  "death_date": "1471 (50yrs)",
+  "width": 2400,
+  "height": 3067,
+  "aspect_ratio": 1.278,
+  "quality_score": 0.878,
+  "ratio_score": 0.88,
+  "resolution_score": 0.874,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:26.586784",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.672596"
+}

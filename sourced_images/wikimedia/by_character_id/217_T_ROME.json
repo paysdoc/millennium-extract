@@ -1,0 +1,26 @@
+{
+  "character_id": 217,
+  "character_name": "ROME",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:Roma - Comune di Roma Capitale - 2024-09-29 19-13-34 001.jpg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/2/26/Roma_-_Comune_di_Roma_Capitale_-_2024-09-29_19-13-34_001.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Roma_-_Comune_di_Roma_Capitale_-_2024-09-29_19-13-34_001.jpg",
+  "width": 6000,
+  "height": 4000,
+  "aspect_ratio": 0.667,
+  "score": 0.9727922061357854,
+  "candidate_rank": 1,
+  "rank": 1,
+  "selected_option": 1,
+  "selection_timestamp": "2025-11-18T16:57:34.050593",
+  "quality_score": 0.701,
+  "ratio_score": 0.572,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.667)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.707188"
+}

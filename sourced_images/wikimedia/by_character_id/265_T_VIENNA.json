@@ -1,0 +1,26 @@
+{
+  "character_id": 265,
+  "character_name": "VIENNA",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:Wien, Stephansdom, Blick vom S\u00fcdturm -- 2018 -- 3268.jpg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Wien%2C_Stephansdom%2C_Blick_vom_S%C3%BCdturm_--_2018_--_3268.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Wien,_Stephansdom,_Blick_vom_S\u00fcdturm_--_2018_--_3268.jpg",
+  "width": 6631,
+  "height": 4421,
+  "aspect_ratio": 0.667,
+  "score": 0.9728247137101282,
+  "candidate_rank": 1,
+  "rank": 1,
+  "selected_option": 1,
+  "selection_timestamp": "2025-11-18T17:19:41.113538",
+  "quality_score": 0.701,
+  "ratio_score": 0.572,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.667)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.717057"
+}

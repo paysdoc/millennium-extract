@@ -1,0 +1,20 @@
+{
+  "character_name": "COPERNICUS",
+  "character_id": 58,
+  "category": "M",
+  "first_names": "Nicolaus",
+  "biography": "Polish astronomer",
+  "birth_date": "1473",
+  "death_date": "1543 (70yrs)",
+  "width": 3015,
+  "height": 4140,
+  "aspect_ratio": 1.373,
+  "quality_score": 0.972,
+  "ratio_score": 0.961,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:25.992866",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.667776"
+}

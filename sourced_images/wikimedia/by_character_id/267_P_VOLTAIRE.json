@@ -1,0 +1,20 @@
+{
+  "character_name": "VOLTAIRE",
+  "character_id": 267,
+  "category": "P",
+  "first_names": "Francois?Marie Arouet",
+  "biography": "French philosopher, historian & writer",
+  "birth_date": "1694",
+  "death_date": "1778 (84yrs)",
+  "width": 3532,
+  "height": 5000,
+  "aspect_ratio": 1.416,
+  "quality_score": 0.999,
+  "ratio_score": 0.999,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:31.422824",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.771612"
+}

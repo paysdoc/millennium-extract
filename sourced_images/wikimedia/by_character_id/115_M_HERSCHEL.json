@@ -1,0 +1,20 @@
+{
+  "character_name": "HERSCHEL",
+  "character_id": 115,
+  "category": "M",
+  "first_names": "Sir William",
+  "biography": ", Hanover?born British astronomer",
+  "birth_date": "1738",
+  "death_date": "1822 (84yrs)",
+  "width": 2034,
+  "height": 2950,
+  "aspect_ratio": 1.45,
+  "quality_score": 0.928,
+  "ratio_score": 0.965,
+  "resolution_score": 0.841,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.460032",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.682919"
+}

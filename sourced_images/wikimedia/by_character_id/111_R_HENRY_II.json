@@ -1,0 +1,20 @@
+{
+  "character_name": "HENRY II",
+  "character_id": 111,
+  "category": "R",
+  "first_names": "Henry",
+  "biography": "King of England known for his legal reforms and conflicts.",
+  "birth_date": "1133-03-05",
+  "death_date": "1189-07-06",
+  "width": 2400,
+  "height": 3374,
+  "aspect_ratio": 1.406,
+  "quality_score": 0.983,
+  "ratio_score": 0.992,
+  "resolution_score": 0.962,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.207745",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.679658"
+}

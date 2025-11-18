@@ -1,0 +1,26 @@
+{
+  "character_id": 148,
+  "character_name": "LONDON (POST 1666)",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:London Skyline (125508655).jpeg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/6/67/London_Skyline_%28125508655%29.jpeg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:London_Skyline_(125508655).jpeg",
+  "width": 2048,
+  "height": 1152,
+  "aspect_ratio": 0.562,
+  "score": 0.7100814104531834,
+  "candidate_rank": 7,
+  "rank": 1,
+  "selected_option": 7,
+  "selection_timestamp": "2025-11-18T16:57:32.943478",
+  "quality_score": 0.477,
+  "ratio_score": 0.54,
+  "resolution_score": 0.328,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.562)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.764731"
+}

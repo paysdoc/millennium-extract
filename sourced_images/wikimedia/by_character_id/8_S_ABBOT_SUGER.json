@@ -1,0 +1,20 @@
+{
+  "character_name": "ABBOT SUGER",
+  "character_id": 8,
+  "category": "S",
+  "first_names": "",
+  "biography": "Abbot of St. Denis (French), 1122-1150 (28yrs)",
+  "birth_date": "1081",
+  "death_date": "1150 (69yrs)",
+  "width": 4131,
+  "height": 5920,
+  "aspect_ratio": 1.433,
+  "quality_score": 0.987,
+  "ratio_score": 0.981,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:27.041060",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.677522"
+}

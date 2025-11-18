@@ -1,0 +1,24 @@
+{
+  "character_name": "GUIDO of AREZZO",
+  "character_id": 104,
+  "category": "C",
+  "first_names": "",
+  "biography": "Pioneer of musical notation and music theory. Guido is a joker for all composers using music notation",
+  "birth_date": "995",
+  "death_date": "1050 (55yrs)",
+  "width": 371,
+  "height": 524,
+  "aspect_ratio": 1.412,
+  "quality_score": 0.744,
+  "ratio_score": 0.998,
+  "resolution_score": 0.149,
+  "meets_strict_requirements": [
+    "height 524px < minimum 1000px"
+  ],
+  "wikimedia_title": "Guido depicted in a medieval manuscript",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Guido_van_Arezzo.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-16T15:36:38.630902",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.707410"
+}

@@ -1,0 +1,21 @@
+{
+  "character_name": "CAMBRIDGE",
+  "character_id": 43,
+  "category": "T",
+  "first_names": "",
+  "biography": "",
+  "birth_date": "",
+  "death_date": "",
+  "source": "manual_selection",
+  "selected_option": 5,
+  "download_timestamp": "2025-11-18T13:36:58.141496",
+  "rank": 1,
+  "width": 3747,
+  "height": 5612,
+  "aspect_ratio": 1.498,
+  "quality_score": 0.946,
+  "ratio_score": 0.923,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.762399"
+}

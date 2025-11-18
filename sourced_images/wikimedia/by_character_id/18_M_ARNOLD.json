@@ -1,0 +1,20 @@
+{
+  "character_name": "ARNOLD",
+  "character_id": 18,
+  "category": "M",
+  "first_names": "of VILLANOVA",
+  "biography": ",",
+  "birth_date": "1235",
+  "death_date": "1312 (77yrs)",
+  "width": 2717,
+  "height": 3892,
+  "aspect_ratio": 1.432,
+  "quality_score": 0.987,
+  "ratio_score": 0.982,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.599678",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.745445"
+}

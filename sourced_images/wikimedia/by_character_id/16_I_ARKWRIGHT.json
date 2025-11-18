@@ -1,0 +1,20 @@
+{
+  "character_name": "ARKWRIGHT",
+  "character_id": 16,
+  "category": "I",
+  "first_names": "Sir Richard",
+  "biography": "English inventor & industrialist,",
+  "birth_date": "1732",
+  "death_date": "1792 (60yrs)",
+  "width": 3306,
+  "height": 4096,
+  "aspect_ratio": 1.239,
+  "quality_score": 0.896,
+  "ratio_score": 0.851,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.407722",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.743388"
+}

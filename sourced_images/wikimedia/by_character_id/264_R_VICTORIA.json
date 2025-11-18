@@ -1,0 +1,20 @@
+{
+  "character_name": "VICTORIA",
+  "character_id": 264,
+  "category": "R",
+  "first_names": "Queen of England",
+  "biography": "1837-1901 (64yrs), also Empress of India.",
+  "birth_date": "1819",
+  "death_date": "1901 (82yrs)",
+  "width": 2400,
+  "height": 3092,
+  "aspect_ratio": 1.288,
+  "quality_score": 0.886,
+  "ratio_score": 0.888,
+  "resolution_score": 0.881,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.401095",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.708504"
+}

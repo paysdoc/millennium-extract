@@ -1,0 +1,17 @@
+{
+  "character_name": "HUYGENS",
+  "character_id": 121,
+  "category": "I",
+  "source": "manual_selection",
+  "selected_option": 5,
+  "download_timestamp": "2025-11-14T18:38:47.094438",
+  "rank": 1,
+  "width": 3321,
+  "height": 4697,
+  "aspect_ratio": 1.414,
+  "quality_score": 1.0,
+  "ratio_score": 1.0,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.669400"
+}

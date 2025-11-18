@@ -1,0 +1,17 @@
+{
+  "character_name": "EDISON",
+  "character_id": 73,
+  "category": "I",
+  "source": "manual_selection_custom_query",
+  "selected_option": 7,
+  "download_timestamp": "2025-11-14T18:18:02.960771",
+  "rank": 1,
+  "width": 2575,
+  "height": 3878,
+  "aspect_ratio": 1.506,
+  "quality_score": 0.941,
+  "ratio_score": 0.916,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.746452"
+}

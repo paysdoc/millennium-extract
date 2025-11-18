@@ -1,0 +1,20 @@
+{
+  "character_name": "MENDELEEV",
+  "character_id": 171,
+  "category": "M",
+  "first_names": "Dmitri",
+  "biography": "Russian chemist",
+  "birth_date": "1834",
+  "death_date": "1907 (73yrs)",
+  "width": 2492,
+  "height": 3644,
+  "aspect_ratio": 1.462,
+  "quality_score": 0.968,
+  "ratio_score": 0.954,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.805528",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.735804"
+}

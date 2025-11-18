@@ -1,0 +1,25 @@
+{
+  "character_name": "DUFAY",
+  "character_id": 71,
+  "category": "C",
+  "first_names": "Guillaume",
+  "biography": "Netherlands composer",
+  "birth_date": "1400",
+  "death_date": "1474 (74yrs)",
+  "width": 418,
+  "height": 373,
+  "aspect_ratio": 0.892,
+  "quality_score": 0.492,
+  "ratio_score": 0.657,
+  "resolution_score": 0.106,
+  "meets_strict_requirements": [
+    "height 373px < minimum 1000px",
+    "landscape orientation (ratio=0.892)"
+  ],
+  "wikimedia_title": "Du Fay (left) beside a portative organ, with Gilles Binchois (right) holding a small harp in a miniature from before 1451.",
+  "page_url": "https://commons.wikimedia.org/wiki/File:DufayBinchois.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-16T15:31:39.896143",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.675652"
+}

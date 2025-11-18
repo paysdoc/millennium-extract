@@ -1,0 +1,20 @@
+{
+  "character_name": "GORBACHEV",
+  "character_id": 100,
+  "category": "S",
+  "first_names": "Mikhail Sergeyevich",
+  "biography": "b. 1931, Russian political leader,  1985?",
+  "birth_date": "1931-03-02",
+  "death_date": "",
+  "width": 2800,
+  "height": 4050,
+  "aspect_ratio": 1.446,
+  "quality_score": 0.978,
+  "ratio_score": 0.969,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.271749",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.742147"
+}

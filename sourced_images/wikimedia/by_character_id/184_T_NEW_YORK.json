@@ -1,0 +1,26 @@
+{
+  "character_id": 184,
+  "character_name": "NEW YORK",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:Statue of Liberty, New York, USA-30July2010 (1).jpg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Statue_of_Liberty%2C_New_York%2C_USA-30July2010_%281%29.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:Statue_of_Liberty,_New_York,_USA-30July2010_(1).jpg",
+  "width": 5616,
+  "height": 3744,
+  "aspect_ratio": 0.667,
+  "score": 0.9727922061357854,
+  "candidate_rank": 1,
+  "rank": 1,
+  "selected_option": 1,
+  "selection_timestamp": "2025-11-18T16:57:33.422937",
+  "quality_score": 0.701,
+  "ratio_score": 0.572,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.667)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.756357"
+}

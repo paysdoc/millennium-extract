@@ -1,0 +1,20 @@
+{
+  "character_name": "JEFFERSON",
+  "character_id": 126,
+  "category": "S",
+  "first_names": "Thomas",
+  "biography": "Third American President (2 terms), 1801-1809 (8yrs)",
+  "birth_date": "1743",
+  "death_date": "1826 (83yrs)",
+  "width": 2512,
+  "height": 2996,
+  "aspect_ratio": 1.193,
+  "quality_score": 0.829,
+  "ratio_score": 0.819,
+  "resolution_score": 0.854,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.330568",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.723757"
+}

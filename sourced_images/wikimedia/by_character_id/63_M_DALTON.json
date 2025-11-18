@@ -1,0 +1,20 @@
+{
+  "character_name": "DALTON",
+  "character_id": 63,
+  "category": "M",
+  "first_names": "John",
+  "biography": "English chemist",
+  "birth_date": "1766",
+  "death_date": "1844 (78yrs)",
+  "width": 2056,
+  "height": 3088,
+  "aspect_ratio": 1.502,
+  "quality_score": 0.908,
+  "ratio_score": 0.919,
+  "resolution_score": 0.88,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.691457",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.747358"
+}

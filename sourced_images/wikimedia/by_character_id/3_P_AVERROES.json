@@ -1,0 +1,24 @@
+{
+  "character_name": "AVERROES",
+  "character_id": 3,
+  "category": "P",
+  "first_names": "(Ibn Rushd)",
+  "biography": "Arabian philosopher & physician",
+  "birth_date": "1126",
+  "death_date": "1198 (72yrs)",
+  "wikimedia_title": "3_P_AVERROES_temp4",
+  "wikimedia_url": "file://sourced_images/temp_candidates/3_P_AVERROES_temp4.jpg",
+  "width": 3264,
+  "height": 2448,
+  "aspect_ratio": 0.75,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T18:23:58.066643",
+  "rank": 1,
+  "quality_score": 0.63,
+  "ratio_score": 0.601,
+  "resolution_score": 0.698,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.750)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.712574"
+}

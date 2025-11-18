@@ -1,0 +1,20 @@
+{
+  "character_name": "CHARLES V",
+  "character_id": 51,
+  "category": "R",
+  "first_names": "Holy Roman Emperor",
+  "biography": ",  r. 1511-1552 (41yrs), (also king of Spain)",
+  "birth_date": "1500",
+  "death_date": "1558 (58yrs)",
+  "width": 2354,
+  "height": 3516,
+  "aspect_ratio": 1.494,
+  "quality_score": 0.948,
+  "ratio_score": 0.926,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:31.230089",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.763129"
+}

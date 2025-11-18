@@ -1,0 +1,22 @@
+{
+  "character_name": "RUTHERFORD",
+  "character_id": 222,
+  "category": "M",
+  "first_names": "Lord Ernest",
+  "biography": "New Zealand?born English physicist",
+  "birth_date": "1871",
+  "death_date": "1937 (66yrs)",
+  "wikimedia_title": "RUTHERFORD selection 1",
+  "wikimedia_url": "file://sourced_images/temp_candidates/222_M_RUTHERFORD_temp1.jpg",
+  "width": 3042,
+  "height": 4190,
+  "aspect_ratio": 1.377,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T17:37:02.090641",
+  "rank": 1,
+  "quality_score": 0.975,
+  "ratio_score": 0.964,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.710916"
+}

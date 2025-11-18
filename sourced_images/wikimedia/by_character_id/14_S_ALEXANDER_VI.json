@@ -1,0 +1,20 @@
+{
+  "character_name": "ALEXANDER VI",
+  "character_id": 14,
+  "category": "S",
+  "first_names": "(Rodrigo Borgia)",
+  "biography": "Pope (Spanish),  1492-1503 (11yrs)",
+  "birth_date": "1431",
+  "death_date": "1503 (72yrs)",
+  "width": 3005,
+  "height": 4202,
+  "aspect_ratio": 1.398,
+  "quality_score": 0.989,
+  "ratio_score": 0.984,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.850207",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.736711"
+}

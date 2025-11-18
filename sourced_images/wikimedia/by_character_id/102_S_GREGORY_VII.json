@@ -1,0 +1,20 @@
+{
+  "character_name": "GREGORY VII",
+  "character_id": 102,
+  "category": "S",
+  "first_names": "(Hildebrand)",
+  "biography": "Pope (Italian),  1073-1085 (12yrs)",
+  "birth_date": "1020",
+  "death_date": "1085",
+  "width": 2782,
+  "height": 3703,
+  "aspect_ratio": 1.331,
+  "quality_score": 0.946,
+  "ratio_score": 0.923,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.759188",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.733416"
+}

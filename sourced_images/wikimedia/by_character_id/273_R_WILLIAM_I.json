@@ -1,0 +1,20 @@
+{
+  "character_name": "WILLIAM I",
+  "character_id": 273,
+  "category": "R",
+  "first_names": "(the Conqueror)",
+  "biography": "King of England (Normandy),  r. 1066-1087 (21yrs)",
+  "birth_date": "1027",
+  "death_date": "1087(60yrs)",
+  "width": 2400,
+  "height": 3380,
+  "aspect_ratio": 1.408,
+  "quality_score": 0.985,
+  "ratio_score": 0.994,
+  "resolution_score": 0.964,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.359869",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.742763"
+}

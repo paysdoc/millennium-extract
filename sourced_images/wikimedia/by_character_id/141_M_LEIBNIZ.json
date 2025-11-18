@@ -1,0 +1,20 @@
+{
+  "character_name": "LEIBNIZ",
+  "character_id": 141,
+  "category": "M",
+  "first_names": "Gottfried",
+  "biography": "German philosopher & mathematician",
+  "birth_date": "1646",
+  "death_date": "1716 (70yrs)",
+  "width": 4486,
+  "height": 5538,
+  "aspect_ratio": 1.235,
+  "quality_score": 0.893,
+  "ratio_score": 0.848,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.736702",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.750116"
+}

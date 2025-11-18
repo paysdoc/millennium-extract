@@ -1,0 +1,20 @@
+{
+  "character_name": "PITT",
+  "character_id": 207,
+  "category": "S",
+  "first_names": "William (the Elder)",
+  "biography": "English Prime Minister (2 terms), 1757-61; 1766-68",
+  "birth_date": "1708",
+  "death_date": "1778 (70yrs)",
+  "width": 2400,
+  "height": 3308,
+  "aspect_ratio": 1.378,
+  "quality_score": 0.959,
+  "ratio_score": 0.965,
+  "resolution_score": 0.943,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.380623",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.725780"
+}

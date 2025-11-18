@@ -1,0 +1,20 @@
+{
+  "character_name": "JOAN OF ARC",
+  "character_id": 128,
+  "category": "S",
+  "first_names": "(St. Joan)",
+  "biography": "French visionary & military leader,  1429-1431 (2yrs)",
+  "birth_date": "1412",
+  "death_date": "1431 (19yrs)",
+  "width": 1812,
+  "height": 2700,
+  "aspect_ratio": 1.49,
+  "quality_score": 0.882,
+  "ratio_score": 0.929,
+  "resolution_score": 0.77,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.100763",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.699541"
+}

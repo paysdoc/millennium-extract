@@ -1,0 +1,20 @@
+{
+  "character_name": "FRANCIS I",
+  "character_id": 90,
+  "category": "R",
+  "first_names": "(Valois)",
+  "biography": "King of France), 1515-1547 (32yrs)",
+  "birth_date": "1494",
+  "death_date": "1547 (51yrs)",
+  "width": 2465,
+  "height": 3000,
+  "aspect_ratio": 1.217,
+  "quality_score": 0.841,
+  "ratio_score": 0.835,
+  "resolution_score": 0.855,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:26.387235",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.671195"
+}

@@ -1,0 +1,20 @@
+{
+  "character_name": "ST. BERNARD",
+  "character_id": 232,
+  "category": "S",
+  "first_names": "(of Clairvaux)",
+  "biography": "Cistercian monk (French), ABBOT 1115-1153 (38yrs)",
+  "birth_date": "1091",
+  "death_date": "1153 (62yrs)",
+  "width": 1500,
+  "height": 2508,
+  "aspect_ratio": 1.672,
+  "quality_score": 0.771,
+  "ratio_score": 0.795,
+  "resolution_score": 0.715,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.152503",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.700710"
+}

@@ -1,0 +1,20 @@
+{
+  "character_name": "NEWTON",
+  "character_id": 185,
+  "category": "M",
+  "first_names": "Sir Isaac",
+  "biography": "English mathematician & physicist",
+  "birth_date": "1642",
+  "death_date": "1727 (85yrs)",
+  "width": 2218,
+  "height": 2671,
+  "aspect_ratio": 1.204,
+  "quality_score": 0.807,
+  "ratio_score": 0.826,
+  "resolution_score": 0.761,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.207489",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.701658"
+}

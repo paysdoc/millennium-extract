@@ -1,0 +1,21 @@
+{
+  "character_name": "EDINBURGH",
+  "character_id": 72,
+  "category": "T",
+  "first_names": "",
+  "biography": "Capital city of Scotland known for its historic and cultural attractions.",
+  "birth_date": "",
+  "death_date": "",
+  "width": 1833,
+  "height": 2592,
+  "aspect_ratio": 1.414,
+  "quality_score": 0.922,
+  "ratio_score": 1.0,
+  "resolution_score": 0.739,
+  "meets_strict_requirements": [],
+  "page_url": "https://commons.wikimedia.org/wiki/File:Edinburgh_(D%C3%B9n_%C3%88ideann)_178.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-18T14:00:55.811728",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.669144"
+}

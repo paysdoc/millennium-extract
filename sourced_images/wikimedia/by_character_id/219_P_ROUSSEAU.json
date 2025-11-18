@@ -1,0 +1,22 @@
+{
+  "character_name": "ROUSSEAU",
+  "character_id": 219,
+  "category": "P",
+  "first_names": "Jean?Jacques",
+  "biography": "French philosopher & writer",
+  "birth_date": "1712",
+  "death_date": "1778 (66yrs)",
+  "wikimedia_title": "219_P_ROUSSEAU_temp7",
+  "wikimedia_url": "file://sourced_images/temp_candidates/219_P_ROUSSEAU_temp7.jpg",
+  "width": 3500,
+  "height": 4591,
+  "aspect_ratio": 1.312,
+  "score": 1.0,
+  "download_timestamp": "2025-11-14T18:28:31.351359",
+  "rank": 1,
+  "quality_score": 0.935,
+  "ratio_score": 0.907,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.704172"
+}

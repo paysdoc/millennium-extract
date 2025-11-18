@@ -1,0 +1,17 @@
+{
+  "character_name": "MAGELLAN",
+  "character_id": 161,
+  "category": "N",
+  "source": "manual_selection",
+  "selected_option": 5,
+  "download_timestamp": "2025-11-14T18:55:05.927647",
+  "rank": 1,
+  "width": 3162,
+  "height": 4125,
+  "aspect_ratio": 1.305,
+  "quality_score": 0.931,
+  "ratio_score": 0.901,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.714677"
+}

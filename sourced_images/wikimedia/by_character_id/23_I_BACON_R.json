@@ -1,0 +1,23 @@
+{
+  "character_name": "BACON, ROGER",
+  "character_id": 23,
+  "category": "I",
+  "first_names": "(\"Doctor Mirabilis\")",
+  "biography": "English monk & scholar",
+  "birth_date": "1214",
+  "death_date": "1292 (78yrs)",
+  "width": 700,
+  "height": 694,
+  "aspect_ratio": 0.991,
+  "quality_score": 0.551,
+  "ratio_score": 0.703,
+  "resolution_score": 0.198,
+  "meets_strict_requirements": [
+    "height 694px < minimum 1000px",
+    "landscape orientation (ratio=0.991)"
+  ],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:29.100256",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.716763"
+}

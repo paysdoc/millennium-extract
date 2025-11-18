@@ -1,0 +1,20 @@
+{
+  "character_name": "URBAN VIII",
+  "character_id": 255,
+  "category": "S",
+  "first_names": "(Matteo Barberini)",
+  "biography": "Pope (Italian),  1624-1644 (21yrs)",
+  "birth_date": "1568",
+  "death_date": "1644 (76yrs)",
+  "width": 2240,
+  "height": 3554,
+  "aspect_ratio": 1.587,
+  "quality_score": 0.897,
+  "ratio_score": 0.853,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:28.558824",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.711238"
+}

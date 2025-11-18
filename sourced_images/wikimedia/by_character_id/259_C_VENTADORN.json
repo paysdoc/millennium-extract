@@ -1,0 +1,23 @@
+{
+  "character_name": "VENTADORN",
+  "character_id": 259,
+  "category": "C",
+  "first_names": "Bernart de",
+  "biography": "French troubadour",
+  "birth_date": "1125",
+  "death_date": "95 (70yrs)",
+  "width": 551,
+  "height": 664,
+  "aspect_ratio": 1.205,
+  "quality_score": 0.636,
+  "ratio_score": 0.827,
+  "resolution_score": 0.189,
+  "meets_strict_requirements": [
+    "height 664px < minimum 1000px"
+  ],
+  "page_url": "https://commons.wikimedia.org/wiki/File:BnF_ms._12473_fol._15v_-_Bernart_de_Ventadour_(1).jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-16T22:41:23.374915",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.682604"
+}

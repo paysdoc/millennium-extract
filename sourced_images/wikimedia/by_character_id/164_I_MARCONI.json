@@ -1,0 +1,17 @@
+{
+  "character_name": "MARCONI",
+  "character_id": 164,
+  "category": "I",
+  "source": "manual_selection",
+  "selected_option": 9,
+  "download_timestamp": "2025-11-14T18:38:47.095211",
+  "rank": 1,
+  "width": 3118,
+  "height": 3461,
+  "aspect_ratio": 1.11,
+  "quality_score": 0.833,
+  "ratio_score": 0.767,
+  "resolution_score": 0.987,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T17:22:47.700104"
+}

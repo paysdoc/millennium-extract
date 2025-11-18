@@ -1,0 +1,21 @@
+{
+  "character_name": "HUGO",
+  "character_id": 119,
+  "category": "D",
+  "first_names": "Victor Marie",
+  "biography": "French poet, novelist & dramatist",
+  "birth_date": "1802",
+  "death_date": "1885 (83yrs)",
+  "width": 3433,
+  "height": 5150,
+  "aspect_ratio": 1.5,
+  "quality_score": 0.945,
+  "ratio_score": 0.921,
+  "resolution_score": 1.0,
+  "meets_strict_requirements": [],
+  "page_url": "https://commons.wikimedia.org/wiki/File:Glyptotek-Rodin-Victor_Hugo.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-16T23:51:15.780929",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.697497"
+}

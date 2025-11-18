@@ -1,0 +1,20 @@
+{
+  "character_name": "PRIESTLEY",
+  "character_id": 209,
+  "category": "M",
+  "first_names": "Joseph",
+  "biography": "English chemist",
+  "birth_date": "1733",
+  "death_date": "1804 (71yrs)",
+  "width": 2364,
+  "height": 3344,
+  "aspect_ratio": 1.415,
+  "quality_score": 0.986,
+  "ratio_score": 1.0,
+  "resolution_score": 0.953,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:26.092053",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.668859"
+}

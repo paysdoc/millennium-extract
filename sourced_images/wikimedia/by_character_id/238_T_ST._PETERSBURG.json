@@ -1,0 +1,26 @@
+{
+  "character_id": 238,
+  "character_name": "ST. PETERSBURG",
+  "category": "T",
+  "first_names": "",
+  "birth_date": "",
+  "death_date": "",
+  "wikimedia_title": "File:ST PETERBURG RUSSIA FROM F-GZCL (7176572981).jpg",
+  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/4/42/ST_PETERBURG_RUSSIA_FROM_F-GZCL_%287176572981%29.jpg",
+  "page_url": "https://commons.wikimedia.org/wiki/File:ST_PETERBURG_RUSSIA_FROM_F-GZCL_(7176572981).jpg",
+  "width": 2896,
+  "height": 1928,
+  "aspect_ratio": 0.666,
+  "score": 0.8370775717413546,
+  "candidate_rank": 2,
+  "rank": 1,
+  "selected_option": 2,
+  "selection_timestamp": "2025-11-18T17:19:40.711554",
+  "quality_score": 0.565,
+  "ratio_score": 0.572,
+  "resolution_score": 0.55,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.666)"
+  ],
+  "score_updated": "2025-11-18T17:22:47.700216"
+}

@@ -1,0 +1,20 @@
+{
+  "character_name": "CAVENDISH",
+  "character_id": 46,
+  "category": "M",
+  "first_names": "Henry",
+  "biography": "English chemist & physicist",
+  "birth_date": "1731",
+  "death_date": "1810 (79yrs)",
+  "width": 2209,
+  "height": 3174,
+  "aspect_ratio": 1.437,
+  "quality_score": 0.956,
+  "ratio_score": 0.978,
+  "resolution_score": 0.905,
+  "meets_strict_requirements": [],
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-12T00:32:30.882006",
+  "rank": 1,
+  "score_updated": "2025-11-18T17:22:47.752211"
+}
