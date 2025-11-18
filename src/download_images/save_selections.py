@@ -74,9 +74,15 @@ def save_selection(character: Character, image_number: int, review_dir: Path, ou
     temp_candidates_dir = Path("sourced_images/temp_candidates")
 
     # Construct the temp_candidates filename pattern: {id}_{category}_{name}_temp{number}.json
-    normalized_name = character.name.replace(' ', '_').replace('/', '_')
-    temp_filename = f"{character.id}_{character.type}_{normalized_name}_temp{image_number}.json"
+    # Try with the actual name first (which may contain spaces)
+    temp_filename = f"{character.id}_{character.type}_{character.name}_temp{image_number}.json"
     source_metadata = temp_candidates_dir / temp_filename
+
+    # If not found with spaces, try with normalized name (underscores)
+    if not source_metadata.exists():
+        normalized_name = character.name.replace(' ', '_').replace('/', '_')
+        temp_filename = f"{character.id}_{character.type}_{normalized_name}_temp{image_number}.json"
+        source_metadata = temp_candidates_dir / temp_filename
 
     if source_metadata.exists():
         # Copy existing metadata from temp_candidates

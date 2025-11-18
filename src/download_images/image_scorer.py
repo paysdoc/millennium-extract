@@ -11,18 +11,21 @@ class ImageScorer:
     Evaluates and scores images based on aspect ratio and resolution.
     """
 
-    def __init__(self, config: ImageRequirements = None):
+    def __init__(self, config: ImageRequirements = None, category: str = None):
         """
         Initialize scorer with configuration.
 
         Args:
             config: Image requirements configuration (uses default if None)
+            category: Character category code (e.g., 'T', 'P', 'R')
         """
         self.config = config or ImageRequirements()
+        self.category = category
 
     def calculate_ratio_score(self, aspect_ratio: float) -> float:
         """
         Calculate score based on how close the aspect ratio is to target.
+        For category T, allows both portrait (√2) and landscape (1/√2) ratios.
 
         Args:
             aspect_ratio: Height/width ratio
@@ -30,7 +33,17 @@ class ImageScorer:
         Returns:
             Score between 0 and 1
         """
-        return 1 / (1 + abs(aspect_ratio - self.config.TARGET_ASPECT_RATIO))
+        target_ratio = self.config.TARGET_ASPECT_RATIO
+
+        # For category T, check both portrait and landscape ratios
+        if self.category == 'T':
+            portrait_diff = abs(aspect_ratio - target_ratio)
+            landscape_diff = abs(aspect_ratio - (1 / target_ratio))
+            # Use the better (smaller) difference
+            min_diff = min(portrait_diff, landscape_diff)
+            return 1 / (1 + min_diff)
+
+        return 1 / (1 + abs(aspect_ratio - target_ratio))
 
     def calculate_resolution_score(self, height: int) -> float:
         """
@@ -63,30 +76,37 @@ class ImageScorer:
 
         return total
 
-    def is_valid_image(self, width: int, height: int) -> bool:
+    def is_valid_image(self, width: int, height: int) -> list[str]:
         """
         Check if image meets minimum requirements.
+        For category T, allows both portrait and landscape orientations.
 
         Args:
             width: Image width in pixels
             height: Image height in pixels
 
         Returns:
-            True if image meets requirements
+            List of validation failure reasons. Empty list means valid.
         """
+        reasons = []
+
         # Check minimum dimensions
         if width == 0 or height == 0:
-            return False
+            reasons.append("zero dimensions")
+            return reasons  # No point checking further
 
         if height < self.config.MIN_HEIGHT:
-            return False
+            reasons.append(f"height {height}px < minimum {self.config.MIN_HEIGHT}px")
 
-        # Check orientation (portrait only)
+        # Check orientation
         aspect_ratio = height / width
-        if aspect_ratio < 1.0:
-            return False
 
-        return True
+        # Category T allows both portrait and landscape
+        # All other categories require portrait orientation
+        if aspect_ratio < 1.0 and self.category != 'T':
+            reasons.append(f"landscape orientation (ratio={aspect_ratio:.3f})")
+
+        return reasons
 
     def score_image(self, width: int, height: int) -> tuple[bool, float, float]:
         """
@@ -99,7 +119,8 @@ class ImageScorer:
         Returns:
             Tuple of (is_valid, aspect_ratio, score)
         """
-        if not self.is_valid_image(width, height):
+        validation_errors = self.is_valid_image(width, height)
+        if validation_errors:  # Empty list means valid
             return False, 0.0, 0.0
 
         aspect_ratio = height / width

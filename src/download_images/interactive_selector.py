@@ -67,6 +67,15 @@ class InteractiveImageSelector:
             dates = f"{character.birth_date or '?'} - {character.death_date or '?'}"
             print(f"  Dates: {dates}")
 
+        # Update API client scorer with category-specific configuration
+        category = character.type
+        from .image_scorer import ImageScorer
+        self.downloader.api_client.scorer = ImageScorer(category=category)
+        self.downloader.api_client.category = category
+
+        if self.downloader.verbose:
+            print(f"  🔄 Scorer category: {repr(self.downloader.api_client.scorer.category)}")
+
         # Build search queries
         queries = self.downloader.query_builder.build_queries(character)
         if not queries:

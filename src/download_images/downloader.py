@@ -23,7 +23,8 @@ class CharacterImageDownloader:
         query_builder: Optional[QueryBuilder] = None,
         api_client: Optional[WikimediaAPIClient] = None,
         file_manager: Optional[FileManager] = None,
-        config: Optional[DownloadConfig] = None
+        config: Optional[DownloadConfig] = None,
+        verbose: bool = True
     ):
         """
         Initialize downloader with dependencies.
@@ -33,11 +34,13 @@ class CharacterImageDownloader:
             api_client: Wikimedia API client for searching
             file_manager: File manager for saving files
             config: Download configuration
+            verbose: Enable verbose logging of search statistics
         """
         self.query_builder = query_builder or QueryBuilder()
         self.api_client = api_client or WikimediaAPIClient()
         self.file_manager = file_manager or FileManager()
         self.config = config or DownloadConfig()
+        self.verbose = verbose
 
     def print_character_header(self, character):
         """Print formatted header for character processing."""
@@ -80,10 +83,12 @@ class CharacterImageDownloader:
         """
         all_results = self.api_client.search_with_queries(
             queries,
-            max_results=self.config.STOP_AFTER_CANDIDATES
+            max_results=self.config.STOP_AFTER_CANDIDATES,
+            verbose=self.verbose
         )
 
-        print(f"  ✅ Found {len(all_results)} total candidates")
+        if not self.verbose:
+            print(f"  ✅ Found {len(all_results)} total candidates")
         return all_results
 
     def download_images_for_character(
@@ -105,6 +110,16 @@ class CharacterImageDownloader:
 
         # Print header
         self.print_character_header(character)
+
+        # Update API client scorer with category-specific configuration
+        category = character.type
+        # Always update scorer to ensure it has the correct category
+        from .image_scorer import ImageScorer
+        self.api_client.scorer = ImageScorer(category=category)
+        self.api_client.category = category
+
+        if self.verbose:
+            print(f"  🔄 Scorer category: {repr(self.api_client.scorer.category)}")
 
         # Build search queries
         queries = self.query_builder.build_queries(character)
