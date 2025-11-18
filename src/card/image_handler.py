@@ -54,7 +54,7 @@ def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> 
             return ImageReader(img)
 
         # Image not in cache - download from Supabase
-        bucket = supabase_client.storage.from_('images')
+        bucket = supabase_client.storage.from_('character_images')
         image_data = bucket.download(filename)
 
         # Convert bytes to PIL Image

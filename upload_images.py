@@ -27,7 +27,7 @@ def upload_images():
     """Upload all images from bigger_images to Supabase images bucket."""
     # Get Supabase client with admin privileges
     client = get_admin_supabase_client()
-    bucket = client.storage.from_('images')
+    bucket = client.storage.from_('character_images')
 
     # Find all JPG images in bigger_images folder
     image_dir = Path(__file__).parent / 'bigger_images'
