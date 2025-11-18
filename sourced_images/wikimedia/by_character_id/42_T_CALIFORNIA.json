@@ -5,20 +5,21 @@
   "first_names": "",
   "birth_date": "",
   "death_date": "",
-  "wikimedia_title": "File:San francisco in fog with rays.jpg",
-  "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/San_francisco_in_fog_with_rays.jpg",
-  "page_url": "https://commons.wikimedia.org/wiki/File:San_francisco_in_fog_with_rays.jpg",
-  "width": 3000,
-  "height": 3222,
-  "aspect_ratio": 1.074,
+  "page_url": "https://commons.wikimedia.org/wiki/File:California_-_11374667196.jpg",
+  "width": 3072,
+  "height": 2172,
+  "aspect_ratio": 0.707,
   "score": 0.7978464365768954,
   "candidate_rank": 3,
   "rank": 1,
   "selected_option": 3,
   "selection_timestamp": "2025-11-18T13:36:58.032290",
-  "quality_score": 0.798,
-  "ratio_score": 0.746,
-  "resolution_score": 0.918,
-  "meets_strict_requirements": [],
-  "score_updated": "2025-11-18T17:22:47.723283"
+  "quality_score": 0.596,
+  "ratio_score": 0.586,
+  "resolution_score": 0.619,
+  "meets_strict_requirements": [
+    "landscape orientation (ratio=0.707)"
+  ],
+  "score_updated": "2025-11-18T19:01:09.625515",
+  "orientation": "landscape"
 }

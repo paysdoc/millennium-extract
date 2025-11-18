@@ -5,7 +5,12 @@ This script checks which categories have incomplete image downloads by:
 1. Fetching all characters from Supabase grouped by category
 2. Checking which characters have images in by_character_id/
 3. Reporting completion statistics per category
-4. Displaying image dimensions and aspect ratios for existing images
+4. Displaying image dimensions, aspect ratios, and orientations for existing images
+
+Orientation classification:
+- Portrait: height > width (and aspect ratio not between 0.9-1.1)
+- Landscape: width > height (and aspect ratio not between 0.9-1.1)
+- Square: aspect ratio between 0.9 and 1.1
 
 Usage: python -m src.download_images.check_category_status
 """
@@ -106,16 +111,19 @@ def print_category_image_report(category_code, category_name, characters, downlo
             height = img_info['height']
             raw_aspect = img_info['aspect_ratio']
 
-            # Normalize so smaller side is 1
-            if width < height:
+            # Calculate aspect ratio (height/width)
+            aspect_ratio_hw = height / width if width > 0 else 0.0
+
+            # Determine orientation (square if aspect ratio between 0.9 and 1.1)
+            if 0.9 <= aspect_ratio_hw <= 1.1:
+                normalized_ratio = "~1:1"
+                orientation = "square"
+            elif width < height:
                 normalized_ratio = f"1:{height/width:.3f}"
                 orientation = "portrait"
-            elif width > height:
+            else:
                 normalized_ratio = f"{width/height:.3f}:1"
                 orientation = "landscape"
-            else:
-                normalized_ratio = "1:1"
-                orientation = "square"
 
             # Calculate deviation from 1/√2 ratio
             # For portrait: ratio should be close to sqrt2_ratio (0.7071)

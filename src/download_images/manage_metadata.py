@@ -5,10 +5,16 @@ This script:
 1. Scans for image files (.jpg) without corresponding .json files
 2. Recalculates scores on existing metadata files (with --update flag)
 3. Extracts character information from filename and Supabase
-4. Analyzes image dimensions using PIL/Pillow
+4. Analyzes image dimensions and orientation using PIL/Pillow
 5. Calculates quality scores using ImageScorer
-6. Creates/updates comprehensive metadata JSON files
+6. Creates/updates comprehensive metadata JSON files with orientation indicator
 7. Removes orphaned JSON files (JSON files without corresponding images)
+
+Metadata includes:
+- Image dimensions (width, height)
+- Orientation indicator (portrait, landscape, or square)
+- Aspect ratio
+- Quality scores (ratio, resolution, overall)
 
 Usage:
     python -m src.download_images.manage_metadata [--dry-run] [--update]
@@ -135,6 +141,14 @@ def generate_metadata(
     # (scorer.score_image returns 0 for invalid images, so we calculate manually)
     aspect_ratio = height / width if width > 0 else 0.0
 
+    # Determine orientation (square if aspect ratio between 0.9 and 1.1)
+    if 0.9 <= aspect_ratio <= 1.1:
+        orientation = "square"
+    elif height > width:
+        orientation = "portrait"
+    else:
+        orientation = "landscape"
+
     # Calculate scores manually
     ratio_score = scorer.calculate_ratio_score(aspect_ratio) if aspect_ratio > 0 else 0.0
     resolution_score = scorer.calculate_resolution_score(height)
@@ -164,6 +178,7 @@ def generate_metadata(
         'width': width,
         'height': height,
         'aspect_ratio': round(aspect_ratio, 3),
+        'orientation': orientation,
         'quality_score': round(quality_score, 3),
         'ratio_score': round(ratio_score, 3),
         'resolution_score': round(resolution_score, 3),
@@ -284,6 +299,14 @@ def update_metadata_scores(
 
         # Recalculate scores
         aspect_ratio = height / width if width > 0 else 0.0
+
+        # Determine orientation (square if aspect ratio between 0.9 and 1.1)
+        if 0.9 <= aspect_ratio <= 1.1:
+            orientation = "square"
+        elif height > width:
+            orientation = "portrait"
+        else:
+            orientation = "landscape"
         ratio_score = scorer.calculate_ratio_score(aspect_ratio) if aspect_ratio > 0 else 0.0
         resolution_score = scorer.calculate_resolution_score(height)
         quality_score = scorer.calculate_total_score(aspect_ratio, height) if aspect_ratio > 0 else 0.0
@@ -293,6 +316,7 @@ def update_metadata_scores(
         metadata['width'] = width
         metadata['height'] = height
         metadata['aspect_ratio'] = round(aspect_ratio, 3)
+        metadata['orientation'] = orientation
         metadata['quality_score'] = round(quality_score, 3)
         metadata['ratio_score'] = round(ratio_score, 3)
         metadata['resolution_score'] = round(resolution_score, 3)
