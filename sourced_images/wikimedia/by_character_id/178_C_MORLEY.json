@@ -6,18 +6,19 @@
   "biography": "English composer",
   "birth_date": "1557",
   "death_date": "1602 (45yrs)",
-  "width": 3265,
-  "height": 1888,
+  "width": 1000,
+  "height": 578,
   "aspect_ratio": 0.578,
-  "quality_score": 0.543,
+  "quality_score": 0.431,
   "ratio_score": 0.545,
-  "resolution_score": 0.538,
+  "resolution_score": 0.165,
   "meets_strict_requirements": [
+    "height 578px < minimum 1000px",
     "landscape orientation (ratio=0.578)"
   ],
   "source": "metadata_generation",
   "download_timestamp": "2025-11-16T22:09:12.133211",
   "rank": 1,
-  "score_updated": "2025-11-18T20:50:24.292801",
+  "score_updated": "2025-11-18T23:32:07.782071",
   "orientation": "landscape"
 }

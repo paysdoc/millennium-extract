@@ -8,18 +8,19 @@
   "death_date": "1198 (72yrs)",
   "wikimedia_title": "3_P_AVERROES_temp4",
   "wikimedia_url": "file://sourced_images/temp_candidates/3_P_AVERROES_temp4.jpg",
-  "width": 3264,
-  "height": 2448,
+  "width": 1000,
+  "height": 750,
   "aspect_ratio": 0.75,
   "score": 1.0,
   "download_timestamp": "2025-11-14T18:23:58.066643",
   "rank": 1,
-  "quality_score": 0.63,
+  "quality_score": 0.485,
   "ratio_score": 0.601,
-  "resolution_score": 0.698,
+  "resolution_score": 0.214,
   "meets_strict_requirements": [
+    "height 750px < minimum 1000px",
     "landscape orientation (ratio=0.750)"
   ],
-  "score_updated": "2025-11-18T20:50:24.306849",
+  "score_updated": "2025-11-18T23:32:07.788550",
   "orientation": "landscape"
 }

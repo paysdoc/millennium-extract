@@ -8,20 +8,21 @@
   "wikimedia_title": "File:Westminster Abbey Hawksmoor towers.jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Westminster_Abbey_Hawksmoor_towers.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Westminster_Abbey_Hawksmoor_towers.jpg",
-  "width": 4032,
-  "height": 3024,
+  "width": 1000,
+  "height": 750,
   "aspect_ratio": 0.75,
   "score": 0.9476203201735587,
   "candidate_rank": 1,
   "rank": 1,
   "selected_option": 1,
   "selection_timestamp": "2025-11-18T11:25:03.328846",
-  "quality_score": 0.679,
+  "quality_score": 0.485,
   "ratio_score": 0.601,
-  "resolution_score": 0.862,
+  "resolution_score": 0.214,
   "meets_strict_requirements": [
+    "height 750px < minimum 1000px",
     "landscape orientation (ratio=0.750)"
   ],
-  "score_updated": "2025-11-18T20:50:24.281400",
+  "score_updated": "2025-11-18T23:32:07.778739",
   "orientation": "landscape"
 }

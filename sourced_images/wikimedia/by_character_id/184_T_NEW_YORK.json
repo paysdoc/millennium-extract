@@ -8,20 +8,21 @@
   "wikimedia_title": "File:Statue of Liberty, New York, USA-30July2010 (1).jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Statue_of_Liberty%2C_New_York%2C_USA-30July2010_%281%29.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Statue_of_Liberty,_New_York,_USA-30July2010_(1).jpg",
-  "width": 5616,
-  "height": 3744,
-  "aspect_ratio": 0.667,
+  "width": 1000,
+  "height": 666,
+  "aspect_ratio": 0.666,
   "score": 0.9727922061357854,
   "candidate_rank": 1,
   "rank": 1,
   "selected_option": 1,
   "selection_timestamp": "2025-11-18T16:57:33.422937",
-  "quality_score": 0.701,
+  "quality_score": 0.457,
   "ratio_score": 0.572,
-  "resolution_score": 1.0,
+  "resolution_score": 0.19,
   "meets_strict_requirements": [
-    "landscape orientation (ratio=0.667)"
+    "height 666px < minimum 1000px",
+    "landscape orientation (ratio=0.666)"
   ],
-  "score_updated": "2025-11-18T20:50:24.332893",
+  "score_updated": "2025-11-18T23:32:07.802163",
   "orientation": "landscape"
 }

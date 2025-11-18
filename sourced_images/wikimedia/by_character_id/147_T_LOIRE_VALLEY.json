@@ -11,13 +11,15 @@
   "selected_option": 1,
   "download_timestamp": "2025-11-18T13:36:58.428743",
   "rank": 1,
-  "width": 2314,
-  "height": 3500,
-  "aspect_ratio": 1.513,
-  "quality_score": 0.937,
-  "ratio_score": 0.91,
-  "resolution_score": 0.998,
-  "meets_strict_requirements": [],
-  "score_updated": "2025-11-18T20:50:24.319269",
+  "width": 576,
+  "height": 815,
+  "aspect_ratio": 1.415,
+  "quality_score": 0.769,
+  "ratio_score": 0.999,
+  "resolution_score": 0.232,
+  "meets_strict_requirements": [
+    "height 815px < minimum 1000px"
+  ],
+  "score_updated": "2025-11-18T23:32:07.793182",
   "orientation": "portrait"
 }

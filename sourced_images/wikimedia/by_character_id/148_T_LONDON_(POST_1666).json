@@ -8,20 +8,21 @@
   "wikimedia_title": "File:London Skyline (125508655).jpeg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/6/67/London_Skyline_%28125508655%29.jpeg",
   "page_url": "https://commons.wikimedia.org/wiki/File:London_Skyline_(125508655).jpeg",
-  "width": 1629,
-  "height": 1152,
-  "aspect_ratio": 0.707,
+  "width": 1000,
+  "height": 706,
+  "aspect_ratio": 0.706,
   "score": 0.7100814104531834,
   "candidate_rank": 7,
   "rank": 1,
   "selected_option": 7,
   "selection_timestamp": "2025-11-18T16:57:32.943478",
-  "quality_score": 0.509,
-  "ratio_score": 0.586,
-  "resolution_score": 0.328,
+  "quality_score": 0.47,
+  "ratio_score": 0.585,
+  "resolution_score": 0.201,
   "meets_strict_requirements": [
-    "landscape orientation (ratio=0.707)"
+    "height 706px < minimum 1000px",
+    "landscape orientation (ratio=0.706)"
   ],
-  "score_updated": "2025-11-18T20:50:24.335747",
+  "score_updated": "2025-11-18T23:32:07.804288",
   "orientation": "landscape"
 }

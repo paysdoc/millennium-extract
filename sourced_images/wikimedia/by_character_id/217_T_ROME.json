@@ -8,20 +8,21 @@
   "wikimedia_title": "File:Roma - Comune di Roma Capitale - 2024-09-29 19-13-34 001.jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/2/26/Roma_-_Comune_di_Roma_Capitale_-_2024-09-29_19-13-34_001.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Roma_-_Comune_di_Roma_Capitale_-_2024-09-29_19-13-34_001.jpg",
-  "width": 6000,
-  "height": 4000,
-  "aspect_ratio": 0.667,
+  "width": 1000,
+  "height": 666,
+  "aspect_ratio": 0.666,
   "score": 0.9727922061357854,
   "candidate_rank": 1,
   "rank": 1,
   "selected_option": 1,
   "selection_timestamp": "2025-11-18T16:57:34.050593",
-  "quality_score": 0.701,
+  "quality_score": 0.457,
   "ratio_score": 0.572,
-  "resolution_score": 1.0,
+  "resolution_score": 0.19,
   "meets_strict_requirements": [
-    "landscape orientation (ratio=0.667)"
+    "height 666px < minimum 1000px",
+    "landscape orientation (ratio=0.666)"
   ],
-  "score_updated": "2025-11-18T20:50:24.302550",
+  "score_updated": "2025-11-18T23:32:07.787082",
   "orientation": "landscape"
 }

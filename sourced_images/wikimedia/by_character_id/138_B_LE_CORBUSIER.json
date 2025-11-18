@@ -8,17 +8,18 @@
   "wikimedia_title": "File:Chapelle Notre-Dame-du Haut de Ronchamp 60000 18.jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/3/35/Chapelle_Notre-Dame-du_Haut_de_Ronchamp_60000_18.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Chapelle_Notre-Dame-du_Haut_de_Ronchamp_60000_18.jpg",
-  "width": 6960,
-  "height": 4640,
-  "aspect_ratio": 0.667,
+  "width": 1000,
+  "height": 666,
+  "aspect_ratio": 0.666,
   "score": 0.9446939985085097,
   "candidate_rank": 2,
-  "quality_score": 0.701,
+  "quality_score": 0.457,
   "ratio_score": 0.572,
-  "resolution_score": 1.0,
+  "resolution_score": 0.19,
   "meets_strict_requirements": [
-    "landscape orientation (ratio=0.667)"
+    "height 666px < minimum 1000px",
+    "landscape orientation (ratio=0.666)"
   ],
-  "score_updated": "2025-11-18T20:50:24.329356",
+  "score_updated": "2025-11-18T23:32:07.798753",
   "orientation": "landscape"
 }

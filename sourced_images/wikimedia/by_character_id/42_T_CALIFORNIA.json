@@ -6,20 +6,21 @@
   "birth_date": "",
   "death_date": "",
   "page_url": "https://commons.wikimedia.org/wiki/File:California_-_11374667196.jpg",
-  "width": 3072,
-  "height": 2172,
-  "aspect_ratio": 0.707,
+  "width": 1000,
+  "height": 706,
+  "aspect_ratio": 0.706,
   "score": 0.7978464365768954,
   "candidate_rank": 3,
   "rank": 1,
   "selected_option": 3,
   "selection_timestamp": "2025-11-18T13:36:58.032290",
-  "quality_score": 0.596,
-  "ratio_score": 0.586,
-  "resolution_score": 0.619,
+  "quality_score": 0.47,
+  "ratio_score": 0.585,
+  "resolution_score": 0.201,
   "meets_strict_requirements": [
-    "landscape orientation (ratio=0.707)"
+    "height 706px < minimum 1000px",
+    "landscape orientation (ratio=0.706)"
   ],
-  "score_updated": "2025-11-18T20:50:24.314887",
+  "score_updated": "2025-11-18T23:32:07.791460",
   "orientation": "landscape"
 }

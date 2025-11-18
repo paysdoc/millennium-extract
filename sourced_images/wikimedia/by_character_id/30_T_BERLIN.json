@@ -8,20 +8,18 @@
   "wikimedia_title": "File:2013-05-24 Berliner Fernsehturm 04.jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/b/ba/2013-05-24_Berliner_Fernsehturm_04.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:2013-05-24_Berliner_Fernsehturm_04.jpg",
-  "width": 3888,
-  "height": 2592,
-  "aspect_ratio": 0.667,
+  "width": 711,
+  "height": 1006,
+  "aspect_ratio": 1.415,
   "score": 0.9446939985085097,
   "candidate_rank": 2,
   "rank": 1,
   "selected_option": 2,
   "selection_timestamp": "2025-11-18T13:36:57.757989",
-  "quality_score": 0.622,
-  "ratio_score": 0.572,
-  "resolution_score": 0.739,
-  "meets_strict_requirements": [
-    "landscape orientation (ratio=0.667)"
-  ],
-  "score_updated": "2025-11-18T20:50:24.263555",
-  "orientation": "landscape"
+  "quality_score": 0.786,
+  "ratio_score": 0.999,
+  "resolution_score": 0.287,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-18T23:32:07.772128",
+  "orientation": "portrait"
 }

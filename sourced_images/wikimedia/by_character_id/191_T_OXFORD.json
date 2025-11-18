@@ -8,20 +8,21 @@
   "wikimedia_title": "File:Aerial View of Keble College, Oxford. - geograph.org.uk - 4481598.jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Aerial_View_of_Keble_College%2C_Oxford._-_geograph.org.uk_-_4481598.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Keble_College,_Oxford._-_geograph.org.uk_-_4481598.jpg",
-  "width": 4000,
-  "height": 3000,
+  "width": 1000,
+  "height": 750,
   "aspect_ratio": 0.75,
   "score": 0.9277660997170716,
   "candidate_rank": 1,
   "rank": 1,
   "selected_option": 1,
   "selection_timestamp": "2025-11-18T16:57:33.590410",
-  "quality_score": 0.677,
+  "quality_score": 0.485,
   "ratio_score": 0.601,
-  "resolution_score": 0.855,
+  "resolution_score": 0.214,
   "meets_strict_requirements": [
+    "height 750px < minimum 1000px",
     "landscape orientation (ratio=0.750)"
   ],
-  "score_updated": "2025-11-18T20:50:24.312586",
+  "score_updated": "2025-11-18T23:32:07.790482",
   "orientation": "landscape"
 }

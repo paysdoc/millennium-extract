@@ -8,20 +8,21 @@
   "wikimedia_title": "File:Fontenay Abbey - The Abbey Church (35794577766).jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Fontenay_Abbey_-_The_Abbey_Church_%2835794577766%29.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Fontenay_Abbey_-_The_Abbey_Church_(35794577766).jpg",
-  "width": 4608,
-  "height": 3456,
+  "width": 1000,
+  "height": 750,
   "aspect_ratio": 0.75,
   "score": 0.9476203201735587,
   "candidate_rank": 7,
   "rank": 1,
   "selected_option": 7,
   "selection_timestamp": "2025-11-18T10:06:19.321021",
-  "quality_score": 0.716,
+  "quality_score": 0.485,
   "ratio_score": 0.601,
-  "resolution_score": 0.985,
+  "resolution_score": 0.214,
   "meets_strict_requirements": [
+    "height 750px < minimum 1000px",
     "landscape orientation (ratio=0.750)"
   ],
-  "score_updated": "2025-11-18T20:50:24.338867",
+  "score_updated": "2025-11-18T23:32:07.806430",
   "orientation": "landscape"
 }
