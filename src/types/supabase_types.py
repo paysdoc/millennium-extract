@@ -17,6 +17,10 @@ class Character:
     type: Optional[str] = None  # Category code (R, S, P, M, N, A, B, C, D, T)
     link: Optional[str] = None
     image_link: Optional[str] = None
+    joker_type: Optional[str] = None  # Joker category (or "*" for wildcard)
+    joker_type_value: Optional[int] = None  # Joker connection value
+    joker_type_why: Optional[str] = None  # Joker connection why
+    joker_type_why_short: Optional[str] = None  # Joker connection why_short
 
 
 @dataclass
@@ -28,6 +32,7 @@ class Connection:
     value: Optional[int] = None
     why: Optional[str] = None
     why_short: Optional[str] = None  # Short version of connection description
+    active: Optional[bool] = None  # Whether the connection is active
 
 
 @dataclass

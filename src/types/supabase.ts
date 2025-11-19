@@ -21,6 +21,10 @@ export interface Database {
           type: string | null
           link: string | null
           image_link: string | null
+          joker_type: string | null
+          joker_type_value: number | null
+          joker_type_why: string | null
+          joker_type_why_short: string | null
         }
         Insert: {
           id?: number
@@ -32,6 +36,10 @@ export interface Database {
           type?: string | null
           link?: string | null
           image_link?: string | null
+          joker_type?: string | null
+          joker_type_value?: number | null
+          joker_type_why?: string | null
+          joker_type_why_short?: string | null
         }
         Update: {
           id?: number
@@ -43,6 +51,10 @@ export interface Database {
           type?: string | null
           link?: string | null
           image_link?: string | null
+          joker_type?: string | null
+          joker_type_value?: number | null
+          joker_type_why?: string | null
+          joker_type_why_short?: string | null
         }
       }
       connection: {
@@ -52,6 +64,7 @@ export interface Database {
           char2_id: number | null
           value: number | null
           why: string | null
+          active: boolean | null
         }
         Insert: {
           id?: number
@@ -59,6 +72,7 @@ export interface Database {
           char2_id?: number | null
           value?: number | null
           why?: string | null
+          active?: boolean | null
         }
         Update: {
           id?: number
@@ -66,6 +80,7 @@ export interface Database {
           char2_id?: number | null
           value?: number | null
           why?: string | null
+          active?: boolean | null
         }
       }
     }

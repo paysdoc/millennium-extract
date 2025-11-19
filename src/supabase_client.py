@@ -39,7 +39,11 @@ def fetch_all_characters(client: Client) -> List[Character]:
             biography=row.get('biography'),
             type=row.get('type'),
             link=row.get('link'),
-            image_link=row.get('image_link')
+            image_link=row.get('image_link'),
+            joker_type=row.get('joker_type'),
+            joker_type_value=row.get('joker_type_value'),
+            joker_type_why=row.get('joker_type_why'),
+            joker_type_why_short=row.get('joker_type_why_short')
         ))
 
     return characters
@@ -77,12 +81,12 @@ def fetch_character_by_name(client: Client, character_name: str) -> tuple[Charac
 
 
 def fetch_connections_for_character(client: Client, character_id: int) -> List[Connection]:
-    """Fetch all connections where the character is either char1 or char2."""
-    # Fetch connections where character is char1
-    response1 = client.table("connection").select("*").eq("char1_id", character_id).execute()
+    """Fetch all active connections where the character is either char1 or char2."""
+    # Fetch connections where character is char1 and active=true
+    response1 = client.table("connection").select("*").eq("char1_id", character_id).eq("active", True).execute()
 
-    # Fetch connections where character is char2
-    response2 = client.table("connection").select("*").eq("char2_id", character_id).execute()
+    # Fetch connections where character is char2 and active=true
+    response2 = client.table("connection").select("*").eq("char2_id", character_id).eq("active", True).execute()
 
     connections = []
     for row in response1.data + response2.data:
@@ -92,7 +96,8 @@ def fetch_connections_for_character(client: Client, character_id: int) -> List[C
             char2_id=row.get('char2_id'),
             value=row.get('value'),
             why=row.get('why'),
-            why_short=row.get('why_short')
+            why_short=row.get('why_short'),
+            active=row.get('active')
         ))
 
     return connections
@@ -105,7 +110,7 @@ def denormalize_connections(
     character_lookup: Dict[int, Character]
 ) -> List[DenormalizedConnection]:
     """
-    Replace character IDs with names in connections.
+    Replace character IDs with names in connections and add joker connections.
 
     Args:
         client: Supabase client
@@ -118,6 +123,14 @@ def denormalize_connections(
     """
     denormalized = []
 
+    # Get the current character
+    current_char = character_lookup.get(character_id)
+    if not current_char:
+        return denormalized
+
+    current_category = current_char.type
+
+    # Process regular connections
     for conn in connections:
         # Determine which character is the "other" character
         other_char_id = conn.char2_id if conn.char1_id == character_id else conn.char1_id
@@ -134,6 +147,28 @@ def denormalize_connections(
             why=conn.why or "",
             why_short=conn.why_short
         ))
+
+    # Add joker connections
+    # Check all other characters to see if they have a joker_type matching current character's category
+    for other_char_id, other_char in character_lookup.items():
+        # Skip self
+        if other_char_id == character_id:
+            continue
+
+        # Check if other character has a joker type
+        if not other_char.joker_type:
+            continue
+
+        # Check if joker type matches current character's category (or is wildcard)
+        if other_char.joker_type == "*" or other_char.joker_type == current_category:
+            # Add joker connection
+            denormalized.append(DenormalizedConnection(
+                character_name=other_char.name or "Unknown",
+                category_code=other_char.type or "Unknown",
+                value=other_char.joker_type_value or 0,
+                why=other_char.joker_type_why or "",
+                why_short=other_char.joker_type_why_short
+            ))
 
     # Sort by category (in specific order) then by name
     denormalized.sort(key=lambda x: (
