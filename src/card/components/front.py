@@ -15,10 +15,9 @@ def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: f
     Draw the portrait image on the card front.
 
     The image is scaled to fit while preserving its aspect ratio. Vertical alignment
-    depends on the image's aspect ratio:
-    - Images wider than 1×√2 (≈0.707): aligned to top of card
-    - Square images (±10% of 1:1): centered between card top and banner top
-    - Other images: centered on the card
+    depends on the image's aspect ratio (height/width):
+    - Images with aspect ratio > 1.298: aligned to top of card
+    - Images with aspect ratio <= 1.298: centered between card top and banner top
 
     Args:
         c: ReportLab canvas
@@ -58,26 +57,21 @@ def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: f
 
         # Vertical positioning based on aspect ratio
         # Effective card aspect ratio (excluding banner) = 1.298
-        effective_aspect = 1 / 1.298  # Approximately 0.770
+        TARGET_ASPECT = 1.298
+
+        # Calculate image aspect ratio (height/width)
+        img_aspect = orig_height / orig_width
 
         # Calculate the available space above the banner
         banner_top_y = y + BANNER_HEIGHT  # Banner is at y (bottom), with BANNER_HEIGHT
         available_height = CARD_HEIGHT - BANNER_HEIGHT  # Space from banner top to card top
 
-        if orig_aspect > effective_aspect:
-            # Image is wider than effective aspect ratio - align to top of card
+        if img_aspect > TARGET_ASPECT:
+            # Image is too portrait (taller/narrower than target) - align to top of card
             img_y = y + CARD_HEIGHT - final_height
-
-            # But if the image height is less than the available space above the banner,
-            # center it between the top of the card and the top of the banner
-            if final_height < available_height:
-                img_y = banner_top_y + (available_height - final_height) / 2
-        elif abs(orig_aspect - 1.0) < 0.1:  # Square (within 10% of 1:1)
-            # Square orientation - center between top of card and top of banner
-            img_y = banner_top_y + (available_height - final_height) / 2
         else:
-            # Default: center on the card
-            img_y = y + (CARD_HEIGHT - final_height) / 2
+            # Image is landscape or matches target - center between card top and banner top
+            img_y = banner_top_y + (available_height - final_height) / 2
 
         c.drawImage(
             img,
