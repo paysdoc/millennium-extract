@@ -31,7 +31,8 @@ def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float,
         category_color: Color for the category box and header background
     """
     category_name = get_category_name(character.type)
-    category_box_width = 14
+    category_box_width = 30  # 14mm base + 1mm total padding (8mm left + 8mm right)
+    category_box_padding = 8  # 8mm padding on each side
     card_num_box_height = HEADER_HEIGHT
 
     # Draw header section with category color at 75% opacity (actually 50% in implementation)
@@ -100,13 +101,14 @@ def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float,
         stroke=0
     )
 
-    # Draw category code centered in box
+    # Draw category code centered in box (accounting for padding)
     c.setFont("Helvetica-Bold", 14)
     card_id = f"{character.type or 'X'}"
     card_id_width = c.stringWidth(card_id, "Helvetica-Bold", 14)
 
-    # Center horizontally and vertically in box
-    card_id_x = x + CARD_WIDTH - category_box_width + (category_box_width - card_id_width) / 2
+    # Center horizontally in the available space (box width minus padding) and vertically in box
+    available_width = category_box_width - (2 * category_box_padding)
+    card_id_x = x + CARD_WIDTH - category_box_width + category_box_padding + (available_width - card_id_width) / 2
     card_id_y = y + CARD_HEIGHT - card_num_box_height / 2 - 5
 
     # Draw with outline

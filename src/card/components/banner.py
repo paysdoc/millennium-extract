@@ -11,7 +11,7 @@ def draw_banner(c: canvas.Canvas, name: str, x: float, y: float, category_color:
     """
     Draw a colored banner with character name (used on both front and back).
 
-    The banner is positioned 4pt above the bottom of the card and includes
+    The banner is positioned at the bottom of the card and includes
     text with an outline for better readability on light-colored backgrounds.
 
     Args:
@@ -21,8 +21,8 @@ def draw_banner(c: canvas.Canvas, name: str, x: float, y: float, category_color:
         y: Y position of card bottom-left corner
         category_color: Color for the banner background
     """
-    # Draw colored banner floating over image, 4pt above bottom
-    banner_y = y + 4  # 4pt above card bottom
+    # Draw colored banner at the very bottom of the card
+    banner_y = y  # At card bottom
     c.setFillColor(category_color)
     c.rect(x, banner_y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
 

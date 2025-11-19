@@ -35,7 +35,7 @@ def draw_towns_grid(c: canvas.Canvas, town_connections: List[DenormalizedConnect
     town_bg_height = num_town_rows * town_row_height + town_padding_top + town_padding_bottom
 
     # Position towns just above banner with 2mm margin
-    banner_top = y + 4 + BANNER_HEIGHT  # Top of banner (banner is at y + 4)
+    banner_top = y + BANNER_HEIGHT  # Top of banner (banner is now at y, the bottom of the card)
     town_margin = 2 * mm  # Margin above banner
     town_bottom_y = banner_top + town_margin
     town_grid_y = town_bottom_y + town_bg_height  # Top of town grid
@@ -45,7 +45,7 @@ def draw_towns_grid(c: canvas.Canvas, town_connections: List[DenormalizedConnect
     c.rect(x, town_bottom_y, CARD_WIDTH, town_bg_height, fill=1, stroke=0)
 
     # Draw towns with white text on colored background
-    c.setFillColor(colors.white)
+    c.setFillColor(colors.black)
     c.setFont("Helvetica", 5)
 
     col_width = CARD_WIDTH / 3

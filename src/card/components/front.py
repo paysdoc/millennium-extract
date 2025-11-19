@@ -61,8 +61,8 @@ def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: f
         sqrt2_aspect = 1 / 1.414  # Approximately 0.707
 
         # Calculate the available space above the banner
-        banner_top_y = y + 4 + BANNER_HEIGHT  # Banner is at y+4, with BANNER_HEIGHT
-        available_height = CARD_HEIGHT - (4 + BANNER_HEIGHT)  # Space from banner top to card top
+        banner_top_y = y + BANNER_HEIGHT  # Banner is at y (bottom), with BANNER_HEIGHT
+        available_height = CARD_HEIGHT - BANNER_HEIGHT  # Space from banner top to card top
 
         if orig_aspect > sqrt2_aspect:
             # Image is wider than 1×√2 - align to top of card
