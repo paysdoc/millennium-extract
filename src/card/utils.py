@@ -6,6 +6,88 @@ from reportlab.lib import colors
 from typing import Optional
 
 
+def create_rounded_rect_path(c: canvas.Canvas, x: float, y: float, width: float, height: float, radius: float):
+    """
+    Create a rounded rectangle path (for drawing or clipping).
+
+    Args:
+        c: ReportLab canvas
+        x: X position of bottom-left corner
+        y: Y position of bottom-left corner
+        width: Width of rectangle
+        height: Height of rectangle
+        radius: Corner radius
+
+    Returns:
+        Path object for the rounded rectangle
+    """
+    # Ensure radius doesn't exceed half of smallest dimension
+    max_radius = min(width, height) / 2
+    radius = min(radius, max_radius)
+
+    p = c.beginPath()
+
+    # Start from bottom-left, moving clockwise
+    # Bottom-left corner
+    p.moveTo(x + radius, y)
+
+    # Bottom edge to bottom-right corner
+    p.lineTo(x + width - radius, y)
+    p.arcTo(x + width - 2*radius, y, x + width, y + 2*radius, startAng=270, extent=90)
+
+    # Right edge to top-right corner
+    p.lineTo(x + width, y + height - radius)
+    p.arcTo(x + width - 2*radius, y + height - 2*radius, x + width, y + height, startAng=0, extent=90)
+
+    # Top edge to top-left corner
+    p.lineTo(x + radius, y + height)
+    p.arcTo(x, y + height - 2*radius, x + 2*radius, y + height, startAng=90, extent=90)
+
+    # Left edge to bottom-left corner
+    p.lineTo(x, y + radius)
+    p.arcTo(x, y, x + 2*radius, y + 2*radius, startAng=180, extent=90)
+
+    p.close()
+    return p
+
+
+def draw_rounded_rect(c: canvas.Canvas, x: float, y: float, width: float, height: float,
+                     radius: float, fill: int = 1, stroke: int = 0):
+    """
+    Draw a rectangle with rounded corners.
+
+    Args:
+        c: ReportLab canvas
+        x: X position of bottom-left corner
+        y: Y position of bottom-left corner
+        width: Width of rectangle
+        height: Height of rectangle
+        radius: Corner radius
+        fill: Whether to fill (1) or not (0)
+        stroke: Whether to stroke (1) or not (0)
+    """
+    p = create_rounded_rect_path(c, x, y, width, height, radius)
+    c.drawPath(p, fill=fill, stroke=stroke)
+
+
+def clip_to_rounded_rect(c: canvas.Canvas, x: float, y: float, width: float, height: float, radius: float):
+    """
+    Set clipping path to a rounded rectangle.
+    Call this before drawing content that should be clipped to rounded corners.
+    Remember to call c.restoreState() after drawing the clipped content.
+
+    Args:
+        c: ReportLab canvas
+        x: X position of bottom-left corner
+        y: Y position of bottom-left corner
+        width: Width of rectangle
+        height: Height of rectangle
+        radius: Corner radius
+    """
+    p = create_rounded_rect_path(c, x, y, width, height, radius)
+    c.clipPath(p, stroke=0, fill=0)
+
+
 def wrap_text(c: canvas.Canvas, text: str, max_width: float, font_name: str, font_size: int) -> list:
     """
     Wrap text to fit within a maximum width.

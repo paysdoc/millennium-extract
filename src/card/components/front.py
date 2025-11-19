@@ -4,9 +4,10 @@ Card front rendering component.
 from reportlab.pdfgen import canvas
 from reportlab.lib.colors import HexColor
 from src.types.supabase_types import Character
-from src.config import CARD_WIDTH, CARD_HEIGHT, BANNER_HEIGHT, get_category_color
+from src.config import CARD_WIDTH, CARD_HEIGHT, BANNER_HEIGHT, CORNER_RADIUS, get_category_color
 from src.card.image_handler import download_image_from_supabase
 from src.card.components.banner import draw_banner
+from src.card.utils import draw_rounded_rect, clip_to_rounded_rect
 
 
 def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: float, supabase_client):
@@ -92,7 +93,7 @@ def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: f
 
 
 def draw_card_front_content(c: canvas.Canvas, character: Character, x: float, y: float,
-                           category_color: HexColor, supabase_client=None):
+                           category_color: HexColor, supabase_client=None, corner_radius: float = None):
     """
     Draw the complete card front: background, image, and banner.
 
@@ -103,12 +104,20 @@ def draw_card_front_content(c: canvas.Canvas, character: Character, x: float, y:
         y: Y position of card bottom-left corner
         category_color: Color for the banner
         supabase_client: Supabase client for downloading images (optional)
+        corner_radius: Corner radius for rounded edges (default: CORNER_RADIUS from config)
     """
-    # Draw card background (no border)
+    if corner_radius is None:
+        corner_radius = CORNER_RADIUS
+
+    # Draw card background with rounded corners
     c.setFillColor(HexColor('#cccccc'))
     c.setStrokeColor(HexColor('#cccccc'))  # Match stroke to fill to hide border
     c.setLineWidth(0)  # Remove border
-    c.rect(x, y, CARD_WIDTH, CARD_HEIGHT, fill=1, stroke=0)
+    draw_rounded_rect(c, x, y, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
+
+    # Set clipping path to rounded rectangle so image and banner respect the rounded corners
+    c.saveState()
+    clip_to_rounded_rect(c, x, y, CARD_WIDTH, CARD_HEIGHT, corner_radius)
 
     # Draw portrait image
     if supabase_client:
@@ -116,3 +125,6 @@ def draw_card_front_content(c: canvas.Canvas, character: Character, x: float, y:
 
     # Draw banner with name
     draw_banner(c, character.name, x, y, category_color)
+
+    # Restore state to remove clipping
+    c.restoreState()

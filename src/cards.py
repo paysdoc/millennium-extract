@@ -126,7 +126,7 @@ def draw_crop_marks_and_bleed(c: canvas.Canvas, x: float, y: float, card_width: 
     c.restoreState()
 
 
-def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_only: bool = False, separate_pages: bool = True, card_width: Optional[float] = None, crop_marks: bool = False, supabase_client=None):
+def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_only: bool = False, separate_pages: bool = True, card_width: Optional[float] = None, crop_marks: bool = False, corner_radius: Optional[float] = None, supabase_client=None):
     """
     Generate PDF with all character cards.
     Each card is completed (front and back) before moving to the next card.
@@ -139,6 +139,7 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
         separate_pages: If True, render front and back on separate pages (default); if False, render side by side
         card_width: Desired card width in mm (default: None = use original 69mm)
         crop_marks: If True, add crop marks and bleed area for professional printing
+        corner_radius: Corner radius for rounded edges (default: None = use CORNER_RADIUS from config)
         supabase_client: Supabase client for downloading images (optional)
     """
     total_cards = len(card_data_list)
@@ -194,7 +195,7 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
                 x_front = 0
                 y_front = 0
 
-            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client)
+            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
             c.showPage()
 
             # Back on its own page
@@ -208,7 +209,7 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
                     x_back = 0
                     y_back = 0
 
-                draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client)
+                draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
                 c.showPage()
         else:
             # Front and back side by side on same page
@@ -222,7 +223,7 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
                 x_front = 0
                 y_front = 0
 
-            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client)
+            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
 
             # Back on right side
             if not fronts_only:
@@ -235,7 +236,7 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
                     x_back = card_width
                     y_back = 0
 
-                draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client)
+                draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
 
             c.showPage()
 
@@ -243,7 +244,7 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
     print(f"PDF saved to {output_path}")
 
 
-def generate_single_card_pdf(card_data: CardData, output_path: str, card_number: int = 1, separate_pages: bool = True, card_width: Optional[float] = None, crop_marks: bool = False, supabase_client=None):
+def generate_single_card_pdf(card_data: CardData, output_path: str, card_number: int = 1, separate_pages: bool = True, card_width: Optional[float] = None, crop_marks: bool = False, corner_radius: Optional[float] = None, supabase_client=None):
     """
     Generate PDF with a single card.
 
@@ -254,6 +255,7 @@ def generate_single_card_pdf(card_data: CardData, output_path: str, card_number:
         separate_pages: If True, show front and back on separate pages (default); if False, show side by side
         card_width: Desired card width in mm (default: None = use original 69mm)
         crop_marks: If True, add crop marks and bleed area for professional printing
+        corner_radius: Corner radius for rounded edges (default: None = use CORNER_RADIUS from config)
         supabase_client: Supabase client for downloading images (optional)
     """
     # Calculate scaling based on desired width
@@ -296,7 +298,7 @@ def generate_single_card_pdf(card_data: CardData, output_path: str, card_number:
             x_front = 0
             y_front = 0
 
-        draw_card_front(c, card_data, x_front, y_front, scale, supabase_client)
+        draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
         c.showPage()
 
         # Draw back on page 2
@@ -309,7 +311,7 @@ def generate_single_card_pdf(card_data: CardData, output_path: str, card_number:
             x_back = 0
             y_back = 0
 
-        draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client)
+        draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
     else:
         # Draw front on left side
         if crop_marks:
@@ -321,7 +323,7 @@ def generate_single_card_pdf(card_data: CardData, output_path: str, card_number:
             x_front = 0
             y_front = 0
 
-        draw_card_front(c, card_data, x_front, y_front, scale, supabase_client)
+        draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
 
         # Draw back on right side
         if crop_marks:
@@ -333,7 +335,7 @@ def generate_single_card_pdf(card_data: CardData, output_path: str, card_number:
             x_back = card_width
             y_back = 0
 
-        draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client)
+        draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
 
     c.save()
     print(f"Single card PDF saved to {output_path}")

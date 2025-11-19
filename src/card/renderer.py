@@ -6,7 +6,7 @@ from reportlab.lib.units import mm
 from reportlab.lib import colors
 from src.types.supabase_types import CardData
 from src.config import (
-    CARD_WIDTH, CARD_HEIGHT, HEADER_HEIGHT,
+    CARD_WIDTH, CARD_HEIGHT, HEADER_HEIGHT, CORNER_RADIUS,
     get_category_color
 )
 from src.card.components.front import draw_card_front_content
@@ -14,9 +14,10 @@ from src.card.components.banner import draw_banner
 from src.card.components.back.header import draw_back_header
 from src.card.components.back.connections import draw_connections_table
 from src.card.components.back.towns import draw_towns_grid
+from src.card.utils import draw_rounded_rect, clip_to_rounded_rect
 
 
-def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, scale: float = 1.0, supabase_client=None):
+def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, scale: float = 1.0, supabase_client=None, corner_radius: float = None):
     """
     Draw the front of a character card.
 
@@ -27,7 +28,11 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
         y: Y position of bottom-left corner
         scale: Scale factor for the card (default: 1.0 = original size 69mm)
         supabase_client: Supabase client for downloading images (optional)
+        corner_radius: Corner radius for rounded edges (default: CORNER_RADIUS from config)
     """
+    if corner_radius is None:
+        corner_radius = CORNER_RADIUS
+
     character = card_data.character
     category_color = get_category_color(character.type)
 
@@ -37,13 +42,13 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
     c.scale(scale, scale)  # Apply uniform scaling
 
     # Draw at origin (0, 0) since we've translated
-    draw_card_front_content(c, character, 0, 0, category_color, supabase_client)
+    draw_card_front_content(c, character, 0, 0, category_color, supabase_client, corner_radius)
 
     # Restore canvas state
     c.restoreState()
 
 
-def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int, scale: float = 1.0, supabase_client=None):
+def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int, scale: float = 1.0, supabase_client=None, corner_radius: float = None):
     """
     Draw the back of a character card with details and connections.
 
@@ -55,7 +60,11 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
         card_number: Card number to display
         scale: Scale factor for the card (default: 1.0 = original size 69mm)
         supabase_client: Supabase client (not used for back, kept for consistency)
+        corner_radius: Corner radius for rounded edges (default: CORNER_RADIUS from config)
     """
+    if corner_radius is None:
+        corner_radius = CORNER_RADIUS
+
     character = card_data.character
     category_color = get_category_color(character.type)
 
@@ -64,10 +73,14 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     c.translate(x, y)  # Move origin to card position
     c.scale(scale, scale)  # Apply uniform scaling
 
-    # Draw white background for card back
+    # Draw white background for card back with rounded corners
     c.setFillColor(colors.white)
     c.setStrokeColor(colors.white)
-    c.rect(0, 0, CARD_WIDTH, CARD_HEIGHT, fill=1, stroke=0)
+    draw_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
+
+    # Set clipping path to rounded rectangle so all content respects the rounded corners
+    c.saveState()
+    clip_to_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius)
 
     # Draw header section at origin (name, dates, biography, category box)
     draw_back_header(c, character, 0, 0, category_color)
@@ -101,5 +114,8 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     # Draw banner with name at bottom
     draw_banner(c, character.name, 0, 0, category_color)
 
-    # Restore canvas state
+    # Restore state to remove clipping
+    c.restoreState()
+
+    # Restore canvas state (from scale/translate)
     c.restoreState()
