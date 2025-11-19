@@ -49,26 +49,45 @@ def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float,
 
     # Draw character name at top of header
     c.setFillColor(colors.black)
-    full_name = f"{character.name or ''} {character.first_names or ''}".strip().upper()
     name_y = y + CARD_HEIGHT - MARGIN - 3
-    draw_wrapped_text(
-        c, full_name,
-        x + MARGIN,
-        name_y,
-        max_header_text_width,
-        "Helvetica-Bold", 9,
-        line_height=10,
-        max_lines=1
-    )
+
+    # Format name with comma (unless first names are in brackets)
+    name = (character.name or '').strip()
+    first_names = (character.first_names or '').strip()
+
+    if first_names:
+        # Check if first names are in brackets
+        in_brackets = first_names.startswith('(') and first_names.endswith(')')
+        if in_brackets:
+            # No comma if in brackets, use same size for both
+            c.setFont("Helvetica-Bold", 9)
+            full_name = f"{name} {first_names}".upper()
+            c.drawString(x + MARGIN, name_y, full_name)
+        else:
+            # Add comma before first names, use smaller font for first names
+            # Draw name part
+            c.setFont("Helvetica-Bold", 9)
+            name_upper = name.upper()
+            name_width = c.stringWidth(f"{name_upper}, ", "Helvetica-Bold", 9)
+            c.drawString(x + MARGIN, name_y, f"{name_upper},")
+
+            # Draw first names part with smaller font
+            c.setFont("Helvetica-Bold", 7)
+            first_names_upper = first_names.upper()
+            c.drawString(x + MARGIN + name_width, name_y, first_names_upper)
+    else:
+        # Only name, no first names
+        c.setFont("Helvetica-Bold", 9)
+        c.drawString(x + MARGIN, name_y, name.upper())
 
     # Draw dates | category directly under name (constrained width)
     c.setFont("Helvetica", 6)
-    category_display = category_name[:20]  # Truncate if too long
     dates = f"{character.birth_date or ''}-{character.death_date or ''}"
-    dates_category_text = f"{dates} | {category_display}"
+    dates_category_text = f"{dates} | {category_name}"
     dates_category_y = name_y - 10  # Directly under name
 
-    # Truncate dates/category if too long
+    # Truncate category if dates + category too long
+    category_display = category_name
     while c.stringWidth(dates_category_text, "Helvetica", 6) > max_header_text_width and len(category_display) > 5:
         category_display = category_display[:-1]
         dates_category_text = f"{dates} | {category_display}"
