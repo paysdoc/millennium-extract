@@ -105,7 +105,7 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     # Draw regular connections table (excluding category T)
     connections_y = CARD_HEIGHT - HEADER_HEIGHT - 2 * mm
     if regular_connections:
-        draw_connections_table(c, regular_connections, 0, connections_y)
+        draw_connections_table(c, regular_connections, 0, connections_y, num_towns=len(town_connections))
 
     # Draw town connections grid above banner
     if town_connections:

@@ -8,28 +8,29 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib.units import mm
 from typing import List
 from src.types.supabase_types import DenormalizedConnection
-from src.config import CARD_WIDTH, get_category_color
+from src.config import CARD_WIDTH, CARD_HEIGHT, HEADER_HEIGHT, BANNER_HEIGHT, get_category_color
 
 
 def draw_connections_table(c: canvas.Canvas, connections: List[DenormalizedConnection],
-                          x: float, table_y: float) -> float:
+                          x: float, table_y: float, num_towns: int = 0) -> float:
     """
     Draw the connections table (excluding category T towns).
 
-    For <=26 connections:
-    - 4 columns: Value, Category, Name, Why_short
-    - Single column layout with detailed descriptions
+    The layout adapts based on:
+    1. Number of connections
+    2. Available space (which varies based on number of town connections)
 
-    For >26 connections:
-    - 3 columns: Value, Category, Name (no why_short)
-    - 2-column layout ordered top to bottom
-    - More compact to fit more connections
+    Three possible layouts:
+    - Single-column detailed: Value, Category, Name, Why_short (for few connections)
+    - Two-column compact: Value, Category, Name (no why_short)
+    - Three-column compact: Value, Category, Name (no why_short, maximum density)
 
     Args:
         c: ReportLab canvas
         connections: List of connection data (should NOT include category T)
         x: X position of card bottom-left corner
         table_y: Y position where table should start (top of table)
+        num_towns: Number of town connections (affects available space)
 
     Returns:
         Y position of bottom of table (for positioning other elements)
@@ -39,11 +40,37 @@ def draw_connections_table(c: canvas.Canvas, connections: List[DenormalizedConne
 
     num_connections = len(connections)
 
-    # Choose layout based on number of connections
-    if num_connections <= 26:
+    # Calculate available space for connections
+    # Town grid height calculation (from towns.py)
+    town_height = 0
+    if num_towns > 0:
+        num_town_rows = (num_towns + 2) // 3  # 3 towns per row
+        town_row_height = 6  # points
+        town_padding = 4  # 2pt top + 2pt bottom
+        town_bg_height = num_town_rows * town_row_height + town_padding
+        town_margin = 2 * mm
+        town_height = (town_bg_height / 72 * 25.4) * mm  # Convert points to mm
+
+    # Available height for connections table
+    available_height = CARD_HEIGHT - HEADER_HEIGHT - BANNER_HEIGHT - (2 * mm) - town_height
+    row_height = 2 * mm
+    max_rows = int(available_height / row_height)
+
+    # Choose layout based on connections count and available space
+    # Calculate rows needed for each layout type
+    rows_needed_single = num_connections
+    rows_needed_two_col = (num_connections + 1) // 2
+    rows_needed_three_col = (num_connections + 2) // 3
+
+    # Use detailed single-column if it fits (includes why_short descriptions)
+    if rows_needed_single <= max_rows:
         return _draw_detailed_table(c, connections, x, table_y)
-    else:
+    # Use two-column compact if it fits
+    elif rows_needed_two_col <= max_rows:
         return _draw_compact_two_column_table(c, connections, x, table_y)
+    # Otherwise use three-column compact (most dense)
+    else:
+        return _draw_compact_three_column_table(c, connections, x, table_y)
 
 
 def _draw_detailed_table(c: canvas.Canvas, connections: List[DenormalizedConnection],
@@ -196,6 +223,131 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
     # Make score columns bold
     table_style.add('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold')  # Left score column
     table_style.add('FONTNAME', (3, 0), (3, -1), 'Helvetica-Bold')  # Right score column
+
+    table.setStyle(table_style)
+
+    # Draw table
+    table.wrapOn(c, CARD_WIDTH, 1000)
+    bottom_y = table_y - len(table_data) * row_height
+    table.drawOn(c, x, bottom_y)
+
+    return bottom_y
+
+
+def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[DenormalizedConnection],
+                                     x: float, table_y: float) -> float:
+    """
+    Draw compact 3-column table without why_short (for 73+ connections).
+    Ordered top to bottom, then left to right.
+    Maximum capacity: ~108 connections (36 rows × 3 columns).
+    """
+    # Split connections into three columns, ordered top-to-bottom
+    num_per_column = (len(connections) + 2) // 3  # Round up for left column
+    left_connections = connections[:num_per_column]
+    middle_connections = connections[num_per_column:2*num_per_column]
+    right_connections = connections[2*num_per_column:]
+
+    # Build table data - each row has left, middle, and right connection
+    table_data = []
+    for i in range(num_per_column):
+        # Left column
+        left_conn = left_connections[i]
+        left_row = [
+            str(left_conn.value),
+            left_conn.category_code,
+            left_conn.character_name or ""
+        ]
+
+        # Middle column (may be empty for last rows if not evenly divisible by 3)
+        if i < len(middle_connections):
+            middle_conn = middle_connections[i]
+            middle_row = [
+                str(middle_conn.value),
+                middle_conn.category_code,
+                middle_conn.character_name or ""
+            ]
+        else:
+            middle_row = ["", "", ""]
+
+        # Right column (may be empty for last rows if not evenly divisible by 3)
+        if i < len(right_connections):
+            right_conn = right_connections[i]
+            right_row = [
+                str(right_conn.value),
+                right_conn.category_code,
+                right_conn.character_name or ""
+            ]
+        else:
+            right_row = ["", "", ""]
+
+        table_data.append(left_row + middle_row + right_row)
+
+    # Column widths: value(2.5mm) + cat(2.7mm) + name(17.8mm) = 23mm per column
+    # Total: 23mm * 3 = 69mm (exactly card width)
+    col_widths = [2.5 * mm, 2.7 * mm, 17.8 * mm,  # Left column
+                  2.5 * mm, 2.7 * mm, 17.8 * mm,  # Middle column
+                  2.5 * mm, 2.7 * mm, 17.8 * mm]  # Right column
+
+    # Smaller row height for compact layout
+    row_height = 2 * mm
+    row_heights = [row_height] * len(table_data)
+    table = Table(table_data, colWidths=col_widths, rowHeights=row_heights)
+
+    # Style the table
+    table_style = TableStyle([
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 4),  # Smaller font for compact layout
+        ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+        # Center align value and category columns
+        ('ALIGN', (0, 0), (0, -1), 'CENTER'),  # Left value column
+        ('ALIGN', (1, 0), (1, -1), 'CENTER'),  # Left category column
+        ('ALIGN', (3, 0), (3, -1), 'CENTER'),  # Middle value column
+        ('ALIGN', (4, 0), (4, -1), 'CENTER'),  # Middle category column
+        ('ALIGN', (6, 0), (6, -1), 'CENTER'),  # Right value column
+        ('ALIGN', (7, 0), (7, -1), 'CENTER'),  # Right category column
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+
+        ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
+        ('LEFTPADDING', (0, 0), (-1, -1), 1),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 1),
+        ('TOPPADDING', (0, 0), (-1, -1), 7),  # Padding to ensure correct vertical alignment (compact view)
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+        # Extra tight padding for category columns
+        ('LEFTPADDING', (1, 0), (1, -1), 0.5),
+        ('RIGHTPADDING', (1, 0), (1, -1), 0.5),
+        ('LEFTPADDING', (4, 0), (4, -1), 0.5),
+        ('RIGHTPADDING', (4, 0), (4, -1), 0.5),
+        ('LEFTPADDING', (7, 0), (7, -1), 0.5),
+        ('RIGHTPADDING', (7, 0), (7, -1), 0.5),
+    ])
+
+    # Add category colors for all three columns
+    for i in range(len(table_data)):
+        # Left column
+        if i < len(left_connections):
+            left_conn = left_connections[i]
+            cat_color = get_category_color(left_conn.category_code)
+            table_style.add('BACKGROUND', (1, i), (1, i), cat_color)
+            table_style.add('TEXTCOLOR', (1, i), (1, i), colors.white)
+
+        # Middle column
+        if i < len(middle_connections):
+            middle_conn = middle_connections[i]
+            cat_color = get_category_color(middle_conn.category_code)
+            table_style.add('BACKGROUND', (4, i), (4, i), cat_color)
+            table_style.add('TEXTCOLOR', (4, i), (4, i), colors.white)
+
+        # Right column
+        if i < len(right_connections):
+            right_conn = right_connections[i]
+            cat_color = get_category_color(right_conn.category_code)
+            table_style.add('BACKGROUND', (7, i), (7, i), cat_color)
+            table_style.add('TEXTCOLOR', (7, i), (7, i), colors.white)
+
+    # Make score columns bold
+    table_style.add('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold')  # Left score column
+    table_style.add('FONTNAME', (3, 0), (3, -1), 'Helvetica-Bold')  # Middle score column
+    table_style.add('FONTNAME', (6, 0), (6, -1), 'Helvetica-Bold')  # Right score column
 
     table.setStyle(table_style)
 
