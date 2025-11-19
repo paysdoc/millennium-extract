@@ -9,8 +9,8 @@
   "width": 551,
   "height": 664,
   "aspect_ratio": 1.205,
-  "quality_score": 0.636,
-  "ratio_score": 0.827,
+  "quality_score": 0.697,
+  "ratio_score": 0.915,
   "resolution_score": 0.189,
   "meets_strict_requirements": [
     "height 664px < minimum 1000px"
@@ -19,6 +19,6 @@
   "source": "metadata_generation",
   "download_timestamp": "2025-11-16T22:41:23.374915",
   "rank": 1,
-  "score_updated": "2025-11-18T20:50:24.281673",
+  "score_updated": "2025-11-19T22:37:37.147591",
   "orientation": "portrait"
 }

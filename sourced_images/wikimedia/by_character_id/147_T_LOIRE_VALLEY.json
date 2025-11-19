@@ -14,12 +14,12 @@
   "width": 576,
   "height": 815,
   "aspect_ratio": 1.415,
-  "quality_score": 0.769,
-  "ratio_score": 0.999,
+  "quality_score": 0.696,
+  "ratio_score": 0.895,
   "resolution_score": 0.232,
   "meets_strict_requirements": [
     "height 815px < minimum 1000px"
   ],
-  "score_updated": "2025-11-18T23:32:07.793182",
+  "score_updated": "2025-11-19T22:37:37.179301",
   "orientation": "portrait"
 }

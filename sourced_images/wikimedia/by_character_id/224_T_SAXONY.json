@@ -16,13 +16,13 @@
   "rank": 1,
   "selected_option": 13,
   "selection_timestamp": "2025-11-18T17:19:40.573239",
-  "quality_score": 0.456,
-  "ratio_score": 0.571,
+  "quality_score": 0.484,
+  "ratio_score": 0.611,
   "resolution_score": 0.189,
   "meets_strict_requirements": [
     "height 662px < minimum 1000px",
     "landscape orientation (ratio=0.662)"
   ],
-  "score_updated": "2025-11-18T23:32:07.804731",
+  "score_updated": "2025-11-19T22:37:37.204309",
   "orientation": "landscape"
 }

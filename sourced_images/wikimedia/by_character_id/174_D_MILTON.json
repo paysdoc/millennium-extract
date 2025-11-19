@@ -14,12 +14,12 @@
   "rank": 1,
   "selected_option": 9,
   "selection_timestamp": "2025-11-16T23:29:38.243815",
-  "quality_score": 0.774,
-  "ratio_score": 0.999,
+  "quality_score": 0.701,
+  "ratio_score": 0.895,
   "resolution_score": 0.248,
   "meets_strict_requirements": [
     "height 869px < minimum 1000px"
   ],
-  "score_updated": "2025-11-19T20:49:26.861384",
+  "score_updated": "2025-11-19T22:37:37.176301",
   "orientation": "portrait"
 }

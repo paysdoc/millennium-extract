@@ -9,14 +9,14 @@
   "width": 846,
   "height": 1000,
   "aspect_ratio": 1.182,
-  "quality_score": 0.654,
-  "ratio_score": 0.812,
+  "quality_score": 0.713,
+  "ratio_score": 0.896,
   "resolution_score": 0.285,
   "meets_strict_requirements": [],
   "page_url": "https://commons.wikimedia.org/wiki/File:Stockhausen_1994_WDR.jpg",
   "source": "metadata_generation",
   "download_timestamp": "2025-11-16T22:48:17.467890",
   "rank": 1,
-  "score_updated": "2025-11-18T23:32:07.786139",
+  "score_updated": "2025-11-19T22:37:37.162541",
   "orientation": "portrait"
 }

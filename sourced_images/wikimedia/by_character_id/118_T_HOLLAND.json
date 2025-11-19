@@ -9,14 +9,14 @@
   "width": 706,
   "height": 1000,
   "aspect_ratio": 1.416,
-  "quality_score": 0.784,
-  "ratio_score": 0.998,
+  "quality_score": 0.711,
+  "ratio_score": 0.894,
   "resolution_score": 0.285,
   "meets_strict_requirements": [],
   "source": "metadata_generation",
   "page_url": "https://commons.wikimedia.org/wiki/File:Leo_Hollandicus_-_Visscher.jpg",
   "download_timestamp": "2025-11-18T14:14:07.470046",
   "rank": 1,
-  "score_updated": "2025-11-18T23:32:07.801523",
+  "score_updated": "2025-11-19T22:37:37.195762",
   "orientation": "portrait"
 }

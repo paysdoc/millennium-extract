@@ -9,14 +9,14 @@
   "width": 666,
   "height": 1000,
   "aspect_ratio": 1.502,
-  "quality_score": 0.729,
-  "ratio_score": 0.92,
+  "quality_score": 0.667,
+  "ratio_score": 0.831,
   "resolution_score": 0.285,
   "meets_strict_requirements": [],
   "page_url": "https://commons.wikimedia.org/wiki/File:Glyptotek-Rodin-Victor_Hugo.jpg",
   "source": "metadata_generation",
   "download_timestamp": "2025-11-16T23:51:15.780929",
   "rank": 1,
-  "score_updated": "2025-11-18T23:32:07.782505",
+  "score_updated": "2025-11-19T22:37:37.156941",
   "orientation": "portrait"
 }

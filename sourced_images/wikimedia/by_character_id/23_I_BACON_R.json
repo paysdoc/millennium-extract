@@ -9,8 +9,8 @@
   "width": 700,
   "height": 694,
   "aspect_ratio": 0.991,
-  "quality_score": 0.551,
-  "ratio_score": 0.703,
+  "quality_score": 0.595,
+  "ratio_score": 0.765,
   "resolution_score": 0.198,
   "meets_strict_requirements": [
     "height 694px < minimum 1000px",
@@ -19,6 +19,6 @@
   "source": "metadata_generation",
   "download_timestamp": "2025-11-12T00:32:29.100256",
   "rank": 1,
-  "score_updated": "2025-11-18T20:50:24.309525",
+  "score_updated": "2025-11-19T22:37:37.170180",
   "orientation": "square"
 }

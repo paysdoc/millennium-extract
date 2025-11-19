@@ -14,13 +14,13 @@
   "rank": 1,
   "selected_option": 3,
   "selection_timestamp": "2025-11-18T13:36:58.032290",
-  "quality_score": 0.47,
-  "ratio_score": 0.585,
+  "quality_score": 0.5,
+  "ratio_score": 0.628,
   "resolution_score": 0.201,
   "meets_strict_requirements": [
     "height 706px < minimum 1000px",
     "landscape orientation (ratio=0.706)"
   ],
-  "score_updated": "2025-11-18T23:32:07.791460",
+  "score_updated": "2025-11-19T22:37:37.174873",
   "orientation": "landscape"
 }

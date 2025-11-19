@@ -13,10 +13,10 @@
   "aspect_ratio": 1.443,
   "score": 0.8461450779953793,
   "candidate_rank": 1,
-  "quality_score": 0.766,
-  "ratio_score": 0.972,
+  "quality_score": 0.697,
+  "ratio_score": 0.873,
   "resolution_score": 0.285,
   "meets_strict_requirements": [],
-  "score_updated": "2025-11-18T23:32:07.796533",
+  "score_updated": "2025-11-19T22:37:37.185587",
   "orientation": "portrait"
 }

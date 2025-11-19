@@ -13,10 +13,10 @@
   "width": 667,
   "height": 1000,
   "aspect_ratio": 1.499,
-  "quality_score": 0.731,
-  "ratio_score": 0.922,
+  "quality_score": 0.668,
+  "ratio_score": 0.832,
   "resolution_score": 0.285,
   "meets_strict_requirements": [],
-  "score_updated": "2025-11-18T23:32:07.803563",
+  "score_updated": "2025-11-19T22:37:37.201283",
   "orientation": "portrait"
 }

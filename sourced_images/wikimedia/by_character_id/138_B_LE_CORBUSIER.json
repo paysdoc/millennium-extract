@@ -13,13 +13,13 @@
   "aspect_ratio": 0.666,
   "score": 0.9446939985085097,
   "candidate_rank": 2,
-  "quality_score": 0.457,
-  "ratio_score": 0.572,
+  "quality_score": 0.486,
+  "ratio_score": 0.613,
   "resolution_score": 0.19,
   "meets_strict_requirements": [
     "height 666px < minimum 1000px",
     "landscape orientation (ratio=0.666)"
   ],
-  "score_updated": "2025-11-18T23:32:07.798753",
+  "score_updated": "2025-11-19T22:37:37.189558",
   "orientation": "landscape"
 }

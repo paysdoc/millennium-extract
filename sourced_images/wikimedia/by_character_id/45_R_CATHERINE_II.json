@@ -9,13 +9,13 @@
   "width": 801,
   "height": 1000,
   "aspect_ratio": 1.248,
-  "quality_score": 0.686,
-  "ratio_score": 0.858,
+  "quality_score": 0.752,
+  "ratio_score": 0.953,
   "resolution_score": 0.285,
   "meets_strict_requirements": [],
   "source": "metadata_generation",
   "download_timestamp": "2025-11-12T00:32:27.380866",
   "rank": 1,
-  "score_updated": "2025-11-18T23:32:07.778375",
+  "score_updated": "2025-11-19T22:37:37.146212",
   "orientation": "portrait"
 }
