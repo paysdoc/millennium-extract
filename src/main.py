@@ -13,6 +13,7 @@ import click
 from reportlab.lib.units import mm
 from src.supabase_client import get_supabase_client, fetch_all_card_data, fetch_single_card_data
 from src.cards import generate_cards_pdf, generate_single_card_pdf
+from src.config import CORNER_RADIUS
 
 
 @click.group()
@@ -55,8 +56,8 @@ def cli():
     '--corner-radius',
     '-r',
     type=float,
-    default=5.0,
-    help='Corner radius in mm for rounded edges (default: 5mm)'
+    default=None,
+    help='Corner radius in mm for rounded edges (default: from config.py)'
 )
 def generate_all(output: str, fronts_only: bool, separate_pages: bool, width: float, crop_marks: bool, corner_radius: float):
     """
@@ -81,7 +82,7 @@ def generate_all(output: str, fronts_only: bool, separate_pages: bool, width: fl
 
         click.echo(f"Generating PDF: {output}")
         card_width_mm = width * mm if width is not None else None
-        corner_radius_mm = corner_radius * mm
+        corner_radius_mm = corner_radius * mm if corner_radius is not None else CORNER_RADIUS
         generate_cards_pdf(card_data_list, output, fronts_only=fronts_only, separate_pages=separate_pages, card_width=card_width_mm, crop_marks=crop_marks, corner_radius=corner_radius_mm, supabase_client=client)
 
         click.echo(click.style("✓ Cards generated successfully!", fg='green'))
@@ -121,8 +122,8 @@ def generate_all(output: str, fronts_only: bool, separate_pages: bool, width: fl
     '--corner-radius',
     '-r',
     type=float,
-    default=5.0,
-    help='Corner radius in mm for rounded edges (default: 5mm)'
+    default=None,
+    help='Corner radius in mm for rounded edges (default: from config.py)'
 )
 def generate_single(character_name: str, output: str, separate_pages: bool, width: float, crop_marks: bool, corner_radius: float):
     """
@@ -158,7 +159,7 @@ def generate_single(character_name: str, output: str, separate_pages: bool, widt
 
         click.echo(f"Generating preview PDF for {card_data.character.name}: {output}")
         card_width_mm = width * mm if width is not None else None
-        corner_radius_mm = corner_radius * mm
+        corner_radius_mm = corner_radius * mm if corner_radius is not None else CORNER_RADIUS
         generate_single_card_pdf(card_data, output, card_number, separate_pages=separate_pages, card_width=card_width_mm, crop_marks=crop_marks, corner_radius=corner_radius_mm, supabase_client=client)
 
         click.echo(click.style("✓ Card preview generated successfully!", fg='green'))

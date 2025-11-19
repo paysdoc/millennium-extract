@@ -21,6 +21,7 @@ HEADER_HEIGHT = 14 * mm  # Header section on back (includes biography, dates, ca
 # Print settings (bleed and crop marks)
 BLEED = 3 * mm  # Standard bleed for professional printing
 CROP_MARK_LENGTH = 5 * mm  # Length of crop marks extending into bleed area
+CORNER_RADIUS = 5 * mm  # Default corner radius for rounded edges
 
 # Category color mapping
 CATEGORY_COLORS = {
@@ -42,7 +43,7 @@ CATEGORY_NAMES = {
     'R': 'ROYALTY',
     'S': 'STATESMAN',
     'P': 'PHILOSOPHER',
-    'I': 'INNOVATOR',
+    'I': 'INVENTOR',
     'M': 'MATHEMATICAL SCIENTIST',
     'N': 'NATURAL SCIENTIST',
     'A': 'ARTIST',
