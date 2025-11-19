@@ -20,7 +20,7 @@ class WikimediaConfig:
 
 class ImageRequirements:
     """Requirements for image quality and dimensions."""
-    TARGET_ASPECT_RATIO = math.sqrt(2)  # 1.414 for A4 portrait
+    TARGET_ASPECT_RATIO = 1.298  # Effective card aspect ratio (excluding banner)
     MIN_HEIGHT = 1000
     ACCEPTABLE_RATIO_MIN = 1
     ACCEPTABLE_RATIO_MAX = 2

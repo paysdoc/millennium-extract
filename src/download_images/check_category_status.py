@@ -100,8 +100,8 @@ def print_category_image_report(category_code, category_name, characters, downlo
     # Sort by character ID
     chars_with_images.sort(key=lambda c: c.id)
 
-    # Target ratio: 1/√2 ≈ 0.7071 (A-series paper format)
-    sqrt2_ratio = 1.0 / math.sqrt(2)
+    # Target ratio: 1/1.298 ≈ 0.7704 (effective card aspect ratio excluding banner)
+    effective_ratio = 1.0 / 1.298
 
     for char in chars_with_images:
         images = downloaded_images[char.id]
@@ -125,19 +125,19 @@ def print_category_image_report(category_code, category_name, characters, downlo
                 normalized_ratio = f"{width/height:.3f}:1"
                 orientation = "landscape"
 
-            # Calculate deviation from 1/√2 ratio
-            # For portrait: ratio should be close to sqrt2_ratio (0.7071)
-            # For landscape: ratio should be close to 1/sqrt2_ratio (1.4142)
+            # Calculate deviation from effective card aspect ratio
+            # For portrait: ratio should be close to effective_ratio (0.7704)
+            # For landscape: ratio should be close to 1/effective_ratio (1.298)
             if raw_aspect < 1:
-                # Portrait: compare to 1/√2
-                deviation_pct = abs((raw_aspect - sqrt2_ratio) / sqrt2_ratio) * 100
+                # Portrait: compare to 1/1.298
+                deviation_pct = abs((raw_aspect - effective_ratio) / effective_ratio) * 100
             else:
-                # Landscape: compare to √2
-                deviation_pct = abs((raw_aspect - (1/sqrt2_ratio)) / (1/sqrt2_ratio)) * 100
+                # Landscape: compare to 1.298
+                deviation_pct = abs((raw_aspect - (1/effective_ratio)) / (1/effective_ratio)) * 100
 
             # Print everything on one line
             img_suffix = f" #{idx}" if len(images) > 1 else ""
-            print(f"  ID {char.id}: {char.name}{img_suffix} | {width}x{height}px | {normalized_ratio} ({orientation}) | A-series dev: {deviation_pct:.1f}%")
+            print(f"  ID {char.id}: {char.name}{img_suffix} | {width}x{height}px | {normalized_ratio} ({orientation}) | Card dev: {deviation_pct:.1f}%")
 
     # Summary statistics
     total_images = sum(len(downloaded_images[c.id]) for c in chars_with_images)
@@ -147,9 +147,9 @@ def print_category_image_report(category_code, category_name, characters, downlo
         for img in downloaded_images[c.id]:
             raw_aspect = img['aspect_ratio']
             if raw_aspect < 1:
-                dev = abs((raw_aspect - sqrt2_ratio) / sqrt2_ratio) * 100
+                dev = abs((raw_aspect - effective_ratio) / effective_ratio) * 100
             else:
-                dev = abs((raw_aspect - (1/sqrt2_ratio)) / (1/sqrt2_ratio)) * 100
+                dev = abs((raw_aspect - (1/effective_ratio)) / (1/effective_ratio)) * 100
             all_deviations.append(dev)
 
     if all_deviations:

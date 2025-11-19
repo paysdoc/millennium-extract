@@ -57,15 +57,15 @@ def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: f
         img_x = x + (CARD_WIDTH - final_width) / 2
 
         # Vertical positioning based on aspect ratio
-        # 1×√2 aspect ratio ≈ 0.707
-        sqrt2_aspect = 1 / 1.414  # Approximately 0.707
+        # Effective card aspect ratio (excluding banner) = 1.298
+        effective_aspect = 1 / 1.298  # Approximately 0.770
 
         # Calculate the available space above the banner
         banner_top_y = y + BANNER_HEIGHT  # Banner is at y (bottom), with BANNER_HEIGHT
         available_height = CARD_HEIGHT - BANNER_HEIGHT  # Space from banner top to card top
 
-        if orig_aspect > sqrt2_aspect:
-            # Image is wider than 1×√2 - align to top of card
+        if orig_aspect > effective_aspect:
+            # Image is wider than effective aspect ratio - align to top of card
             img_y = y + CARD_HEIGHT - final_height
 
             # But if the image height is less than the available space above the banner,

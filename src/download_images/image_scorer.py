@@ -25,7 +25,7 @@ class ImageScorer:
     def calculate_ratio_score(self, aspect_ratio: float) -> float:
         """
         Calculate score based on how close the aspect ratio is to target.
-        For category T, allows both portrait (√2) and landscape (1/√2) ratios.
+        For category T, allows both portrait (1.298) and landscape (1/1.298) ratios.
 
         Args:
             aspect_ratio: Height/width ratio
