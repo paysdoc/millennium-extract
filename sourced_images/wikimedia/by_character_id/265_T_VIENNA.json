@@ -8,21 +8,18 @@
   "wikimedia_title": "File:Wien, Stephansdom, Blick vom S\u00fcdturm -- 2018 -- 3268.jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Wien%2C_Stephansdom%2C_Blick_vom_S%C3%BCdturm_--_2018_--_3268.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Wien,_Stephansdom,_Blick_vom_S\u00fcdturm_--_2018_--_3268.jpg",
-  "width": 1000,
-  "height": 666,
-  "aspect_ratio": 0.666,
+  "width": 770,
+  "height": 1000,
+  "aspect_ratio": 1.299,
   "score": 0.9728247137101282,
   "candidate_rank": 1,
   "rank": 1,
   "selected_option": 1,
   "selection_timestamp": "2025-11-18T17:19:41.113538",
-  "quality_score": 0.486,
-  "ratio_score": 0.613,
-  "resolution_score": 0.19,
-  "meets_strict_requirements": [
-    "height 666px < minimum 1000px",
-    "landscape orientation (ratio=0.666)"
-  ],
-  "score_updated": "2025-11-19T22:37:37.170616",
-  "orientation": "landscape"
+  "quality_score": 0.785,
+  "ratio_score": 0.999,
+  "resolution_score": 0.285,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-21T19:15:18.115536",
+  "orientation": "portrait"
 }

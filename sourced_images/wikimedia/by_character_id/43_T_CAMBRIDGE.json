@@ -10,13 +10,13 @@
   "selected_option": 5,
   "download_timestamp": "2025-11-18T13:36:58.141496",
   "rank": 1,
-  "width": 667,
+  "width": 770,
   "height": 1000,
-  "aspect_ratio": 1.499,
-  "quality_score": 0.668,
-  "ratio_score": 0.832,
+  "aspect_ratio": 1.299,
+  "quality_score": 0.785,
+  "ratio_score": 0.999,
   "resolution_score": 0.285,
   "meets_strict_requirements": [],
-  "score_updated": "2025-11-19T22:37:37.201283",
+  "score_updated": "2025-11-21T19:15:18.128689",
   "orientation": "portrait"
 }

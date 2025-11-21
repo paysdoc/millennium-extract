@@ -7,18 +7,18 @@
   "birth_date": "1585",
   "death_date": "1672 (87yrs)",
   "width": 670,
-  "height": 998,
-  "aspect_ratio": 1.49,
-  "quality_score": 0.673,
-  "ratio_score": 0.839,
-  "resolution_score": 0.284,
+  "height": 870,
+  "aspect_ratio": 1.299,
+  "quality_score": 0.774,
+  "ratio_score": 0.999,
+  "resolution_score": 0.248,
   "meets_strict_requirements": [
-    "height 998px < minimum 1000px"
+    "height 870px < minimum 1000px"
   ],
   "page_url": "https://commons.wikimedia.org/wiki/File:Schutz.jpg",
   "source": "metadata_generation",
   "download_timestamp": "2025-11-16T22:41:23.466680",
   "rank": 1,
-  "score_updated": "2025-11-19T22:37:37.212065",
+  "score_updated": "2025-11-21T19:15:18.132850",
   "orientation": "portrait"
 }

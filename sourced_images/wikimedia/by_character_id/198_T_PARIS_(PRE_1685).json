@@ -8,21 +8,18 @@
   "wikimedia_title": "File:La Grande Galerie du Louvre, le Pont-Neuf, la Cit\u00e9, le coll\u00e8ge des Quatres-Nations, vers 1670 Sur la Seine, la gal\u00e8re royale (P1319).jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/6/6c/La_Grande_Galerie_du_Louvre%2C_le_Pont-Neuf%2C_la_Cit%C3%A9%2C_le_coll%C3%A8ge_des_Quatres-Nations%2C_vers_1670_Sur_la_Seine%2C_la_gal%C3%A8re_royale_%28P1319%29.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:La_Grande_Galerie_du_Louvre,_le_Pont-Neuf,_la_Cit\u00e9,_le_coll\u00e8ge_des_Quatres-Nations,_vers_1670_Sur_la_Seine,_la_gal\u00e8re_royale_(P1319).jpg",
-  "width": 1000,
-  "height": 656,
-  "aspect_ratio": 0.656,
+  "width": 770,
+  "height": 1000,
+  "aspect_ratio": 1.299,
   "score": 0.956284381368056,
   "candidate_rank": 3,
   "rank": 1,
   "selected_option": 3,
   "selection_timestamp": "2025-11-18T17:11:55.216069",
-  "quality_score": 0.482,
-  "ratio_score": 0.609,
-  "resolution_score": 0.187,
-  "meets_strict_requirements": [
-    "height 656px < minimum 1000px",
-    "landscape orientation (ratio=0.656)"
-  ],
-  "score_updated": "2025-11-19T22:37:37.175454",
-  "orientation": "landscape"
+  "quality_score": 0.785,
+  "ratio_score": 0.999,
+  "resolution_score": 0.285,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-21T19:15:18.117281",
+  "orientation": "portrait"
 }

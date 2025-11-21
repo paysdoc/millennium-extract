@@ -1,0 +1,21 @@
+{
+  "character_name": "LANDINI",
+  "character_id": 136,
+  "category": "C",
+  "first_names": "Francesco",
+  "biography": "Florentine organist & composer, Gothic",
+  "birth_date": "1325",
+  "death_date": "1397 (72yrs)",
+  "width": 770,
+  "height": 1000,
+  "aspect_ratio": 1.299,
+  "orientation": "portrait",
+  "quality_score": 0.785,
+  "ratio_score": 0.999,
+  "resolution_score": 0.285,
+  "meets_strict_requirements": [],
+  "PAGE_URL": "https://commons.wikimedia.org/wiki/File:Francesco_Landini,_Squarcialupi_Codex,_page_246v.jpg",
+  "source": "metadata_generation",
+  "download_timestamp": "2025-11-21T18:12:40.101583",
+  "rank": 1
+}

@@ -9,20 +9,20 @@
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/London_before_the_Great_Fire_MET_DP823346.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:London_before_the_Great_Fire_MET_DP823346.jpg",
   "width": 1000,
-  "height": 662,
-  "aspect_ratio": 0.662,
+  "height": 770,
+  "aspect_ratio": 0.77,
   "score": 0.873068691746373,
   "candidate_rank": 3,
   "rank": 1,
   "selected_option": 3,
   "selection_timestamp": "2025-11-18T17:11:55.034901",
-  "quality_score": 0.484,
-  "ratio_score": 0.611,
-  "resolution_score": 0.189,
+  "quality_score": 0.524,
+  "ratio_score": 0.654,
+  "resolution_score": 0.219,
   "meets_strict_requirements": [
-    "height 662px < minimum 1000px",
-    "landscape orientation (ratio=0.662)"
+    "height 770px < minimum 1000px",
+    "landscape orientation (ratio=0.770)"
   ],
-  "score_updated": "2025-11-19T22:37:37.203368",
+  "score_updated": "2025-11-21T19:15:18.129794",
   "orientation": "landscape"
 }

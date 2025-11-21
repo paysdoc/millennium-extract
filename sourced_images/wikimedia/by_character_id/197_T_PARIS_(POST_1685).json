@@ -8,21 +8,18 @@
   "wikimedia_title": "File:Paris Night (banner esvoy).jpg",
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Paris_Night_%28banner_esvoy%29.jpg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Paris_Night_(banner_esvoy).jpg",
-  "width": 1000,
-  "height": 706,
-  "aspect_ratio": 0.706,
+  "width": 770,
+  "height": 1000,
+  "aspect_ratio": 1.299,
   "score": 0.8733246013547072,
   "candidate_rank": 1,
   "rank": 1,
   "selected_option": 1,
   "selection_timestamp": "2025-11-18T16:57:33.886776",
-  "quality_score": 0.5,
-  "ratio_score": 0.628,
-  "resolution_score": 0.201,
-  "meets_strict_requirements": [
-    "height 706px < minimum 1000px",
-    "landscape orientation (ratio=0.706)"
-  ],
-  "score_updated": "2025-11-19T22:37:37.177900",
-  "orientation": "landscape"
+  "quality_score": 0.785,
+  "ratio_score": 0.999,
+  "resolution_score": 0.285,
+  "meets_strict_requirements": [],
+  "score_updated": "2025-11-21T19:15:18.118249",
+  "orientation": "portrait"
 }

@@ -6,19 +6,17 @@
   "biography": "1020's?1109 S3, Abbot of Cluny (French), 1049-1109 (60yrs)",
   "birth_date": "",
   "death_date": "",
-  "width": 481,
-  "height": 579,
-  "aspect_ratio": 1.204,
-  "quality_score": 0.689,
-  "ratio_score": 0.914,
-  "resolution_score": 0.165,
-  "meets_strict_requirements": [
-    "height 579px < minimum 1000px"
-  ],
-  "page_url": "https://commons.wikimedia.org/wiki/File:Hugo-v-cluny_heinrich-iv_mathilde-v-tuszien_cod-vat-lat-4922_1115ad.jpg",
+  "width": 770,
+  "height": 1000,
+  "aspect_ratio": 1.299,
+  "quality_score": 0.785,
+  "ratio_score": 0.999,
+  "resolution_score": 0.285,
+  "meets_strict_requirements": [],
+  "page_url": "https://commons.wikimedia.org/wiki/File:Mathilde_und_Hugo_von_Cluny_als_F%C3%BCrsprecher_Heinrichs_IV._(cropped).jpg",
   "source": "metadata_generation",
   "download_timestamp": "2025-11-12T00:32:31.319788",
   "rank": 1,
-  "score_updated": "2025-11-19T22:37:37.205734",
+  "score_updated": "2025-11-21T15:23:11.309312",
   "orientation": "portrait"
 }

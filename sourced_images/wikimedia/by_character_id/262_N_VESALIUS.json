@@ -7,13 +7,13 @@
   "selected_option": 1,
   "download_timestamp": "2025-11-14T20:20:35.877990",
   "rank": 1,
-  "width": 726,
+  "width": 770,
   "height": 1000,
-  "aspect_ratio": 1.377,
-  "quality_score": 0.734,
-  "ratio_score": 0.926,
+  "aspect_ratio": 1.299,
+  "quality_score": 0.785,
+  "ratio_score": 0.999,
   "resolution_score": 0.285,
   "meets_strict_requirements": [],
-  "score_updated": "2025-11-19T22:37:37.140511",
+  "score_updated": "2025-11-21T18:12:39.117255",
   "orientation": "portrait"
 }
