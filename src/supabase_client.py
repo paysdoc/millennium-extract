@@ -150,6 +150,7 @@ def denormalize_connections(
 
     # Add joker connections
     # Check all other characters to see if they have a joker_type matching current character's category
+    # NOTE: Jokers do not count for category T
     for other_char_id, other_char in character_lookup.items():
         # Skip self
         if other_char_id == character_id:
@@ -157,6 +158,10 @@ def denormalize_connections(
 
         # Check if other character has a joker type
         if not other_char.joker_type:
+            continue
+
+        # Skip if current character is category T (jokers don't count for T)
+        if current_category == "T":
             continue
 
         # Check if joker type matches current character's category (or is wildcard)
