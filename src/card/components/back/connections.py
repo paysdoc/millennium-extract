@@ -143,13 +143,14 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
     """
     Draw compact 2-column table without why_short (for >26 connections).
     Ordered top to bottom, then left to right.
+    Includes vertical white stripe separator between columns.
     """
     # Split connections into two columns, ordered top-to-bottom
     num_per_column = (len(connections) + 1) // 2  # Round up for left column
     left_connections = connections[:num_per_column]
     right_connections = connections[num_per_column:]
 
-    # Build table data - each row has left and right connection
+    # Build table data - each row has left and right connection with separator
     table_data = []
     for i in range(num_per_column):
         left_conn = left_connections[i]
@@ -170,11 +171,12 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
         else:
             right_row = ["", "", ""]
 
-        table_data.append(left_row + right_row)
+        # Add white separator column between left and right
+        table_data.append(left_row + [""] + right_row)
 
-    # Column widths: value(3mm) + cat(2.7mm) + name(27.8mm) = 33.5mm per column
-    # Total: 33.5mm * 2 = 67mm, leaving 2mm margin
-    col_widths = [3 * mm, 2.7 * mm, 27.8 * mm, 3 * mm, 2.7 * mm, 27.8 * mm]
+    # Column widths: value(3mm) + cat(2.7mm) + name(26.65mm) + separator(4mm) = 36.35mm left + 4mm sep + 28.65mm right
+    # Total: 3mm + 2.7mm + 26.65mm + 4mm + 3mm + 2.7mm + 26.65mm = 69mm (full card width)
+    col_widths = [3 * mm, 2.7 * mm, 26.65 * mm, 4 * mm, 3 * mm, 2.7 * mm, 26.65 * mm]
 
     # Smaller row height for compact layout
     row_height = 2 * mm
@@ -188,8 +190,8 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
         ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
         ('ALIGN', (0, 0), (0, -1), 'CENTER'),  # Left value column
         ('ALIGN', (1, 0), (1, -1), 'CENTER'),  # Left category column
-        ('ALIGN', (3, 0), (3, -1), 'CENTER'),  # Right value column
-        ('ALIGN', (4, 0), (4, -1), 'CENTER'),  # Right category column
+        ('ALIGN', (4, 0), (4, -1), 'CENTER'),  # Right value column (after separator)
+        ('ALIGN', (5, 0), (5, -1), 'CENTER'),  # Right category column (after separator)
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
 
         ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
@@ -200,8 +202,12 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
         # Extra tight padding for category columns
         ('LEFTPADDING', (1, 0), (1, -1), 0.5),
         ('RIGHTPADDING', (1, 0), (1, -1), 0.5),
-        ('LEFTPADDING', (4, 0), (4, -1), 0.5),
-        ('RIGHTPADDING', (4, 0), (4, -1), 0.5),
+        ('LEFTPADDING', (5, 0), (5, -1), 0.5),
+        ('RIGHTPADDING', (5, 0), (5, -1), 0.5),
+        # White separator column (column 3) - no padding
+        ('LEFTPADDING', (3, 0), (3, -1), 0),
+        ('RIGHTPADDING', (3, 0), (3, -1), 0),
+        ('BACKGROUND', (3, 0), (3, -1), colors.white),  # Always white
     ])
 
     # Add category colors for both columns
@@ -213,16 +219,16 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
             table_style.add('BACKGROUND', (1, i), (1, i), cat_color)
             table_style.add('TEXTCOLOR', (1, i), (1, i), colors.white)
 
-        # Right column
+        # Right column (after separator at column 3)
         if i < len(right_connections):
             right_conn = right_connections[i]
             cat_color = get_category_color(right_conn.category_code)
-            table_style.add('BACKGROUND', (4, i), (4, i), cat_color)
-            table_style.add('TEXTCOLOR', (4, i), (4, i), colors.white)
+            table_style.add('BACKGROUND', (5, i), (5, i), cat_color)
+            table_style.add('TEXTCOLOR', (5, i), (5, i), colors.white)
 
     # Make score columns bold
     table_style.add('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold')  # Left score column
-    table_style.add('FONTNAME', (3, 0), (3, -1), 'Helvetica-Bold')  # Right score column
+    table_style.add('FONTNAME', (4, 0), (4, -1), 'Helvetica-Bold')  # Right score column (after separator)
 
     table.setStyle(table_style)
 
@@ -240,6 +246,7 @@ def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[Denorma
     Draw compact 3-column table without why_short (for 73+ connections).
     Ordered top to bottom, then left to right.
     Maximum capacity: ~108 connections (36 rows × 3 columns).
+    Includes vertical white stripe separators between columns.
     """
     # Split connections into three columns, ordered top-to-bottom
     num_per_column = (len(connections) + 2) // 3  # Round up for left column
@@ -247,7 +254,7 @@ def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[Denorma
     middle_connections = connections[num_per_column:2*num_per_column]
     right_connections = connections[2*num_per_column:]
 
-    # Build table data - each row has left, middle, and right connection
+    # Build table data - each row has left, middle, and right connection with separators
     table_data = []
     for i in range(num_per_column):
         # Left column
@@ -280,13 +287,17 @@ def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[Denorma
         else:
             right_row = ["", "", ""]
 
-        table_data.append(left_row + middle_row + right_row)
+        # Add white separator columns between left/middle and middle/right
+        table_data.append(left_row + [""] + middle_row + [""] + right_row)
 
-    # Column widths: value(2.5mm) + cat(2.7mm) + name(17.8mm) = 23mm per column
-    # Total: 23mm * 3 = 69mm (exactly card width)
-    col_widths = [2.5 * mm, 2.7 * mm, 17.8 * mm,  # Left column
-                  2.5 * mm, 2.7 * mm, 17.8 * mm,  # Middle column
-                  2.5 * mm, 2.7 * mm, 17.8 * mm]  # Right column
+    # Column widths: value(2.5mm) + cat(2.7mm) + name(16mm) + sep(2mm) = 21.2mm per section + 2mm separators
+    # Total: (2.5 + 2.7 + 16) + 2 + (2.5 + 2.7 + 16) + 2 + (2.5 + 2.7 + 16) = 21.2 + 2 + 21.2 + 2 + 21.2 = 67.6mm
+    # Adjusted: Add 1.4mm distributed to name columns (0.47mm each ~ 0.5mm each) = 69mm total
+    col_widths = [2.5 * mm, 2.7 * mm, 16.3 * mm,  # Left column
+                  2 * mm,                           # Separator 1
+                  2.5 * mm, 2.7 * mm, 16.3 * mm,  # Middle column
+                  2 * mm,                           # Separator 2
+                  2.5 * mm, 2.7 * mm, 16.3 * mm]  # Right column
 
     # Smaller row height for compact layout
     row_height = 2 * mm
@@ -301,10 +312,10 @@ def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[Denorma
         # Center align value and category columns
         ('ALIGN', (0, 0), (0, -1), 'CENTER'),  # Left value column
         ('ALIGN', (1, 0), (1, -1), 'CENTER'),  # Left category column
-        ('ALIGN', (3, 0), (3, -1), 'CENTER'),  # Middle value column
-        ('ALIGN', (4, 0), (4, -1), 'CENTER'),  # Middle category column
-        ('ALIGN', (6, 0), (6, -1), 'CENTER'),  # Right value column
-        ('ALIGN', (7, 0), (7, -1), 'CENTER'),  # Right category column
+        ('ALIGN', (4, 0), (4, -1), 'CENTER'),  # Middle value column (after separator)
+        ('ALIGN', (5, 0), (5, -1), 'CENTER'),  # Middle category column (after separator)
+        ('ALIGN', (8, 0), (8, -1), 'CENTER'),  # Right value column (after separator)
+        ('ALIGN', (9, 0), (9, -1), 'CENTER'),  # Right category column (after separator)
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
 
         ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
@@ -315,10 +326,17 @@ def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[Denorma
         # Extra tight padding for category columns
         ('LEFTPADDING', (1, 0), (1, -1), 0.5),
         ('RIGHTPADDING', (1, 0), (1, -1), 0.5),
-        ('LEFTPADDING', (4, 0), (4, -1), 0.5),
-        ('RIGHTPADDING', (4, 0), (4, -1), 0.5),
-        ('LEFTPADDING', (7, 0), (7, -1), 0.5),
-        ('RIGHTPADDING', (7, 0), (7, -1), 0.5),
+        ('LEFTPADDING', (5, 0), (5, -1), 0.5),
+        ('RIGHTPADDING', (5, 0), (5, -1), 0.5),
+        ('LEFTPADDING', (9, 0), (9, -1), 0.5),
+        ('RIGHTPADDING', (9, 0), (9, -1), 0.5),
+        # White separator columns (columns 3 and 7) - no padding
+        ('LEFTPADDING', (3, 0), (3, -1), 0),
+        ('RIGHTPADDING', (3, 0), (3, -1), 0),
+        ('BACKGROUND', (3, 0), (3, -1), colors.white),  # Separator 1 - always white
+        ('LEFTPADDING', (7, 0), (7, -1), 0),
+        ('RIGHTPADDING', (7, 0), (7, -1), 0),
+        ('BACKGROUND', (7, 0), (7, -1), colors.white),  # Separator 2 - always white
     ])
 
     # Add category colors for all three columns
@@ -330,24 +348,24 @@ def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[Denorma
             table_style.add('BACKGROUND', (1, i), (1, i), cat_color)
             table_style.add('TEXTCOLOR', (1, i), (1, i), colors.white)
 
-        # Middle column
+        # Middle column (after separator at column 3)
         if i < len(middle_connections):
             middle_conn = middle_connections[i]
             cat_color = get_category_color(middle_conn.category_code)
-            table_style.add('BACKGROUND', (4, i), (4, i), cat_color)
-            table_style.add('TEXTCOLOR', (4, i), (4, i), colors.white)
+            table_style.add('BACKGROUND', (5, i), (5, i), cat_color)
+            table_style.add('TEXTCOLOR', (5, i), (5, i), colors.white)
 
-        # Right column
+        # Right column (after separator at column 7)
         if i < len(right_connections):
             right_conn = right_connections[i]
             cat_color = get_category_color(right_conn.category_code)
-            table_style.add('BACKGROUND', (7, i), (7, i), cat_color)
-            table_style.add('TEXTCOLOR', (7, i), (7, i), colors.white)
+            table_style.add('BACKGROUND', (9, i), (9, i), cat_color)
+            table_style.add('TEXTCOLOR', (9, i), (9, i), colors.white)
 
     # Make score columns bold
     table_style.add('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold')  # Left score column
-    table_style.add('FONTNAME', (3, 0), (3, -1), 'Helvetica-Bold')  # Middle score column
-    table_style.add('FONTNAME', (6, 0), (6, -1), 'Helvetica-Bold')  # Right score column
+    table_style.add('FONTNAME', (4, 0), (4, -1), 'Helvetica-Bold')  # Middle score column (after separator)
+    table_style.add('FONTNAME', (8, 0), (8, -1), 'Helvetica-Bold')  # Right score column (after separator)
 
     table.setStyle(table_style)
 
