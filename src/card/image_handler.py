@@ -1,12 +1,42 @@
 """
 Image downloading and caching for card generation.
+All images are converted to CMYK color mode for professional printing.
+Color enhancement is applied to compensate for CMYK's smaller gamut.
 """
 import os
 import io
 import json
-from PIL import Image
+from PIL import Image, ImageEnhance
 from reportlab.lib.utils import ImageReader
 from typing import Optional
+
+
+def enhance_for_cmyk(img: Image.Image) -> Image.Image:
+    """
+    Enhance image brightness and saturation before CMYK conversion.
+
+    CMYK has a smaller color gamut than RGB, which can make images appear
+    duller. This function pre-enhances the image to compensate for the loss.
+
+    Args:
+        img: PIL Image in RGB mode
+
+    Returns:
+        Enhanced PIL Image in RGB mode
+    """
+    # Enhance brightness (1.0 = original, >1.0 = brighter)
+    enhancer = ImageEnhance.Brightness(img)
+    img = enhancer.enhance(1)  # not brighter
+
+    # Enhance color saturation (1.0 = original, >1.0 = more saturated)
+    enhancer = ImageEnhance.Color(img)
+    img = enhancer.enhance(1.15)  # 15% more saturated
+
+    # Enhance contrast slightly (1.0 = original, >1.0 = more contrast)
+    enhancer = ImageEnhance.Contrast(img)
+    img = enhancer.enhance(1.05)  # 5% more contrast
+
+    return img
 
 
 def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> Optional[ImageReader]:
@@ -63,20 +93,30 @@ def download_image_from_supabase(supabase_client, image_path: Optional[str]) -> 
             # Convert bytes to PIL Image
             img = Image.open(io.BytesIO(image_data))
 
-            # Convert to RGB if needed
+            # Convert to RGB first if needed (for enhancement)
             if img.mode != 'RGB':
                 img = img.convert('RGB')
 
-            # Save the ORIGINAL image to cache (before any mutations)
-            img.save(cache_path)
-            print(f"Cached original image: {filename}")
+            # Enhance image before CMYK conversion to compensate for gamut loss
+            img = enhance_for_cmyk(img)
 
-        # Load the original image from cache
+            # Convert to CMYK for printing
+            img = img.convert('CMYK')
+
+            # Save the enhanced CMYK image to cache (before rotation)
+            img.save(cache_path)
+            print(f"Cached enhanced CMYK image: {filename}")
+
+        # Load the image from cache
         img = Image.open(cache_path)
 
-        # Ensure it's in RGB mode
-        if img.mode != 'RGB':
-            img = img.convert('RGB')
+        # Ensure it's in CMYK mode (apply enhancement if converting from RGB)
+        if img.mode != 'CMYK':
+            # If we need to convert, apply enhancement first
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            img = enhance_for_cmyk(img)
+            img = img.convert('CMYK')
 
         # Apply rotation if metadata indicates landscape orientation
         # This mutation is applied AFTER caching, so the original is preserved
