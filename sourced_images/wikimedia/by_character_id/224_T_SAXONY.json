@@ -9,20 +9,20 @@
   "wikimedia_url": "https://upload.wikimedia.org/wikipedia/commons/1/17/Dresden_%28196426309%29.jpeg",
   "page_url": "https://commons.wikimedia.org/wiki/File:Dresden_(196426309).jpeg",
   "width": 1000,
-  "height": 662,
-  "aspect_ratio": 0.662,
+  "height": 770,
+  "aspect_ratio": 0.77,
   "score": 0.7834210405172973,
   "candidate_rank": 13,
   "rank": 1,
   "selected_option": 13,
   "selection_timestamp": "2025-11-18T17:19:40.573239",
-  "quality_score": 0.484,
-  "ratio_score": 0.611,
-  "resolution_score": 0.189,
+  "quality_score": 0.524,
+  "ratio_score": 0.654,
+  "resolution_score": 0.219,
   "meets_strict_requirements": [
-    "height 662px < minimum 1000px",
-    "landscape orientation (ratio=0.662)"
+    "height 770px < minimum 1000px",
+    "landscape orientation (ratio=0.770)"
   ],
-  "score_updated": "2025-11-19T22:37:37.204309",
+  "score_updated": "2025-11-26T22:55:08.730596",
   "orientation": "landscape"
 }
