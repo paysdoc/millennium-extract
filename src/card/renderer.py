@@ -17,7 +17,7 @@ from src.card.components.back.towns import draw_towns_grid
 from src.card.utils import draw_rounded_rect, clip_to_rounded_rect
 
 
-def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, scale: float = 1.0, supabase_client=None, corner_radius: float = None):
+def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, scale: float = 1.0, supabase_client=None, corner_radius: float = None, bleed: float = 0):
     """
     Draw the front of a character card.
 
@@ -29,6 +29,7 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
         scale: Scale factor for the card (default: 1.0 = original size 69mm)
         supabase_client: Supabase client for downloading images (optional)
         corner_radius: Corner radius for rounded edges (default: CORNER_RADIUS from config)
+        bleed: Bleed distance to extend colors beyond card edge (default: 0)
     """
     if corner_radius is None:
         corner_radius = CORNER_RADIUS
@@ -42,13 +43,13 @@ def draw_card_front(c: canvas.Canvas, card_data: CardData, x: float, y: float, s
     c.scale(scale, scale)  # Apply uniform scaling
 
     # Draw at origin (0, 0) since we've translated
-    draw_card_front_content(c, character, 0, 0, category_color, supabase_client, corner_radius)
+    draw_card_front_content(c, character, 0, 0, category_color, supabase_client, corner_radius, bleed)
 
     # Restore canvas state
     c.restoreState()
 
 
-def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int, scale: float = 1.0, supabase_client=None, corner_radius: float = None):
+def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, card_number: int, scale: float = 1.0, supabase_client=None, corner_radius: float = None, bleed: float = 0):
     """
     Draw the back of a character card with details and connections.
 
@@ -61,6 +62,7 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
         scale: Scale factor for the card (default: 1.0 = original size 69mm)
         supabase_client: Supabase client (not used for back, kept for consistency)
         corner_radius: Corner radius for rounded edges (default: CORNER_RADIUS from config)
+        bleed: Bleed distance to extend colors beyond card edge (default: 0)
     """
     if corner_radius is None:
         corner_radius = CORNER_RADIUS
@@ -73,17 +75,34 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     c.translate(x, y)  # Move origin to card position
     c.scale(scale, scale)  # Apply uniform scaling
 
-    # Draw white background for card back with rounded corners
-    c.setFillColor(colors.white)
-    c.setStrokeColor(colors.white)
-    draw_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
-
-    # Set clipping path to rounded rectangle so all content respects the rounded corners
+    # Step 1: Draw white background extending into bleed (if bleed > 0)
     c.saveState()
+    c.setFillColor(colors.white)
+    if bleed > 0:
+        # Extend white background into bleed on all sides
+        c.rect(-bleed, -bleed, CARD_WIDTH + 2 * bleed, CARD_HEIGHT + 2 * bleed, fill=1, stroke=0)
+    c.restoreState()
+
+    # Step 2: Draw header and banner extending into bleed (BEFORE clipping)
+    if bleed > 0:
+        draw_back_header(c, character, 0, 0, category_color, bleed)
+        draw_banner(c, character.name, 0, 0, category_color, bleed)
+
+    # Step 3: Set up clipping for the card area
+    c.saveState()
+
+    # Only draw rounded background and header/banner if there's no bleed
+    if bleed == 0:
+        c.setFillColor(colors.white)
+        c.setStrokeColor(colors.white)
+        draw_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
+
+    # Set clipping path to rounded rectangle so content respects the rounded corners
     clip_to_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius)
 
-    # Draw header section at origin (name, dates, biography, category box)
-    draw_back_header(c, character, 0, 0, category_color)
+    # Draw header section only if there's no bleed (to avoid double-drawing with transparency)
+    if bleed == 0:
+        draw_back_header(c, character, 0, 0, category_color, 0)
 
     # Separate category T (Territory/Towns) from other connections
     regular_connections = []
@@ -111,8 +130,9 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
     if town_connections:
         draw_towns_grid(c, town_connections, 0, 0)
 
-    # Draw banner with name at bottom
-    draw_banner(c, character.name, 0, 0, category_color)
+    # Draw banner only if there's no bleed (to avoid double-drawing)
+    if bleed == 0:
+        draw_banner(c, character.name, 0, 0, category_color, 0)
 
     # Restore state to remove clipping
     c.restoreState()

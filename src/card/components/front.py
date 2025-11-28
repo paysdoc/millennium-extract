@@ -87,7 +87,7 @@ def draw_card_front_image(c: canvas.Canvas, character: Character, x: float, y: f
 
 
 def draw_card_front_content(c: canvas.Canvas, character: Character, x: float, y: float,
-                           category_color: HexColor, supabase_client=None, corner_radius: float = None):
+                           category_color: HexColor, supabase_client=None, corner_radius: float = None, bleed: float = 0):
     """
     Draw the complete card front: background, image, and banner.
 
@@ -99,26 +99,46 @@ def draw_card_front_content(c: canvas.Canvas, character: Character, x: float, y:
         category_color: Color for the banner
         supabase_client: Supabase client for downloading images (optional)
         corner_radius: Corner radius for rounded edges (default: CORNER_RADIUS from config)
+        bleed: Bleed distance to extend colors beyond card edge (default: 0)
     """
     if corner_radius is None:
         corner_radius = CORNER_RADIUS
 
-    # Draw card background with rounded corners
-    c.setFillColor(HexColor('#cccccc'))
-    c.setStrokeColor(HexColor('#cccccc'))  # Match stroke to fill to hide border
-    c.setLineWidth(0)  # Remove border
-    draw_rounded_rect(c, x, y, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
-
-    # Set clipping path to rounded rectangle so image and banner respect the rounded corners
+    # Step 1: Draw background extending into bleed area FIRST (before anything else)
     c.saveState()
+    c.setFillColor(HexColor('#cccccc'))
+    c.setLineWidth(0)
+
+    if bleed > 0:
+        # Draw background extending into bleed on all sides
+        c.rect(x - bleed, y - bleed, CARD_WIDTH + 2 * bleed, CARD_HEIGHT + 2 * bleed, fill=1, stroke=0)
+    else:
+        # No bleed, just draw card background
+        draw_rounded_rect(c, x, y, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
+    c.restoreState()
+
+    # Step 2: Draw banner extending into bleed (BEFORE clipping)
+    if bleed > 0:
+        draw_banner(c, character.name, x, y, category_color, bleed)
+
+    # Step 3: Set up clipping for the card area (don't redraw background to avoid edge line)
+    c.saveState()
+
+    # Only draw rounded background if there's no bleed (to avoid creating edge line)
+    if bleed == 0:
+        c.setFillColor(HexColor('#cccccc'))
+        draw_rounded_rect(c, x, y, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
+
+    # Set clipping path to rounded rectangle so image respects the rounded corners
     clip_to_rounded_rect(c, x, y, CARD_WIDTH, CARD_HEIGHT, corner_radius)
 
     # Draw portrait image
     if supabase_client:
         draw_card_front_image(c, character, x, y, supabase_client)
 
-    # Draw banner with name
-    draw_banner(c, character.name, x, y, category_color)
+    # Draw banner only if there's no bleed (to avoid double-drawing)
+    if bleed == 0:
+        draw_banner(c, character.name, x, y, category_color, 0)
 
     # Restore state to remove clipping
     c.restoreState()

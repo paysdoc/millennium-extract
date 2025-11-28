@@ -7,7 +7,7 @@ from src.config import CARD_WIDTH, BANNER_HEIGHT, MARGIN
 from src.card.utils import wrap_text, draw_text_with_outline
 
 
-def draw_banner(c: canvas.Canvas, name: str, x: float, y: float, category_color: HexColor):
+def draw_banner(c: canvas.Canvas, name: str, x: float, y: float, category_color: HexColor, bleed: float = 0):
     """
     Draw a colored banner with character name (used on both front and back).
 
@@ -20,11 +20,17 @@ def draw_banner(c: canvas.Canvas, name: str, x: float, y: float, category_color:
         x: X position of card bottom-left corner
         y: Y position of card bottom-left corner
         category_color: Color for the banner background
+        bleed: Bleed distance to extend banner color beyond card edge (default: 0)
     """
-    # Draw colored banner at the very bottom of the card
+    # Draw colored banner at the very bottom of the card, extending into bleed area
     banner_y = y  # At card bottom
     c.setFillColor(category_color)
-    c.rect(x, banner_y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
+
+    # Extend banner into bleed on left, right, and bottom
+    if bleed > 0:
+        c.rect(x - bleed, banner_y - bleed, CARD_WIDTH + 2 * bleed, BANNER_HEIGHT + bleed, fill=1, stroke=0)
+    else:
+        c.rect(x, banner_y, CARD_WIDTH, BANNER_HEIGHT, fill=1, stroke=0)
 
     # Prepare name text
     name_upper = (name or "UNKNOWN").upper()

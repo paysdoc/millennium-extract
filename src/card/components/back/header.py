@@ -12,7 +12,7 @@ from src.config import (
 from src.card.utils import draw_wrapped_text, draw_text_with_outline
 
 
-def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float, category_color: HexColor):
+def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float, category_color: HexColor, bleed: float = 0):
     """
     Draw the header section on the card back.
 
@@ -29,6 +29,7 @@ def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float,
         x: X position of card bottom-left corner
         y: Y position of card bottom-left corner
         category_color: Color for the category box and header background
+        bleed: Bleed distance to extend header color beyond card edge (default: 0)
     """
     category_name = get_category_name(character.type)
     category_box_width = 30  # 14mm base + 1mm total padding (8mm left + 8mm right)
@@ -36,13 +37,18 @@ def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float,
     card_num_box_height = HEADER_HEIGHT
 
     # Draw header section with category color at 75% opacity (actually 50% in implementation)
+    # Extend into bleed on left, right, and top
     c.setFillColorRGB(
         category_color.red,
         category_color.green,
         category_color.blue,
         alpha=0.5
     )
-    c.rect(x, y + CARD_HEIGHT - HEADER_HEIGHT, CARD_WIDTH, HEADER_HEIGHT, fill=1, stroke=0)
+
+    if bleed > 0:
+        c.rect(x - bleed, y + CARD_HEIGHT - HEADER_HEIGHT, CARD_WIDTH + 2 * bleed, HEADER_HEIGHT + bleed, fill=1, stroke=0)
+    else:
+        c.rect(x, y + CARD_HEIGHT - HEADER_HEIGHT, CARD_WIDTH, HEADER_HEIGHT, fill=1, stroke=0)
 
     # Calculate max text width excluding category box
     max_header_text_width = CARD_WIDTH - (2 * MARGIN) - category_box_width
@@ -109,16 +115,28 @@ def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float,
             truncate_with_ellipsis=True
         )
 
-    # Draw category box (top right)
+    # Draw category box (top right), extending into bleed on top and right
     c.setFillColor(category_color)
-    c.rect(
-        x + CARD_WIDTH - category_box_width,
-        y + CARD_HEIGHT - card_num_box_height,
-        category_box_width,
-        card_num_box_height,
-        fill=1,
-        stroke=0
-    )
+
+    if bleed > 0:
+        # Extend category box into bleed on top and right
+        c.rect(
+            x + CARD_WIDTH - category_box_width,
+            y + CARD_HEIGHT - card_num_box_height,
+            category_box_width + bleed,
+            card_num_box_height + bleed,
+            fill=1,
+            stroke=0
+        )
+    else:
+        c.rect(
+            x + CARD_WIDTH - category_box_width,
+            y + CARD_HEIGHT - card_num_box_height,
+            category_box_width,
+            card_num_box_height,
+            fill=1,
+            stroke=0
+        )
 
     # Draw category code centered in box (accounting for padding)
     c.setFont("Helvetica-Bold", 14)

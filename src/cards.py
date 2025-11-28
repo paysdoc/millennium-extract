@@ -40,7 +40,10 @@ def calculate_layout(card_width: float):
 
 def draw_crop_marks_and_bleed(c: canvas.Canvas, x: float, y: float, card_width: float, card_height: float, scale: float = 1.0):
     """
-    Draw crop marks and bleed area around a card for professional printing.
+    Draw crop marks around a card for professional printing.
+
+    Note: The bleed area is now filled by the card colors extending beyond the trim line,
+    so we only draw the crop marks themselves.
 
     Args:
         c: ReportLab canvas
@@ -53,21 +56,6 @@ def draw_crop_marks_and_bleed(c: canvas.Canvas, x: float, y: float, card_width: 
     # Scale bleed and crop mark dimensions
     scaled_bleed = BLEED * scale
     scaled_crop_length = CROP_MARK_LENGTH * scale
-
-    # Draw bleed area (light gray rectangle)
-    c.saveState()
-    c.setFillColor(colors.Color(0.95, 0.95, 0.95))  # Very light gray
-    c.setStrokeColor(colors.Color(0.8, 0.8, 0.8))  # Light gray border
-    c.setLineWidth(0.25)
-    c.rect(
-        x - scaled_bleed,
-        y - scaled_bleed,
-        card_width + 2 * scaled_bleed,
-        card_height + 2 * scaled_bleed,
-        fill=1,
-        stroke=1
-    )
-    c.restoreState()
 
     # Draw crop marks (black lines at corners, extending into bleed area)
     c.saveState()
@@ -189,13 +177,16 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
                 scaled_bleed = BLEED * scale
                 x_front = scaled_bleed
                 y_front = scaled_bleed
+                # Draw card first
+                draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius, scaled_bleed)
+                # Draw crop marks and bleed outline AFTER card content (so they appear on top)
                 draw_crop_marks_and_bleed(c, x_front, y_front, card_width, scaled_height, scale)
             else:
                 # No bleed, card fills page
                 x_front = 0
                 y_front = 0
+                draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
 
-            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
             c.showPage()
 
             # Back on its own page
@@ -204,12 +195,15 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
                     scaled_bleed = BLEED * scale
                     x_back = scaled_bleed
                     y_back = scaled_bleed
+                    # Draw card first
+                    draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius, scaled_bleed)
+                    # Draw crop marks and bleed outline AFTER card content (so they appear on top)
                     draw_crop_marks_and_bleed(c, x_back, y_back, card_width, scaled_height, scale)
                 else:
                     x_back = 0
                     y_back = 0
+                    draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
 
-                draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
                 c.showPage()
         else:
             # Front and back side by side on same page
@@ -218,12 +212,14 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
                 # Front on left with bleed
                 x_front = scaled_bleed
                 y_front = scaled_bleed
+                # Draw card first
+                draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius, scaled_bleed)
+                # Draw crop marks AFTER card content
                 draw_crop_marks_and_bleed(c, x_front, y_front, card_width, scaled_height, scale)
             else:
                 x_front = 0
                 y_front = 0
-
-            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
+                draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
 
             # Back on right side
             if not fronts_only:
@@ -231,12 +227,14 @@ def generate_cards_pdf(card_data_list: List[CardData], output_path: str, fronts_
                     scaled_bleed = BLEED * scale
                     x_back = card_width + 3 * scaled_bleed  # Skip front card + 2 bleeds between
                     y_back = scaled_bleed
+                    # Draw card first
+                    draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius, scaled_bleed)
+                    # Draw crop marks AFTER card content
                     draw_crop_marks_and_bleed(c, x_back, y_back, card_width, scaled_height, scale)
                 else:
                     x_back = card_width
                     y_back = 0
-
-                draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
+                    draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
 
             c.showPage()
 
@@ -293,12 +291,15 @@ def generate_single_card_pdf(card_data: CardData, output_path: str, card_number:
             scaled_bleed = BLEED * scale
             x_front = scaled_bleed
             y_front = scaled_bleed
+            # Draw card first
+            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius, scaled_bleed)
+            # Draw crop marks AFTER card content
             draw_crop_marks_and_bleed(c, x_front, y_front, card_width, scaled_height, scale)
         else:
             x_front = 0
             y_front = 0
+            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
 
-        draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
         c.showPage()
 
         # Draw back on page 2
@@ -306,36 +307,42 @@ def generate_single_card_pdf(card_data: CardData, output_path: str, card_number:
             scaled_bleed = BLEED * scale
             x_back = scaled_bleed
             y_back = scaled_bleed
+            # Draw card first
+            draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius, scaled_bleed)
+            # Draw crop marks AFTER card content
             draw_crop_marks_and_bleed(c, x_back, y_back, card_width, scaled_height, scale)
         else:
             x_back = 0
             y_back = 0
-
-        draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
+            draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
     else:
         # Draw front on left side
         if crop_marks:
             scaled_bleed = BLEED * scale
             x_front = scaled_bleed
             y_front = scaled_bleed
+            # Draw card first
+            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius, scaled_bleed)
+            # Draw crop marks AFTER card content
             draw_crop_marks_and_bleed(c, x_front, y_front, card_width, scaled_height, scale)
         else:
             x_front = 0
             y_front = 0
-
-        draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
+            draw_card_front(c, card_data, x_front, y_front, scale, supabase_client, corner_radius)
 
         # Draw back on right side
         if crop_marks:
             scaled_bleed = BLEED * scale
             x_back = card_width + 3 * scaled_bleed
             y_back = scaled_bleed
+            # Draw card first
+            draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius, scaled_bleed)
+            # Draw crop marks AFTER card content
             draw_crop_marks_and_bleed(c, x_back, y_back, card_width, scaled_height, scale)
         else:
             x_back = card_width
             y_back = 0
-
-        draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
+            draw_card_back(c, card_data, x_back, y_back, card_number, scale, supabase_client, corner_radius)
 
     c.save()
     print(f"Single card PDF saved to {output_path}")
