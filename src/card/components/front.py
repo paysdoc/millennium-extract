@@ -117,9 +117,11 @@ def draw_card_front_content(c: canvas.Canvas, character: Character, x: float, y:
         draw_rounded_rect(c, x, y, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
     c.restoreState()
 
-    # Step 2: Draw banner extending into bleed (BEFORE clipping)
+    # Step 2: Draw banner background extending into bleed (BEFORE clipping)
     if bleed > 0:
-        draw_banner(c, character.name, x, y, category_color, bleed)
+        # Only draw the banner background before clipping, not the text
+        c.setFillColor(category_color)
+        c.rect(x - bleed, y - bleed, CARD_WIDTH + 2 * bleed, BANNER_HEIGHT + bleed, fill=1, stroke=0)
 
     # Step 3: Set up clipping for the card area (don't redraw background to avoid edge line)
     c.saveState()
@@ -136,9 +138,8 @@ def draw_card_front_content(c: canvas.Canvas, character: Character, x: float, y:
     if supabase_client:
         draw_card_front_image(c, character, x, y, supabase_client)
 
-    # Draw banner only if there's no bleed (to avoid double-drawing)
-    if bleed == 0:
-        draw_banner(c, character.name, x, y, category_color, 0)
+    # Step 4: Draw banner (background if no bleed, always text) AFTER image so it appears on top
+    draw_banner(c, character.name, x, y, category_color, 0)
 
     # Restore state to remove clipping
     c.restoreState()
