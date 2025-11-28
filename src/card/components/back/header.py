@@ -64,16 +64,22 @@ def draw_back_header(c: canvas.Canvas, character: Character, x: float, y: float,
     if first_names:
         # Check if first names are in brackets
         in_brackets = first_names.startswith('(') and first_names.endswith(')')
+
+        # Draw name part (always size 9)
+        c.setFont("Helvetica-Bold", 9)
+        name_upper = name.upper()
+
         if in_brackets:
-            # No comma if in brackets, use same size for both
-            c.setFont("Helvetica-Bold", 9)
-            full_name = f"{name} {first_names}".upper()
-            c.drawString(x + MARGIN, name_y, full_name)
+            # No comma if in brackets, just space
+            name_width = c.stringWidth(f"{name_upper} ", "Helvetica-Bold", 9)
+            c.drawString(x + MARGIN, name_y, name_upper)
+
+            # Draw first names part with smaller font (including brackets)
+            c.setFont("Helvetica-Bold", 7)
+            first_names_upper = first_names.upper()
+            c.drawString(x + MARGIN + name_width, name_y, first_names_upper)
         else:
-            # Add comma before first names, use smaller font for first names
-            # Draw name part
-            c.setFont("Helvetica-Bold", 9)
-            name_upper = name.upper()
+            # Add comma before first names
             name_width = c.stringWidth(f"{name_upper}, ", "Helvetica-Bold", 9)
             c.drawString(x + MARGIN, name_y, f"{name_upper},")
 
