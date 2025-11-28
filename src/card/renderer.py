@@ -83,28 +83,8 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
         c.rect(-bleed, -bleed, CARD_WIDTH + 2 * bleed, CARD_HEIGHT + 2 * bleed, fill=1, stroke=0)
     c.restoreState()
 
-    # Step 2: Draw header and banner extending into bleed (BEFORE clipping)
-    if bleed > 0:
-        draw_back_header(c, character, 0, 0, category_color, bleed)
-        draw_banner(c, character.name, 0, 0, category_color, bleed)
-
-    # Step 3: Set up clipping for the card area
-    c.saveState()
-
-    # Only draw rounded background and header/banner if there's no bleed
-    if bleed == 0:
-        c.setFillColor(colors.white)
-        c.setStrokeColor(colors.white)
-        draw_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
-
-    # Set clipping path to rounded rectangle so content respects the rounded corners
-    clip_to_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius)
-
-    # Draw header section only if there's no bleed (to avoid double-drawing with transparency)
-    if bleed == 0:
-        draw_back_header(c, character, 0, 0, category_color, 0)
-
-    # Separate category T (Territory/Towns) from other connections
+    # Step 2: Separate category T (Territory/Towns) from other connections
+    # (We need to know this early to calculate table backgrounds)
     regular_connections = []
     town_connections = []
 
@@ -121,14 +101,54 @@ def draw_card_back(c: canvas.Canvas, card_data: CardData, x: float, y: float, ca
                         continue
                 regular_connections.append(conn)
 
+    # Step 3: Draw header, banner, and connection backgrounds extending into bleed (BEFORE clipping)
+    if bleed > 0:
+        draw_back_header(c, character, 0, 0, category_color, bleed)
+        draw_banner(c, character.name, 0, 0, category_color, bleed)
+
+        # Draw connection table row backgrounds extending into bleed
+        if regular_connections:
+            from src.card.components.back.connections import draw_connection_backgrounds
+            connections_y = CARD_HEIGHT - HEADER_HEIGHT - 2 * mm
+            draw_connection_backgrounds(c, regular_connections, 0, connections_y, len(town_connections), bleed)
+
+        # Draw town background extending into bleed
+        if town_connections:
+            # Towns background is drawn inside draw_towns_grid, which already handles bleed correctly
+            # But we need to call it before clipping is set
+            draw_towns_grid(c, town_connections, 0, 0, bleed)
+
+    # Step 4: Set up clipping for the card area
+    c.saveState()
+
+    # Only draw rounded background and header/banner if there's no bleed
+    if bleed == 0:
+        c.setFillColor(colors.white)
+        c.setStrokeColor(colors.white)
+        draw_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius, fill=1, stroke=0)
+
+    # Set clipping path to rounded rectangle so content respects the rounded corners
+    clip_to_rounded_rect(c, 0, 0, CARD_WIDTH, CARD_HEIGHT, corner_radius)
+
+    # Draw header section only if there's no bleed (to avoid double-drawing with transparency)
+    if bleed == 0:
+        draw_back_header(c, character, 0, 0, category_color, 0)
+
     # Draw regular connections table (excluding category T)
+    # Note: regular_connections and town_connections were already separated earlier
     connections_y = CARD_HEIGHT - HEADER_HEIGHT - 2 * mm
     if regular_connections:
-        draw_connections_table(c, regular_connections, 0, connections_y, num_towns=len(town_connections))
+        draw_connections_table(c, regular_connections, 0, connections_y, num_towns=len(town_connections), bleed=bleed)
 
-    # Draw town connections grid above banner
+    # Draw town connections grid text (background was already drawn before clipping if bleed > 0)
     if town_connections:
-        draw_towns_grid(c, town_connections, 0, 0)
+        if bleed > 0:
+            # Only draw the text content, background already drawn before clipping
+            from src.card.components.back.towns import draw_towns_text
+            draw_towns_text(c, town_connections, 0, 0)
+        else:
+            # No bleed, draw everything normally
+            draw_towns_grid(c, town_connections, 0, 0, 0)
 
     # Draw banner only if there's no bleed (to avoid double-drawing)
     if bleed == 0:

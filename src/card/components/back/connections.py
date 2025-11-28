@@ -11,8 +11,84 @@ from src.types.supabase_types import DenormalizedConnection
 from src.config import CARD_WIDTH, CARD_HEIGHT, HEADER_HEIGHT, BANNER_HEIGHT, get_category_color
 
 
+def draw_connection_backgrounds(c: canvas.Canvas, connections: List[DenormalizedConnection],
+                                x: float, table_y: float, num_towns: int, bleed: float) -> None:
+    """
+    Draw only the alternating row backgrounds for connections table, extending into bleed area.
+    This must be called BEFORE clipping is set up.
+
+    This function mirrors the layout logic from draw_connections_table to calculate
+    which layout will be used and draw the appropriate backgrounds.
+
+    Args:
+        c: ReportLab canvas
+        connections: List of connection data (should NOT include category T)
+        x: X position of card bottom-left corner
+        table_y: Y position where table should start (top of table)
+        num_towns: Number of town connections (affects available space)
+        bleed: Bleed distance to extend backgrounds beyond card edge
+    """
+    if not connections or bleed == 0:
+        return
+
+    num_connections = len(connections)
+
+    # Calculate available space for connections (same logic as draw_connections_table)
+    town_height = 0
+    if num_towns > 0:
+        num_town_rows = (num_towns + 2) // 3
+        town_row_height = 6
+        town_padding = 4
+        town_bg_height = num_town_rows * town_row_height + town_padding
+        town_margin = 2 * mm
+        town_height = (town_bg_height / 72 * 25.4) * mm
+
+    available_height = CARD_HEIGHT - HEADER_HEIGHT - BANNER_HEIGHT - (2 * mm) - town_height
+    row_height_test = 2 * mm
+    max_rows = int(available_height / row_height_test)
+
+    # Determine which layout will be used
+    rows_needed_single = num_connections
+    rows_needed_two_col = (num_connections + 1) // 2
+
+    # Draw backgrounds based on which layout will be used
+    if rows_needed_single <= max_rows:
+        # Single column detailed layout
+        row_height = 2.5 * mm
+        num_rows = min(len(connections), 26)
+        for i in range(num_rows):
+            row_bottom_y = table_y - (i + 1) * row_height
+            if i % 2 == 1:  # Grey rows
+                c.setFillColor(HexColor('#F0F0F0'))
+            else:  # White rows
+                c.setFillColor(colors.white)
+            c.rect(x - bleed, row_bottom_y, CARD_WIDTH + 2 * bleed, row_height, fill=1, stroke=0)
+    elif rows_needed_two_col <= max_rows:
+        # Two column compact layout
+        row_height = 2 * mm
+        num_per_column = (len(connections) + 1) // 2
+        for i in range(num_per_column):
+            row_bottom_y = table_y - (i + 1) * row_height
+            if i % 2 == 1:  # Grey rows
+                c.setFillColor(HexColor('#F0F0F0'))
+            else:  # White rows
+                c.setFillColor(colors.white)
+            c.rect(x - bleed, row_bottom_y, CARD_WIDTH + 2 * bleed, row_height, fill=1, stroke=0)
+    else:
+        # Three column compact layout
+        row_height = 2 * mm
+        num_per_column = (len(connections) + 2) // 3
+        for i in range(num_per_column):
+            row_bottom_y = table_y - (i + 1) * row_height
+            if i % 2 == 1:  # Grey rows
+                c.setFillColor(HexColor('#F0F0F0'))
+            else:  # White rows
+                c.setFillColor(colors.white)
+            c.rect(x - bleed, row_bottom_y, CARD_WIDTH + 2 * bleed, row_height, fill=1, stroke=0)
+
+
 def draw_connections_table(c: canvas.Canvas, connections: List[DenormalizedConnection],
-                          x: float, table_y: float, num_towns: int = 0) -> float:
+                          x: float, table_y: float, num_towns: int = 0, bleed: float = 0) -> float:
     """
     Draw the connections table (excluding category T towns).
 
@@ -64,19 +140,20 @@ def draw_connections_table(c: canvas.Canvas, connections: List[DenormalizedConne
 
     # Use detailed single-column if it fits (includes why_short descriptions)
     if rows_needed_single <= max_rows:
-        return _draw_detailed_table(c, connections, x, table_y)
+        return _draw_detailed_table(c, connections, x, table_y, bleed)
     # Use two-column compact if it fits
     elif rows_needed_two_col <= max_rows:
-        return _draw_compact_two_column_table(c, connections, x, table_y)
+        return _draw_compact_two_column_table(c, connections, x, table_y, bleed)
     # Otherwise use three-column compact (most dense)
     else:
-        return _draw_compact_three_column_table(c, connections, x, table_y)
+        return _draw_compact_three_column_table(c, connections, x, table_y, bleed)
 
 
 def _draw_detailed_table(c: canvas.Canvas, connections: List[DenormalizedConnection],
-                        x: float, table_y: float) -> float:
+                        x: float, table_y: float, bleed: float = 0) -> float:
     """
     Draw detailed single-column table with why_short (for <=26 connections).
+    Note: When bleed > 0, backgrounds are drawn before clipping by draw_connection_backgrounds().
     """
     table_data = []
     for conn in connections[:26]:
@@ -103,7 +180,6 @@ def _draw_detailed_table(c: canvas.Canvas, connections: List[DenormalizedConnect
         ('ALIGN', (1, 0), (1, -1), 'CENTER'),
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
 
-        ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
         ('LEFTPADDING', (0, 0), (-1, -1), 2),
         ('RIGHTPADDING', (0, 0), (-1, -1), 2),
         ('TOPPADDING', (0, 0), (-1, -1), 6),  # Padding to ensure correct vertical alignment
@@ -116,6 +192,10 @@ def _draw_detailed_table(c: canvas.Canvas, connections: List[DenormalizedConnect
         ('LEFTPADDING', (3, 0), (3, -1), 4),
         ('WORDWRAP', (0, 0), (-1, -1), True),
     ])
+
+    # Only add row backgrounds if there's no bleed (otherwise we draw them manually extending into bleed)
+    if bleed == 0:
+        table_style.add('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')])
 
     # Add category colors
     for i, conn in enumerate(connections[:26]):
@@ -139,11 +219,12 @@ def _draw_detailed_table(c: canvas.Canvas, connections: List[DenormalizedConnect
 
 
 def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[DenormalizedConnection],
-                                   x: float, table_y: float) -> float:
+                                   x: float, table_y: float, bleed: float = 0) -> float:
     """
     Draw compact 2-column table without why_short (for >26 connections).
     Ordered top to bottom, then left to right.
     Includes vertical white stripe separator between columns.
+    Note: When bleed > 0, backgrounds are drawn before clipping by draw_connection_backgrounds().
     """
     # Split connections into two columns, ordered top-to-bottom
     num_per_column = (len(connections) + 1) // 2  # Round up for left column
@@ -194,7 +275,6 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
         ('ALIGN', (5, 0), (5, -1), 'CENTER'),  # Right category column (after separator)
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
 
-        ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
         ('LEFTPADDING', (0, 0), (-1, -1), 1),
         ('RIGHTPADDING', (0, 0), (-1, -1), 1),
         ('TOPPADDING', (0, 0), (-1, -1), 7),  # Padding to ensure correct vertical alignment (compact view)
@@ -209,6 +289,10 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
         ('RIGHTPADDING', (3, 0), (3, -1), 0),
         ('BACKGROUND', (3, 0), (3, -1), colors.white),  # Always white
     ])
+
+    # Only add row backgrounds if there's no bleed (otherwise we draw them manually extending into bleed)
+    if bleed == 0:
+        table_style.add('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')])
 
     # Add category colors for both columns
     for i in range(len(table_data)):
@@ -241,12 +325,13 @@ def _draw_compact_two_column_table(c: canvas.Canvas, connections: List[Denormali
 
 
 def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[DenormalizedConnection],
-                                     x: float, table_y: float) -> float:
+                                     x: float, table_y: float, bleed: float = 0) -> float:
     """
     Draw compact 3-column table without why_short (for 73+ connections).
     Ordered top to bottom, then left to right.
     Maximum capacity: ~108 connections (36 rows × 3 columns).
     Includes vertical white stripe separators between columns.
+    Note: When bleed > 0, backgrounds are drawn before clipping by draw_connection_backgrounds().
     """
     # Split connections into three columns, ordered top-to-bottom
     num_per_column = (len(connections) + 2) // 3  # Round up for left column
@@ -318,7 +403,6 @@ def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[Denorma
         ('ALIGN', (9, 0), (9, -1), 'CENTER'),  # Right category column (after separator)
         ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
 
-        ('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')]),
         ('LEFTPADDING', (0, 0), (-1, -1), 1),
         ('RIGHTPADDING', (0, 0), (-1, -1), 1),
         ('TOPPADDING', (0, 0), (-1, -1), 7),  # Padding to ensure correct vertical alignment (compact view)
@@ -338,6 +422,10 @@ def _draw_compact_three_column_table(c: canvas.Canvas, connections: List[Denorma
         ('RIGHTPADDING', (7, 0), (7, -1), 0),
         ('BACKGROUND', (7, 0), (7, -1), colors.white),  # Separator 2 - always white
     ])
+
+    # Only add row backgrounds if there's no bleed (otherwise we draw them manually extending into bleed)
+    if bleed == 0:
+        table_style.add('ROWBACKGROUNDS', (0, 0), (-1, -1), [colors.white, HexColor('#F0F0F0')])
 
     # Add category colors for all three columns
     for i in range(len(table_data)):
